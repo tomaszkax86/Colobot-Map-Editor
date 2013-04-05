@@ -18,7 +18,7 @@ public final class Objects extends ArrayList<ColobotObject>
     private final MyTableModel myTableModel = new MyTableModel();
     
     
-    protected Objects()
+    Objects()
     {
         // NOP
     }

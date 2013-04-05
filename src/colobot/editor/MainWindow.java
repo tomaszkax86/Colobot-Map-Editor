@@ -11,6 +11,7 @@ import colobot.editor.map.GeneralInfo.Language;
 import colobot.editor.map.Map;
 import colobot.editor.map.MapSource;
 import colobot.editor.map.Objects;
+import colobot.editor.map.ResearchInfo;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -115,6 +116,56 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         objectListTable = new javax.swing.JTable();
         jButton5 = new javax.swing.JButton();
         mapDisplay = new colobot.editor.MapDisplay();
+        jPanel12 = new javax.swing.JPanel();
+        jPanel13 = new javax.swing.JPanel();
+        buildingResearchCenter = new javax.swing.JCheckBox();
+        buildingBotFactory = new javax.swing.JCheckBox();
+        buildingConverter = new javax.swing.JCheckBox();
+        buildingRepairCenter = new javax.swing.JCheckBox();
+        buildingDefenseTower = new javax.swing.JCheckBox();
+        buildingDerrick = new javax.swing.JCheckBox();
+        buildingNuclearPlant = new javax.swing.JCheckBox();
+        buildingAutoLab = new javax.swing.JCheckBox();
+        buildingPowerCaptor = new javax.swing.JCheckBox();
+        buildingExchangePost = new javax.swing.JCheckBox();
+        jSeparator2 = new javax.swing.JSeparator();
+        buildingFlatGround = new javax.swing.JCheckBox();
+        buildingFlag = new javax.swing.JCheckBox();
+        buildingPowerPlant = new javax.swing.JCheckBox();
+        buildingPowerStation = new javax.swing.JCheckBox();
+        buildingRadarStation = new javax.swing.JCheckBox();
+        jPanel14 = new javax.swing.JPanel();
+        trackerLabel = new javax.swing.JLabel();
+        trackerEnabled = new javax.swing.JCheckBox();
+        trackerDone = new javax.swing.JCheckBox();
+        wingerLabel = new javax.swing.JLabel();
+        wingerEnabled = new javax.swing.JCheckBox();
+        wingerDone = new javax.swing.JCheckBox();
+        thumperEnabled = new javax.swing.JCheckBox();
+        shooterEnabled = new javax.swing.JCheckBox();
+        towerEnabled = new javax.swing.JCheckBox();
+        phazerEnabled = new javax.swing.JCheckBox();
+        shielderEnabled = new javax.swing.JCheckBox();
+        thumperDone = new javax.swing.JCheckBox();
+        shooterDone = new javax.swing.JCheckBox();
+        thumperLabel = new javax.swing.JLabel();
+        shooterLabel = new javax.swing.JLabel();
+        towerLabel = new javax.swing.JLabel();
+        towerDone = new javax.swing.JCheckBox();
+        phazerDone = new javax.swing.JCheckBox();
+        shielderDone = new javax.swing.JCheckBox();
+        phazerLabel = new javax.swing.JLabel();
+        shielderLabel = new javax.swing.JLabel();
+        nuclearEnabled = new javax.swing.JCheckBox();
+        nuclearDone = new javax.swing.JCheckBox();
+        nuclearLabel = new javax.swing.JLabel();
+        jSeparator3 = new javax.swing.JSeparator();
+        leggerLabel = new javax.swing.JLabel();
+        leggerEnabled = new javax.swing.JCheckBox();
+        leggerDone = new javax.swing.JCheckBox();
+        orgaDone = new javax.swing.JCheckBox();
+        orgaEnabled = new javax.swing.JCheckBox();
+        orgaLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -566,7 +617,505 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
             .addComponent(mapDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        jTabbedPane1.addTab("Objects", jPanel5);
+        jTabbedPane1.addTab("Object editor", jPanel5);
+
+        jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder("Buildings"));
+
+        buildingResearchCenter.setText("Research Center");
+        buildingResearchCenter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingResearchCenterActionPerformed(evt);
+            }
+        });
+
+        buildingBotFactory.setText("Bot Factory");
+        buildingBotFactory.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingBotFactoryActionPerformed(evt);
+            }
+        });
+
+        buildingConverter.setText("Converter");
+        buildingConverter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingConverterActionPerformed(evt);
+            }
+        });
+
+        buildingRepairCenter.setText("Repair Center");
+        buildingRepairCenter.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingRepairCenterActionPerformed(evt);
+            }
+        });
+
+        buildingDefenseTower.setText("Defense Tower");
+        buildingDefenseTower.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingDefenseTowerActionPerformed(evt);
+            }
+        });
+
+        buildingDerrick.setText("Derrick");
+        buildingDerrick.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingDerrickActionPerformed(evt);
+            }
+        });
+
+        buildingNuclearPlant.setText("Nuclear Plant");
+        buildingNuclearPlant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingNuclearPlantActionPerformed(evt);
+            }
+        });
+
+        buildingAutoLab.setText("Auto Lab");
+        buildingAutoLab.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingAutoLabActionPerformed(evt);
+            }
+        });
+
+        buildingPowerCaptor.setText("Power Captor");
+        buildingPowerCaptor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingPowerCaptorActionPerformed(evt);
+            }
+        });
+
+        buildingExchangePost.setText("Exchange Post");
+        buildingExchangePost.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingExchangePostActionPerformed(evt);
+            }
+        });
+
+        buildingFlatGround.setSelected(true);
+        buildingFlatGround.setText("Flat ground");
+        buildingFlatGround.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingFlatGroundActionPerformed(evt);
+            }
+        });
+
+        buildingFlag.setSelected(true);
+        buildingFlag.setText("Flag");
+        buildingFlag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingFlagActionPerformed(evt);
+            }
+        });
+
+        buildingPowerPlant.setText("Power Plant");
+        buildingPowerPlant.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingPowerPlantActionPerformed(evt);
+            }
+        });
+
+        buildingPowerStation.setText("Power Station");
+        buildingPowerStation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingPowerStationActionPerformed(evt);
+            }
+        });
+
+        buildingRadarStation.setText("Radar Station");
+        buildingRadarStation.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buildingRadarStationActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
+        jPanel13.setLayout(jPanel13Layout);
+        jPanel13Layout.setHorizontalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(buildingFlatGround)
+                            .addComponent(buildingResearchCenter)
+                            .addComponent(buildingBotFactory)
+                            .addComponent(buildingRepairCenter)
+                            .addComponent(buildingDefenseTower)
+                            .addComponent(buildingDerrick)
+                            .addComponent(buildingNuclearPlant)
+                            .addComponent(buildingExchangePost))
+                        .addContainerGap(70, Short.MAX_VALUE))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addComponent(jSeparator2)
+                        .addGap(10, 10, 10))
+                    .addGroup(jPanel13Layout.createSequentialGroup()
+                        .addGroup(jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(buildingPowerStation)
+                            .addComponent(buildingPowerPlant)
+                            .addComponent(buildingFlag)
+                            .addComponent(buildingPowerCaptor)
+                            .addComponent(buildingAutoLab)
+                            .addComponent(buildingConverter)
+                            .addComponent(buildingRadarStation))
+                        .addGap(0, 0, Short.MAX_VALUE))))
+        );
+        jPanel13Layout.setVerticalGroup(
+            jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel13Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(buildingResearchCenter)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingBotFactory)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingConverter)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingPowerStation)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingRadarStation)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingRepairCenter)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingDefenseTower)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingDerrick)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingPowerPlant)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingNuclearPlant)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingAutoLab)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingPowerCaptor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingExchangePost)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingFlatGround)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(buildingFlag)
+                .addContainerGap(74, Short.MAX_VALUE))
+        );
+
+        jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder("Research"));
+
+        trackerLabel.setText("Tracker:");
+
+        trackerEnabled.setText("enabled");
+        trackerEnabled.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trackerEnabledActionPerformed(evt);
+            }
+        });
+
+        trackerDone.setText("done");
+        trackerDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                trackerDoneActionPerformed(evt);
+            }
+        });
+
+        wingerLabel.setText("Winger:");
+
+        wingerEnabled.setText("enabled");
+        wingerEnabled.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wingerEnabledActionPerformed(evt);
+            }
+        });
+
+        wingerDone.setText("done");
+        wingerDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                wingerDoneActionPerformed(evt);
+            }
+        });
+
+        thumperEnabled.setText("enabled");
+        thumperEnabled.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                thumperEnabledActionPerformed(evt);
+            }
+        });
+
+        shooterEnabled.setText("enabled");
+        shooterEnabled.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shooterEnabledActionPerformed(evt);
+            }
+        });
+
+        towerEnabled.setText("enabled");
+        towerEnabled.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                towerEnabledActionPerformed(evt);
+            }
+        });
+
+        phazerEnabled.setText("enabled");
+        phazerEnabled.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phazerEnabledActionPerformed(evt);
+            }
+        });
+
+        shielderEnabled.setText("enabled");
+        shielderEnabled.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shielderEnabledActionPerformed(evt);
+            }
+        });
+
+        thumperDone.setText("done");
+        thumperDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                thumperDoneActionPerformed(evt);
+            }
+        });
+
+        shooterDone.setText("done");
+        shooterDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shooterDoneActionPerformed(evt);
+            }
+        });
+
+        thumperLabel.setText("Thumper:");
+
+        shooterLabel.setText("Shooter:");
+
+        towerLabel.setText("Tower:");
+
+        towerDone.setText("done");
+        towerDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                towerDoneActionPerformed(evt);
+            }
+        });
+
+        phazerDone.setText("done");
+        phazerDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phazerDoneActionPerformed(evt);
+            }
+        });
+
+        shielderDone.setText("done");
+        shielderDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                shielderDoneActionPerformed(evt);
+            }
+        });
+
+        phazerLabel.setText("Phazer:");
+
+        shielderLabel.setText("Shielder:");
+
+        nuclearEnabled.setText("enabled");
+        nuclearEnabled.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nuclearEnabledActionPerformed(evt);
+            }
+        });
+
+        nuclearDone.setText("done");
+        nuclearDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                nuclearDoneActionPerformed(evt);
+            }
+        });
+
+        nuclearLabel.setText("Nuclear:");
+
+        leggerLabel.setText("Legger:");
+
+        leggerEnabled.setText("enabled");
+        leggerEnabled.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                leggerEnabledActionPerformed(evt);
+            }
+        });
+
+        leggerDone.setText("done");
+        leggerDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                leggerDoneActionPerformed(evt);
+            }
+        });
+
+        orgaDone.setText("done");
+        orgaDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                orgaDoneActionPerformed(evt);
+            }
+        });
+
+        orgaEnabled.setText("enabled");
+        orgaEnabled.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                orgaEnabledActionPerformed(evt);
+            }
+        });
+
+        orgaLabel.setText("Orga shooter:");
+
+        javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
+        jPanel14.setLayout(jPanel14Layout);
+        jPanel14Layout.setHorizontalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel14Layout.createSequentialGroup()
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel14Layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel14Layout.createSequentialGroup()
+                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel14Layout.createSequentialGroup()
+                                        .addGap(45, 45, 45)
+                                        .addComponent(wingerLabel))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(trackerLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(thumperLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(shooterLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(towerLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(phazerLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(shielderLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(nuclearLabel, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel14Layout.createSequentialGroup()
+                                        .addComponent(thumperEnabled)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(thumperDone))
+                                    .addGroup(jPanel14Layout.createSequentialGroup()
+                                        .addComponent(trackerEnabled)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(trackerDone))
+                                    .addGroup(jPanel14Layout.createSequentialGroup()
+                                        .addComponent(wingerEnabled)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(wingerDone))
+                                    .addGroup(jPanel14Layout.createSequentialGroup()
+                                        .addComponent(shooterEnabled)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(shooterDone))
+                                    .addGroup(jPanel14Layout.createSequentialGroup()
+                                        .addComponent(towerEnabled)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(towerDone))
+                                    .addGroup(jPanel14Layout.createSequentialGroup()
+                                        .addComponent(phazerEnabled)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(phazerDone))
+                                    .addGroup(jPanel14Layout.createSequentialGroup()
+                                        .addComponent(shielderEnabled)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(shielderDone))
+                                    .addGroup(jPanel14Layout.createSequentialGroup()
+                                        .addComponent(nuclearEnabled)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(nuclearDone)))))
+                        .addGap(0, 4, Short.MAX_VALUE))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(leggerLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(orgaLabel, javax.swing.GroupLayout.Alignment.TRAILING))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel14Layout.createSequentialGroup()
+                                .addComponent(leggerEnabled)
+                                .addGap(18, 18, 18)
+                                .addComponent(leggerDone))
+                            .addGroup(jPanel14Layout.createSequentialGroup()
+                                .addComponent(orgaEnabled)
+                                .addGap(18, 18, 18)
+                                .addComponent(orgaDone)))))
+                .addContainerGap())
+        );
+        jPanel14Layout.setVerticalGroup(
+            jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(trackerLabel)
+                    .addComponent(trackerEnabled)
+                    .addComponent(trackerDone))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(wingerLabel)
+                    .addComponent(wingerEnabled)
+                    .addComponent(wingerDone))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(thumperEnabled)
+                    .addComponent(thumperDone)
+                    .addComponent(thumperLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(shooterEnabled)
+                    .addComponent(shooterDone)
+                    .addComponent(shooterLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(towerEnabled)
+                    .addComponent(towerLabel)
+                    .addComponent(towerDone))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(phazerEnabled)
+                    .addComponent(phazerDone)
+                    .addComponent(phazerLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(shielderEnabled)
+                    .addComponent(shielderDone)
+                    .addComponent(shielderLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(nuclearEnabled)
+                    .addComponent(nuclearDone)
+                    .addComponent(nuclearLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(leggerEnabled)
+                    .addComponent(leggerDone)
+                    .addComponent(leggerLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(orgaEnabled)
+                    .addComponent(orgaDone)
+                    .addComponent(orgaLabel))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+        jPanel12.setLayout(jPanel12Layout);
+        jPanel12Layout.setHorizontalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 532, Short.MAX_VALUE))
+        );
+        jPanel12Layout.setVerticalGroup(
+            jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel12Layout.createSequentialGroup()
+                .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(0, 29, Short.MAX_VALUE))
+        );
+
+        jTabbedPane1.addTab("Buildings and Research", jPanel12);
 
         jMenu1.setText("File");
 
@@ -621,7 +1170,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
+        jMenu2.setText("Terrain");
 
         jMenuItem6.setText("Load relief");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -653,6 +1202,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     {
         loadGeneralInfo();
         loadObjects();
+        loadResearchInfo();
     }
     
     private void loadGeneralInfo()
@@ -688,9 +1238,17 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     
     private void loadObjects()
     {
-        Objects objects = map.getObjects();
+        if(map == null)
+        {
+            objectListTable.setModel(Objects.getEmptyTableModel());
+        }
+        else
+        {
+            Objects objects = map.getObjects();
+            objectListTable.setModel(objects.getTableModel());
+        }
         
-        objectAttributesTable.setModel(ColobotObject.getEmptyTableModel());
+        selectObject(null);
     }
     
     private void loadLanguageInfo()
@@ -708,6 +1266,54 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         languageLetter.setText(letter);
         languageTitle.setText(title);
         languageDescription.setText(description);
+    }
+    
+    // research info
+    private void loadResearchInfo()
+    {
+        if(map == null) return;
+        
+        ResearchInfo info = map.getResearchInfo();
+        
+        // enabled buildings
+        buildingResearchCenter.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_RESEARCH_CENTER));
+        buildingBotFactory.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_BOT_FACTORY));
+        buildingConverter.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_CONVERTER));
+        buildingPowerStation.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_POWER_STATION));
+        buildingRepairCenter.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_REPAIR_CENTER));
+        buildingDefenseTower.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_DEFENSE_TOWER));
+        buildingPowerPlant.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_POWER_PLANT));
+        buildingDerrick.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_DERRICK));
+        buildingNuclearPlant.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_NUCLEAR_PLANT));
+        buildingAutoLab.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_AUTO_LAB));
+        buildingPowerCaptor.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_POWER_CAPTOR));
+        buildingExchangePost.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_EXCHANGE_POST));
+        buildingFlatGround.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_FLAT_GROUND));
+        buildingFlag.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_FLAG));
+        
+        // enabled research
+        trackerEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_TRACKER));
+        wingerEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_WINGER));
+        thumperEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_THUMPER));
+        shooterEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_SHOOTER));
+        towerEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_TOWER));
+        phazerEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_PHAZER));
+        shielderEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_SHIELDER));
+        nuclearEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_ATOMIC));
+        leggerEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_I_PAW));
+        orgaEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_I_GUN));
+        
+        // done research
+        trackerDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_TRACKER));
+        wingerDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_WINGER));
+        thumperDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_THUMPER));
+        shooterDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_SHOOTER));
+        towerDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_TOWER));
+        phazerDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_PHAZER));
+        shielderDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_SHIELDER));
+        nuclearDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_ATOMIC));
+        leggerDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_I_PAW));
+        orgaDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_I_GUN));
     }
     
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -842,7 +1448,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         saveAs(null);
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
-    // save as
+    // save / save as
     private void saveAs(File file)
     {
         if(map == null) return;
@@ -1086,6 +1692,181 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         templateObject = selectedObject.clone();
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void buildingFlatGroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingFlatGroundActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_FLAT_GROUND,
+            buildingFlatGround.isSelected());
+    }//GEN-LAST:event_buildingFlatGroundActionPerformed
+
+    private void buildingFlagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingFlagActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_FLAG,
+            buildingFlag.isSelected());
+    }//GEN-LAST:event_buildingFlagActionPerformed
+
+    private void buildingResearchCenterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingResearchCenterActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_RESEARCH_CENTER,
+            buildingResearchCenter.isSelected());
+    }//GEN-LAST:event_buildingResearchCenterActionPerformed
+
+    private void buildingBotFactoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingBotFactoryActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_BOT_FACTORY,
+            buildingBotFactory.isSelected());
+    }//GEN-LAST:event_buildingBotFactoryActionPerformed
+
+    private void buildingConverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingConverterActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_CONVERTER,
+            buildingConverter.isSelected());
+    }//GEN-LAST:event_buildingConverterActionPerformed
+
+    private void buildingPowerStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingPowerStationActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_POWER_STATION,
+            buildingPowerStation.isSelected());
+    }//GEN-LAST:event_buildingPowerStationActionPerformed
+
+    private void buildingRadarStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingRadarStationActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_RADAR_STATION,
+            buildingRadarStation.isSelected());
+    }//GEN-LAST:event_buildingRadarStationActionPerformed
+
+    private void buildingRepairCenterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingRepairCenterActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_REPAIR_CENTER,
+            buildingRepairCenter.isSelected());
+    }//GEN-LAST:event_buildingRepairCenterActionPerformed
+
+    private void buildingDefenseTowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingDefenseTowerActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_DEFENSE_TOWER,
+            buildingDefenseTower.isSelected());
+    }//GEN-LAST:event_buildingDefenseTowerActionPerformed
+
+    private void buildingDerrickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingDerrickActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_DERRICK,
+            buildingDerrick.isSelected());
+    }//GEN-LAST:event_buildingDerrickActionPerformed
+
+    private void buildingPowerPlantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingPowerPlantActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_POWER_PLANT,
+            buildingPowerPlant.isSelected());
+    }//GEN-LAST:event_buildingPowerPlantActionPerformed
+
+    private void buildingNuclearPlantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingNuclearPlantActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_NUCLEAR_PLANT,
+            buildingNuclearPlant.isSelected());
+    }//GEN-LAST:event_buildingNuclearPlantActionPerformed
+
+    private void buildingAutoLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingAutoLabActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_AUTO_LAB,
+            buildingAutoLab.isSelected());
+    }//GEN-LAST:event_buildingAutoLabActionPerformed
+
+    private void buildingPowerCaptorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingPowerCaptorActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_POWER_CAPTOR,
+            buildingPowerCaptor.isSelected());
+    }//GEN-LAST:event_buildingPowerCaptorActionPerformed
+
+    private void buildingExchangePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingExchangePostActionPerformed
+        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_EXCHANGE_POST,
+            buildingExchangePost.isSelected());
+    }//GEN-LAST:event_buildingExchangePostActionPerformed
+
+    private void trackerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackerEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TRACKER,
+            trackerEnabled.isSelected(), trackerDone.isSelected());
+    }//GEN-LAST:event_trackerEnabledActionPerformed
+
+    private void trackerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackerDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TRACKER,
+            trackerEnabled.isSelected(), trackerDone.isSelected());
+    }//GEN-LAST:event_trackerDoneActionPerformed
+
+    private void wingerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wingerEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_WINGER,
+            wingerEnabled.isSelected(), wingerDone.isSelected());
+    }//GEN-LAST:event_wingerEnabledActionPerformed
+
+    private void wingerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wingerDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_WINGER,
+            wingerEnabled.isSelected(), wingerDone.isSelected());
+    }//GEN-LAST:event_wingerDoneActionPerformed
+
+    private void thumperEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thumperEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_THUMPER,
+            thumperEnabled.isSelected(), thumperDone.isSelected());
+    }//GEN-LAST:event_thumperEnabledActionPerformed
+
+    private void thumperDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thumperDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_THUMPER,
+            thumperEnabled.isSelected(), thumperDone.isSelected());
+    }//GEN-LAST:event_thumperDoneActionPerformed
+
+    private void shooterEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shooterEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHOOTER,
+            shooterEnabled.isSelected(), shooterDone.isSelected());
+    }//GEN-LAST:event_shooterEnabledActionPerformed
+
+    private void shooterDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shooterDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHOOTER,
+            shooterEnabled.isSelected(), shooterDone.isSelected());
+    }//GEN-LAST:event_shooterDoneActionPerformed
+
+    private void towerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_towerEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TOWER,
+            towerEnabled.isSelected(), towerDone.isSelected());
+    }//GEN-LAST:event_towerEnabledActionPerformed
+
+    private void towerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_towerDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TOWER,
+            towerEnabled.isSelected(), towerDone.isSelected());
+    }//GEN-LAST:event_towerDoneActionPerformed
+
+    private void phazerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phazerEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_PHAZER,
+            phazerEnabled.isSelected(), phazerDone.isSelected());
+    }//GEN-LAST:event_phazerEnabledActionPerformed
+
+    private void phazerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phazerDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_PHAZER,
+            phazerEnabled.isSelected(), phazerDone.isSelected());
+    }//GEN-LAST:event_phazerDoneActionPerformed
+
+    private void shielderEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shielderEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHIELDER,
+            shielderEnabled.isSelected(), shielderDone.isSelected());
+    }//GEN-LAST:event_shielderEnabledActionPerformed
+
+    private void shielderDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shielderDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHIELDER,
+            shielderEnabled.isSelected(), shielderDone.isSelected());
+    }//GEN-LAST:event_shielderDoneActionPerformed
+
+    private void nuclearEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuclearEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_ATOMIC,
+            nuclearEnabled.isSelected(), nuclearDone.isSelected());
+    }//GEN-LAST:event_nuclearEnabledActionPerformed
+
+    private void nuclearDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuclearDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_ATOMIC,
+            nuclearEnabled.isSelected(), nuclearDone.isSelected());
+    }//GEN-LAST:event_nuclearDoneActionPerformed
+
+    private void leggerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leggerEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_PAW,
+            leggerEnabled.isSelected(), leggerDone.isSelected());
+    }//GEN-LAST:event_leggerEnabledActionPerformed
+
+    private void leggerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leggerDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_PAW,
+            leggerEnabled.isSelected(), leggerDone.isSelected());
+    }//GEN-LAST:event_leggerDoneActionPerformed
+
+    private void orgaEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orgaEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_GUN,
+            orgaEnabled.isSelected(), orgaDone.isSelected());
+    }//GEN-LAST:event_orgaEnabledActionPerformed
+
+    private void orgaDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orgaDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_GUN,
+            orgaEnabled.isSelected(), orgaDone.isSelected());
+    }//GEN-LAST:event_orgaDoneActionPerformed
+
     private void revalidateTables()
     {
         if(map != null)
@@ -1160,6 +1941,21 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField audioTrackField;
     private javax.swing.JLabel audioTrackLabel;
+    private javax.swing.JCheckBox buildingAutoLab;
+    private javax.swing.JCheckBox buildingBotFactory;
+    private javax.swing.JCheckBox buildingConverter;
+    private javax.swing.JCheckBox buildingDefenseTower;
+    private javax.swing.JCheckBox buildingDerrick;
+    private javax.swing.JCheckBox buildingExchangePost;
+    private javax.swing.JCheckBox buildingFlag;
+    private javax.swing.JCheckBox buildingFlatGround;
+    private javax.swing.JCheckBox buildingNuclearPlant;
+    private javax.swing.JCheckBox buildingPowerCaptor;
+    private javax.swing.JCheckBox buildingPowerPlant;
+    private javax.swing.JCheckBox buildingPowerStation;
+    private javax.swing.JCheckBox buildingRadarStation;
+    private javax.swing.JCheckBox buildingRepairCenter;
+    private javax.swing.JCheckBox buildingResearchCenter;
     private javax.swing.JTextField filenameField;
     private javax.swing.JLabel filenameLabel;
     private javax.swing.JTextField helpfileField;
@@ -1188,6 +1984,9 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
+    private javax.swing.JPanel jPanel13;
+    private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -1200,6 +1999,8 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextArea languageDescription;
@@ -1207,13 +2008,43 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JTextField languageLetter;
     private javax.swing.JComboBox languageSelection;
     private javax.swing.JTextField languageTitle;
+    private javax.swing.JCheckBox leggerDone;
+    private javax.swing.JCheckBox leggerEnabled;
+    private javax.swing.JLabel leggerLabel;
     private javax.swing.JTextField loadingField;
     private colobot.editor.MapDisplay mapDisplay;
+    private javax.swing.JCheckBox nuclearDone;
+    private javax.swing.JCheckBox nuclearEnabled;
+    private javax.swing.JLabel nuclearLabel;
     private javax.swing.JTable objectAttributesTable;
     private javax.swing.JTable objectListTable;
+    private javax.swing.JCheckBox orgaDone;
+    private javax.swing.JCheckBox orgaEnabled;
+    private javax.swing.JLabel orgaLabel;
+    private javax.swing.JCheckBox phazerDone;
+    private javax.swing.JCheckBox phazerEnabled;
+    private javax.swing.JLabel phazerLabel;
     private javax.swing.JTextField satelliteField;
     private javax.swing.JLabel satelliteLabel;
+    private javax.swing.JCheckBox shielderDone;
+    private javax.swing.JCheckBox shielderEnabled;
+    private javax.swing.JLabel shielderLabel;
+    private javax.swing.JCheckBox shooterDone;
+    private javax.swing.JCheckBox shooterEnabled;
+    private javax.swing.JLabel shooterLabel;
     private javax.swing.JTextField solutionField;
     private javax.swing.JLabel solutionLabel;
+    private javax.swing.JCheckBox thumperDone;
+    private javax.swing.JCheckBox thumperEnabled;
+    private javax.swing.JLabel thumperLabel;
+    private javax.swing.JCheckBox towerDone;
+    private javax.swing.JCheckBox towerEnabled;
+    private javax.swing.JLabel towerLabel;
+    private javax.swing.JCheckBox trackerDone;
+    private javax.swing.JCheckBox trackerEnabled;
+    private javax.swing.JLabel trackerLabel;
+    private javax.swing.JCheckBox wingerDone;
+    private javax.swing.JCheckBox wingerEnabled;
+    private javax.swing.JLabel wingerLabel;
     // End of variables declaration//GEN-END:variables
 }

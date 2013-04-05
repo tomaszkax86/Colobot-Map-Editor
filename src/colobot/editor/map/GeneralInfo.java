@@ -30,7 +30,7 @@ public final class GeneralInfo
     private int audioTrack = AUDIO_MOON;    // audio track
     
     
-    protected GeneralInfo()
+    GeneralInfo()
     {
         for(int i=0; i<lang.length; i++)
             lang[i] = new Language();

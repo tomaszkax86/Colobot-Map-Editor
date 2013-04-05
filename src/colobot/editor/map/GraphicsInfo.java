@@ -4,6 +4,7 @@
 package colobot.editor.map;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 /**
  * Objects of this class represent graphics information about Colobot map.
@@ -48,8 +49,11 @@ public class GraphicsInfo
     // light effects - file name
     private String frontsizeName = null;
     
+    // planets
+    private final ArrayList<Planet> planets = new ArrayList<>();
     
-    protected GraphicsInfo()
+    
+    GraphicsInfo()
     {
         // NOP
     }
@@ -168,6 +172,27 @@ public class GraphicsInfo
     {
         return frontsizeName;
     }
+    
+    public int getPlanetCount()
+    {
+        return planets.size();
+    }
+    
+    public void addPlanet(Planet planet)
+    {
+        planets.add(planet);
+    }
+    
+    public Planet getPlanet(int index)
+    {
+        return planets.get(index);
+    }
+    
+    public Planet removePlanet(int index)
+    {
+        return planets.remove(index);
+    }
+    
     
     /**
      * Objects of this class represent planets.

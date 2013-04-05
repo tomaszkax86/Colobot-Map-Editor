@@ -13,6 +13,10 @@ public final class Map
     private final GraphicsInfo graphicsInfo = new GraphicsInfo();
     private final TerrainInfo terrainInfo = new TerrainInfo();
     private final Objects objects = new Objects();
+    private final TexturingInfo texturingInfo = new TexturingInfo();
+    private final Lights lights = new Lights();
+    private final ResearchInfo researchInfo = new ResearchInfo();
+    
     
     /**
      * Creates new empty map with default values.
@@ -56,5 +60,32 @@ public final class Map
     public Objects getObjects()
     {
         return objects;
+    }
+    
+    /**
+     * Returns terrain texturing info of this map.
+     * @return terrain texturing info of this map
+     */
+    public TexturingInfo getTexturingInfo()
+    {
+        return texturingInfo;
+    }
+    
+    /**
+     * Returns lights on this map.
+     * @return lights on this map
+     */
+    public Lights getLights()
+    {
+        return lights;
+    }
+    
+    /**
+     * Returns research info on this map.
+     * @return research info on this map
+     */
+    public ResearchInfo getResearchInfo()
+    {
+        return researchInfo;
     }
 }
