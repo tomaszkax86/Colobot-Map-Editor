@@ -4,7 +4,10 @@
 package colobot.editor.file;
 
 import colobot.editor.map.ColobotObject;
+import colobot.editor.map.GraphicsInfo;
+import colobot.editor.map.GraphicsInfo.Planet;
 import colobot.editor.map.Map;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.Reader;
@@ -109,24 +112,183 @@ public final class OriginalMapImporter extends MapImporter
     
     private void addElement(Element element, Map map)
     {
-        if(element.getType().equals("CreateObject"))
+        String[] parts;
+        
+        switch(element.getType())
         {
-            ColobotObject object = new ColobotObject();
+            case "Instructions":
+                map.getGeneralInfo().setInstructions(element.get("name"));
+                break;
+            case "Satellite":
+                map.getGeneralInfo().setSatellite(element.get("name"));
+                break;
+            case "Loading":
+                map.getGeneralInfo().setLoadingFile(element.get("name"));
+                break;
+            case "SoluceFile":
+                map.getGeneralInfo().setSolutionFile(element.get("name"));
+                break;
+            case "HelpFile":
+                map.getGeneralInfo().setHelpFile(element.get("name"));
+                break;
+            case "EndingFile":
+                int win = Integer.parseInt( element.get("win") );
+                int lost = Integer.parseInt( element.get("lost") );
+                map.getGeneralInfo().setEndingFile(win, lost);
+                break;
+            case "MessageDelay":
+                double delay = Double.parseDouble(element.get("factor"));
+                map.getGeneralInfo().setMessageDelay(delay);
+                break;
+            case "Audio":
+                int track = Integer.parseInt(element.get("track"));
+                map.getGeneralInfo().setAudioTrack(track);
+                break;
+            case "AmbiantColor":
+                map.getGraphicsInfo().setAmbientColor(0, parseColor(element.get("air")));
+                map.getGraphicsInfo().setAmbientColor(1, parseColor(element.get("water")));
+                break;
+            case "FogColor":
+                map.getGraphicsInfo().setFogColor(0, parseColor(element.get("air")));
+                map.getGraphicsInfo().setFogColor(1, parseColor(element.get("water")));
+                break;
+            case "VehicleColor":
+                map.getGraphicsInfo().setVehicleColor(parseColor(element.get("color")));
+                break;
+            case "GreneeryColor":
+                map.getGraphicsInfo().setGreeneryColor(parseColor(element.get("color")));
+                break;
+            case "InsectColor":
+                map.getGraphicsInfo().setInsectColor(parseColor(element.get("color")));
+                break;
+            case "DeepView":
+                map.getGraphicsInfo().setDeepView(0, Double.parseDouble(element.get("air")));
+                map.getGraphicsInfo().setDeepView(1, Double.parseDouble(element.get("water")));
+                break;
+            case "SecondTexture":
+                map.getGraphicsInfo().setSecondTexture(Integer.parseInt(element.get("rank")));
+                break;
+            case "Background":
+                map.getGraphicsInfo().setBackground(element.get("image"));
+                map.getGraphicsInfo().setBackgroundUp(parseColor(element.get("up")));
+                map.getGraphicsInfo().setBackgroundDown(parseColor(element.get("down")));
+                map.getGraphicsInfo().setBackgroundCloudUp(parseColor(element.get("cloudUp")));
+                map.getGraphicsInfo().setBackgroundCloudDown(parseColor(element.get("cloudDown")));
+                break;
+            case "FrontsizeName":
+                map.getGraphicsInfo().setFrontsizeName(element.get("image"));
+                break;
+            case "Planet":
+                map.getGraphicsInfo().addPlanet(parsePlanet(element));
+                break;
+            case "TerrainGenerate":
+                map.getTerrainInfo().setVision(Double.parseDouble(element.get("vision")));
+                map.getTerrainInfo().setDepth(Double.parseDouble(element.get("depth")));
+                map.getTerrainInfo().setHard(Double.parseDouble(element.get("hard")));
+                break;
+            case "TerrainWind":
+                parts = element.get("speed").split(";");
+                map.getTerrainInfo().setWindX(Double.parseDouble(parts[0]));
+                map.getTerrainInfo().setWindY(Double.parseDouble(parts[1]));
+                break;
+            case "TerrainBlitz":
+                map.getTerrainInfo().setBlitz(true);
+                map.getTerrainInfo().setBlitz(Double.parseDouble(element.get("sleep")),
+                    Double.parseDouble(element.get("delay")),
+                    Double.parseDouble(element.get("magnetic")));
+                break;
+            case "TerrainRelief":
+                map.getTerrainInfo().setRelief(element.get("image"));
+                map.getTerrainInfo().setHeightFactor(Double.parseDouble(element.get("factor")));
+                break;
+            case "TerrainResource":
+                map.getTerrainInfo().setResources(element.get("image"));
+                break;
+            case "TerrainWater":
+                map.getTerrainInfo().setWaterTexture(element.get("image"));
+                map.getTerrainInfo().setWaterLevel(Double.parseDouble(element.get("level")));
+                map.getTerrainInfo().setWaterSpeedX(Double.parseDouble(element.get("moveX")));
+                map.getTerrainInfo().setWaterSpeedY(Double.parseDouble(element.get("moveY")));
+                map.getTerrainInfo().setWaterColor(parseColor(element.get("color")));
+                map.getTerrainInfo().setWaterBrightness(Double.parseDouble(element.get("brightness")));
+                break;
+            case "TerrainLava":
+                map.getTerrainInfo().setLavaMode(element.get("mode").equals("1"));
+                break;
+            case "TerrainCloud":
+                map.getTerrainInfo().setCloudImage(element.get("image"));
+                map.getTerrainInfo().setCloudLevel(Double.parseDouble(element.get("level")));
+                break;
+        // TODO: materials
+            case "CreateObject":
+                addObject(element, map);
+                break;
             
-            for(String name : element.keySet())
-            {
-                String value = element.get(name);
-                
-                if(object.hasAttribute(name))
-                    object.setAttribute(name, value);
-                else
-                    object.addAttribute(name, value);
-            }
-            
-            object.update();
-            
-            map.getObjects().add(object);
         }
+    }
+    
+    private void addObject(Element element, Map map)
+    {
+        ColobotObject object = new ColobotObject();
+
+        for(String name : element.keySet())
+        {
+            String value = element.get(name);
+
+            if(object.hasAttribute(name))
+                object.setAttribute(name, value);
+            else
+                object.addAttribute(name, value);
+        }
+
+        object.update();
+
+        map.getObjects().add(object);
+    }
+    
+    
+    private Color parseColor(String text)
+    {
+        if(text == null) return null;
+        
+        String[] rgba = text.split(";");
+        
+        int r = Integer.parseInt(rgba[0]);
+        int g = Integer.parseInt(rgba[1]);
+        int b = Integer.parseInt(rgba[2]);
+        int a = Integer.parseInt(rgba[3]);
+        
+        return new Color(r, g, b, a);
+    }
+    
+    private Planet parsePlanet(Element element)
+    {
+        Planet planet = new Planet();
+        
+        return planet;
+        
+        /*
+        planet.setTravelMode(element.get("mode").equals("0"));
+        
+        String[] pos = element.get("pos").split(";");
+        planet.setX(Double.parseDouble(pos[0]));
+        planet.setY(Double.parseDouble(pos[1]));
+        
+        planet.setDimension(Double.parseDouble(element.get("dim")));
+        planet.setDirection(Double.parseDouble(element.get("dir")));
+        planet.setSpeed(Double.parseDouble(element.get("speed")));
+        
+        planet.setImage(element.get("image"));
+        
+        String[] uv1 = element.get("uv1").split(";");
+        String[] uv2 = element.get("uv2").split(";");
+        
+        planet.setUV(0, 1, Double.parseDouble(uv1[0]));
+        planet.setUV(0, 0, Double.parseDouble(uv1[1]));
+        planet.setUV(1, 1, Double.parseDouble(uv2[0]));
+        planet.setUV(1, 0, Double.parseDouble(uv2[1]));
+        
+        return planet;  // */
     }
     
     // element mapy

@@ -125,9 +125,25 @@ public final class GeneralInfo
         return win;
     }
     
+    public void setEndingFileWin(int win)
+    {
+        this.win = win;
+    }
+    
     public int getEndingFileLost()
     {
         return lost;
+    }
+    
+    public void setEndingFileLost(int lost)
+    {
+        this.lost = lost;
+    }
+    
+    public void setEndingFile(int win, int lost)
+    {
+        this.win = win;
+        this.lost = lost;
     }
     
     public static final class Language

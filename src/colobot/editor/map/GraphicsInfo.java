@@ -153,9 +153,19 @@ public class GraphicsInfo
         return backgroundUp;
     }
     
+    public void setBackgroundUp(Color color)
+    {
+        backgroundUp = color;
+    }
+    
     public Color getBackgroundDown()
     {
         return backgroundDown;
+    }
+    
+    public void setBackgroundDown(Color color)
+    {
+        backgroundDown = color;
     }
     
     public Color getBackgroundCloudUp()
@@ -163,14 +173,29 @@ public class GraphicsInfo
         return backgroundCloudUp;
     }
     
+    public void setBackgroundCloudUp(Color color)
+    {
+        backgroundCloudUp = color;
+    }
+    
     public Color getBackgroundCloudDown()
     {
         return backgroundCloudDown;
     }
     
+    public void setBackgroundCloudDown(Color color)
+    {
+        backgroundCloudDown = color;
+    }
+    
     public String getFrontsizeName()
     {
         return frontsizeName;
+    }
+    
+    public void setFrontsizeName(String name)
+    {
+        frontsizeName = name;
     }
     
     public int getPlanetCount()
@@ -203,7 +228,7 @@ public class GraphicsInfo
         private boolean travelMode = false;
         
         // position of the planet on the sky
-        private final Position pos = new Position(0.0, 0.0);
+        private final double[] pos = new double[] { 0.0, 0.0 };
         
         // dimension multiplier - value between 0.002 (small stars) and 0.5 (large planets)
         private double dim = 0.05;
@@ -218,7 +243,98 @@ public class GraphicsInfo
         private String image = null;
         
         // texture coordinates
-        private final Position uv1 = new Position(0.0, 0.0);    // upper-left
-        private final Position uv2 = new Position(1.0, 1.0);    // lower-right
+        private final double[][] uv = new double[][] { {0.0, 0.0}, {1.0, 1.0} };
+        
+        
+        public Planet()
+        {
+            // NOP
+        }
+        
+        public boolean isTravelMode()
+        {
+            return travelMode;
+        }
+        
+        public void setTravelMode(boolean mode)
+        {
+            travelMode = mode;
+        }
+        
+        public double getX()
+        {
+            return pos[0];
+        }
+        
+        public void setX(double x)
+        {
+            pos[0] = x;
+        }
+        
+        public double getY()
+        {
+            return pos[1];
+        }
+        
+        public void setY(double y)
+        {
+            pos[1] = y;
+        }
+        
+        public void setPosition(double x, double y)
+        {
+            pos[0] = x;
+            pos[1] = y;
+        }
+        
+        public double getDimension()
+        {
+            return dim;
+        }
+        
+        public void setDimension(double value)
+        {
+            dim = value;
+        }
+        
+        public double getSpeed()
+        {
+            return speed;
+        }
+        
+        public void setSpeed(double value)
+        {
+            speed = value;
+        }
+        
+        public double getDirection()
+        {
+            return dir;
+        }
+        
+        public void setDirection(double value)
+        {
+            dir = value;
+        }
+        
+        public String getImage()
+        {
+            return image;
+        }
+        
+        public void setImage(String image)
+        {
+            this.image = image;
+        }
+        
+        public double getUV(int t, int c)
+        {
+            return uv[t][c];
+        }
+        
+        public void setUV(int t, int c, double value)
+        {
+            uv[t][c] = value;
+        }
     }
 }

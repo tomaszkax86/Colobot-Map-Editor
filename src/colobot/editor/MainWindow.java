@@ -175,6 +175,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1160,7 +1161,15 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
 
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Terrain");
+        jMenu2.setText("Edit");
+
+        jMenuItem8.setText("Export objects");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem8);
 
         jMenuItem6.setText("Load relief");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -1324,6 +1333,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         catch(Exception e)
         {
             JOptionPane.showMessageDialog(this, "Error loading map");
+            e.printStackTrace();    // TEMP: map loading testing
             return;
         }
         
@@ -1857,6 +1867,27 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
             trackerEnabled.isSelected(), trackerDone.isSelected());
     }//GEN-LAST:event_trackerEnabledActionPerformed
 
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        if(map == null) return;
+        
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(this);
+        if(result != JFileChooser.APPROVE_OPTION) return;
+            
+        File outputFile = fileChooser.getSelectedFile();
+        
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile)))
+        {
+            MapExporter exporter = MapExporter.getInstance("original");
+            
+            exporter.exportObjects(writer, map.getObjects());
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(this, "Error saving file");
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
     private void revalidateTables()
     {
         if(map != null)
@@ -1971,6 +2002,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
+    private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;

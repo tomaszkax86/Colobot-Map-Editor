@@ -5,6 +5,7 @@ package colobot.editor.file;
 
 import colobot.editor.map.ColobotObject;
 import colobot.editor.map.Map;
+import colobot.editor.map.Objects;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Date;
@@ -24,15 +25,23 @@ public final class OriginalMapExporter extends MapExporter
         // TODO: writing other map parameters
         
         // writing objects
+        exportObjects(writer, map.getObjects());
+        
+        // end of export
+        writer.write("// end of file\n");
+    }
+    
+    @Override
+    public void exportObjects(Writer writer, Objects objects) throws IOException
+    {
+        // objects begin
+        writer.write("// Colobot objects\n");
         writer.write("BeginObjects\n");
         
-        for(ColobotObject object : map.getObjects())
+        for(ColobotObject object : objects)
         {
             writer.write(object.toString());
             writer.write('\n');
         }
-        
-        // end of export
-        writer.write("// end of file\n");
     }
 }

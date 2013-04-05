@@ -4,6 +4,7 @@
 package colobot.editor.file;
 
 import colobot.editor.map.Map;
+import colobot.editor.map.Objects;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
@@ -29,6 +30,14 @@ public abstract class MapExporter
      * @throws IOException if any I/O error occures
      */
     public abstract void exportMap(Writer writer, Map map) throws IOException;
+    
+    /**
+     * Export objects to {@code Writer} object.
+     * @param writer object to write map to
+     * @param map map to be written
+     * @throws IOException if any I/O error occures
+     */
+    public abstract void exportObjects(Writer writer, Objects objects) throws IOException;
     
     
     public static MapExporter getInstance(String name)

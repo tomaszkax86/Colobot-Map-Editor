@@ -188,9 +188,19 @@ public final class TerrainInfo
         return waterLevel;
     }
     
+    public void setWaterLevel(double value)
+    {
+        waterLevel = value;
+    }
+    
     public double getWaterSpeedX()
     {
         return waterSpeedX;
+    }
+    
+    public void setWaterSpeedX(double value)
+    {
+        waterSpeedX = value;
     }
     
     public double getWaterSpeedY()
@@ -198,9 +208,19 @@ public final class TerrainInfo
         return waterSpeedY;
     }
     
+    public void setWaterSpeedY(double value)
+    {
+        waterSpeedY = value;
+    }
+    
     public Color getWaterColor()
     {
         return waterColor;
+    }
+    
+    public void setWaterColor(Color color)
+    {
+        waterColor = color;
     }
     
     public double getWaterBrightness()
@@ -208,9 +228,19 @@ public final class TerrainInfo
         return waterBrightness;
     }
     
+    public void setWaterBrightness(double value)
+    {
+        waterBrightness = value;
+    }
+    
     public boolean isLavaMode()
     {
         return lavaMode;
+    }
+    
+    public void setLavaMode(boolean mode)
+    {
+        lavaMode = mode;
     }
     
     public String getCloudImage()
@@ -218,8 +248,18 @@ public final class TerrainInfo
         return cloudImage;
     }
     
+    public void setCloudImage(String image)
+    {
+        cloudImage = image;
+    }
+    
     public double getCloudLevel()
     {
         return cloudLevel;
+    }
+    
+    public void setCloudLevel(double level)
+    {
+        cloudLevel = level;
     }
 }
