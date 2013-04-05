@@ -159,13 +159,12 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         nuclearEnabled = new javax.swing.JCheckBox();
         nuclearDone = new javax.swing.JCheckBox();
         nuclearLabel = new javax.swing.JLabel();
-        jSeparator3 = new javax.swing.JSeparator();
         leggerLabel = new javax.swing.JLabel();
         leggerEnabled = new javax.swing.JCheckBox();
         leggerDone = new javax.swing.JCheckBox();
-        orgaDone = new javax.swing.JCheckBox();
-        orgaEnabled = new javax.swing.JCheckBox();
         orgaLabel = new javax.swing.JLabel();
+        orgaEnabled = new javax.swing.JCheckBox();
+        orgaDone = new javax.swing.JCheckBox();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -944,12 +943,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
             }
         });
 
-        orgaDone.setText("done");
-        orgaDone.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                orgaDoneActionPerformed(evt);
-            }
-        });
+        orgaLabel.setText("Orga shooter:");
 
         orgaEnabled.setText("enabled");
         orgaEnabled.addActionListener(new java.awt.event.ActionListener() {
@@ -958,85 +952,83 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
             }
         });
 
-        orgaLabel.setText("Orga shooter:");
+        orgaDone.setText("done");
+        orgaDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                orgaDoneActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel14Layout.createSequentialGroup()
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel14Layout.createSequentialGroup()
-                                        .addGap(45, 45, 45)
-                                        .addComponent(wingerLabel))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
-                                        .addContainerGap()
-                                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(trackerLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(thumperLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(shooterLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(towerLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(phazerLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(shielderLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addComponent(nuclearLabel, javax.swing.GroupLayout.Alignment.TRAILING))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel14Layout.createSequentialGroup()
-                                        .addComponent(thumperEnabled)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(thumperDone))
-                                    .addGroup(jPanel14Layout.createSequentialGroup()
-                                        .addComponent(trackerEnabled)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(trackerDone))
-                                    .addGroup(jPanel14Layout.createSequentialGroup()
-                                        .addComponent(wingerEnabled)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(wingerDone))
-                                    .addGroup(jPanel14Layout.createSequentialGroup()
-                                        .addComponent(shooterEnabled)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(shooterDone))
-                                    .addGroup(jPanel14Layout.createSequentialGroup()
-                                        .addComponent(towerEnabled)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(towerDone))
-                                    .addGroup(jPanel14Layout.createSequentialGroup()
-                                        .addComponent(phazerEnabled)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(phazerDone))
-                                    .addGroup(jPanel14Layout.createSequentialGroup()
-                                        .addComponent(shielderEnabled)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(shielderDone))
-                                    .addGroup(jPanel14Layout.createSequentialGroup()
-                                        .addComponent(nuclearEnabled)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(nuclearDone)))))
-                        .addGap(0, 4, Short.MAX_VALUE))
+            .addGroup(jPanel14Layout.createSequentialGroup()
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGap(45, 45, 45)
+                        .addComponent(wingerLabel))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                        .addContainerGap()
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(leggerLabel, javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(orgaLabel, javax.swing.GroupLayout.Alignment.TRAILING))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addComponent(leggerEnabled)
-                                .addGap(18, 18, 18)
-                                .addComponent(leggerDone))
-                            .addGroup(jPanel14Layout.createSequentialGroup()
-                                .addComponent(orgaEnabled)
-                                .addGap(18, 18, 18)
-                                .addComponent(orgaDone)))))
-                .addContainerGap())
+                            .addComponent(trackerLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(thumperLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(shooterLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(towerLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(phazerLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(shielderLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(nuclearLabel, javax.swing.GroupLayout.Alignment.TRAILING))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(thumperEnabled)
+                        .addGap(18, 18, 18)
+                        .addComponent(thumperDone))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(trackerEnabled)
+                        .addGap(18, 18, 18)
+                        .addComponent(trackerDone))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(wingerEnabled)
+                        .addGap(18, 18, 18)
+                        .addComponent(wingerDone))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(shooterEnabled)
+                        .addGap(18, 18, 18)
+                        .addComponent(shooterDone))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(towerEnabled)
+                        .addGap(18, 18, 18)
+                        .addComponent(towerDone))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(phazerEnabled)
+                        .addGap(18, 18, 18)
+                        .addComponent(phazerDone))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(shielderEnabled)
+                        .addGap(18, 18, 18)
+                        .addComponent(shielderDone))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(nuclearEnabled)
+                        .addGap(18, 18, 18)
+                        .addComponent(nuclearDone)))
+                .addContainerGap(10, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel14Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(orgaLabel)
+                    .addComponent(leggerLabel))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(leggerEnabled)
+                        .addGap(18, 18, 18)
+                        .addComponent(leggerDone))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addComponent(orgaEnabled)
+                        .addGap(18, 18, 18)
+                        .addComponent(orgaDone)))
+                .addGap(10, 10, 10))
         );
         jPanel14Layout.setVerticalGroup(
             jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1081,18 +1073,16 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
                     .addComponent(nuclearEnabled)
                     .addComponent(nuclearDone)
                     .addComponent(nuclearLabel))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(leggerEnabled)
-                    .addComponent(leggerDone)
-                    .addComponent(leggerLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(leggerLabel)
+                    .addComponent(leggerEnabled)
+                    .addComponent(leggerDone))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(orgaLabel)
                     .addComponent(orgaEnabled)
-                    .addComponent(orgaDone)
-                    .addComponent(orgaLabel))
+                    .addComponent(orgaDone))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1104,7 +1094,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
                 .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 532, Short.MAX_VALUE))
+                .addContainerGap(532, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
             jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1767,105 +1757,105 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
             buildingExchangePost.isSelected());
     }//GEN-LAST:event_buildingExchangePostActionPerformed
 
-    private void trackerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackerEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TRACKER,
-            trackerEnabled.isSelected(), trackerDone.isSelected());
-    }//GEN-LAST:event_trackerEnabledActionPerformed
-
-    private void trackerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackerDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TRACKER,
-            trackerEnabled.isSelected(), trackerDone.isSelected());
-    }//GEN-LAST:event_trackerDoneActionPerformed
-
-    private void wingerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wingerEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_WINGER,
-            wingerEnabled.isSelected(), wingerDone.isSelected());
-    }//GEN-LAST:event_wingerEnabledActionPerformed
-
-    private void wingerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wingerDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_WINGER,
-            wingerEnabled.isSelected(), wingerDone.isSelected());
-    }//GEN-LAST:event_wingerDoneActionPerformed
-
-    private void thumperEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thumperEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_THUMPER,
-            thumperEnabled.isSelected(), thumperDone.isSelected());
-    }//GEN-LAST:event_thumperEnabledActionPerformed
-
-    private void thumperDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thumperDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_THUMPER,
-            thumperEnabled.isSelected(), thumperDone.isSelected());
-    }//GEN-LAST:event_thumperDoneActionPerformed
-
-    private void shooterEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shooterEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHOOTER,
-            shooterEnabled.isSelected(), shooterDone.isSelected());
-    }//GEN-LAST:event_shooterEnabledActionPerformed
-
-    private void shooterDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shooterDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHOOTER,
-            shooterEnabled.isSelected(), shooterDone.isSelected());
-    }//GEN-LAST:event_shooterDoneActionPerformed
-
-    private void towerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_towerEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TOWER,
-            towerEnabled.isSelected(), towerDone.isSelected());
-    }//GEN-LAST:event_towerEnabledActionPerformed
-
-    private void towerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_towerDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TOWER,
-            towerEnabled.isSelected(), towerDone.isSelected());
-    }//GEN-LAST:event_towerDoneActionPerformed
-
-    private void phazerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phazerEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_PHAZER,
-            phazerEnabled.isSelected(), phazerDone.isSelected());
-    }//GEN-LAST:event_phazerEnabledActionPerformed
-
-    private void phazerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phazerDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_PHAZER,
-            phazerEnabled.isSelected(), phazerDone.isSelected());
-    }//GEN-LAST:event_phazerDoneActionPerformed
-
-    private void shielderEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shielderEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHIELDER,
-            shielderEnabled.isSelected(), shielderDone.isSelected());
-    }//GEN-LAST:event_shielderEnabledActionPerformed
-
-    private void shielderDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shielderDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHIELDER,
-            shielderEnabled.isSelected(), shielderDone.isSelected());
-    }//GEN-LAST:event_shielderDoneActionPerformed
-
-    private void nuclearEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuclearEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_ATOMIC,
-            nuclearEnabled.isSelected(), nuclearDone.isSelected());
-    }//GEN-LAST:event_nuclearEnabledActionPerformed
-
-    private void nuclearDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuclearDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_ATOMIC,
-            nuclearEnabled.isSelected(), nuclearDone.isSelected());
-    }//GEN-LAST:event_nuclearDoneActionPerformed
-
-    private void leggerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leggerEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_PAW,
-            leggerEnabled.isSelected(), leggerDone.isSelected());
-    }//GEN-LAST:event_leggerEnabledActionPerformed
-
-    private void leggerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leggerDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_PAW,
-            leggerEnabled.isSelected(), leggerDone.isSelected());
-    }//GEN-LAST:event_leggerDoneActionPerformed
+    private void orgaDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orgaDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_GUN,
+            orgaEnabled.isSelected(), orgaDone.isSelected());
+    }//GEN-LAST:event_orgaDoneActionPerformed
 
     private void orgaEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orgaEnabledActionPerformed
         map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_GUN,
             orgaEnabled.isSelected(), orgaDone.isSelected());
     }//GEN-LAST:event_orgaEnabledActionPerformed
 
-    private void orgaDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orgaDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_GUN,
-            orgaEnabled.isSelected(), orgaDone.isSelected());
-    }//GEN-LAST:event_orgaDoneActionPerformed
+    private void leggerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leggerDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_PAW,
+            leggerEnabled.isSelected(), leggerDone.isSelected());
+    }//GEN-LAST:event_leggerDoneActionPerformed
+
+    private void leggerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leggerEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_PAW,
+            leggerEnabled.isSelected(), leggerDone.isSelected());
+    }//GEN-LAST:event_leggerEnabledActionPerformed
+
+    private void nuclearDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuclearDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_ATOMIC,
+            nuclearEnabled.isSelected(), nuclearDone.isSelected());
+    }//GEN-LAST:event_nuclearDoneActionPerformed
+
+    private void nuclearEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuclearEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_ATOMIC,
+            nuclearEnabled.isSelected(), nuclearDone.isSelected());
+    }//GEN-LAST:event_nuclearEnabledActionPerformed
+
+    private void shielderDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shielderDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHIELDER,
+            shielderEnabled.isSelected(), shielderDone.isSelected());
+    }//GEN-LAST:event_shielderDoneActionPerformed
+
+    private void phazerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phazerDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_PHAZER,
+            phazerEnabled.isSelected(), phazerDone.isSelected());
+    }//GEN-LAST:event_phazerDoneActionPerformed
+
+    private void towerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_towerDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TOWER,
+            towerEnabled.isSelected(), towerDone.isSelected());
+    }//GEN-LAST:event_towerDoneActionPerformed
+
+    private void shooterDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shooterDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHOOTER,
+            shooterEnabled.isSelected(), shooterDone.isSelected());
+    }//GEN-LAST:event_shooterDoneActionPerformed
+
+    private void thumperDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thumperDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_THUMPER,
+            thumperEnabled.isSelected(), thumperDone.isSelected());
+    }//GEN-LAST:event_thumperDoneActionPerformed
+
+    private void shielderEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shielderEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHIELDER,
+            shielderEnabled.isSelected(), shielderDone.isSelected());
+    }//GEN-LAST:event_shielderEnabledActionPerformed
+
+    private void phazerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phazerEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_PHAZER,
+            phazerEnabled.isSelected(), phazerDone.isSelected());
+    }//GEN-LAST:event_phazerEnabledActionPerformed
+
+    private void towerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_towerEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TOWER,
+            towerEnabled.isSelected(), towerDone.isSelected());
+    }//GEN-LAST:event_towerEnabledActionPerformed
+
+    private void shooterEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shooterEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHOOTER,
+            shooterEnabled.isSelected(), shooterDone.isSelected());
+    }//GEN-LAST:event_shooterEnabledActionPerformed
+
+    private void thumperEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thumperEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_THUMPER,
+            thumperEnabled.isSelected(), thumperDone.isSelected());
+    }//GEN-LAST:event_thumperEnabledActionPerformed
+
+    private void wingerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wingerDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_WINGER,
+            wingerEnabled.isSelected(), wingerDone.isSelected());
+    }//GEN-LAST:event_wingerDoneActionPerformed
+
+    private void wingerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wingerEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_WINGER,
+            wingerEnabled.isSelected(), wingerDone.isSelected());
+    }//GEN-LAST:event_wingerEnabledActionPerformed
+
+    private void trackerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackerDoneActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TRACKER,
+            trackerEnabled.isSelected(), trackerDone.isSelected());
+    }//GEN-LAST:event_trackerDoneActionPerformed
+
+    private void trackerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackerEnabledActionPerformed
+        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TRACKER,
+            trackerEnabled.isSelected(), trackerDone.isSelected());
+    }//GEN-LAST:event_trackerEnabledActionPerformed
 
     private void revalidateTables()
     {
@@ -2000,7 +1990,6 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JSeparator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextArea languageDescription;
