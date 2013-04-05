@@ -1333,7 +1333,6 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         catch(Exception e)
         {
             JOptionPane.showMessageDialog(this, "Error loading map");
-            e.printStackTrace();    // TEMP: map loading testing
             return;
         }
         

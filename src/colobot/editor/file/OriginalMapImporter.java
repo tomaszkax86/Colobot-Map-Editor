@@ -38,7 +38,14 @@ public final class OriginalMapImporter extends MapImporter
             
             Element element = parseElement(line);
             
-            addElement(element, map);
+            try
+            {
+                addElement(element, map);
+            }
+            catch(Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
     
