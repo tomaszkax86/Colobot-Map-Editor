@@ -4,9 +4,9 @@
 package colobot.editor.file;
 
 import colobot.editor.map.ColobotObject;
-import colobot.editor.map.GraphicsInfo;
 import colobot.editor.map.GraphicsInfo.Planet;
 import colobot.editor.map.Map;
+import colobot.editor.map.Objects;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,6 +46,30 @@ public final class OriginalMapImporter extends MapImporter
             {
                 e.printStackTrace();
             }
+        }
+    }
+    
+    @Override
+    public void importObjects(Reader r, Objects objects) throws IOException
+    {
+        BufferedReader reader;
+        
+        if(r instanceof BufferedReader)
+            reader = (BufferedReader) r;
+        else
+            reader = new BufferedReader(r);
+        
+        while(true)
+        {
+            String line = reader.readLine();
+            if(line == null) break;
+            line = trimLine(line);
+            if(line.isEmpty()) continue;
+            
+            Element element = parseElement(line);
+            
+            if(element.getType().equals("CreateObject"))
+                addObject(element, objects);
         }
     }
     
@@ -228,13 +252,13 @@ public final class OriginalMapImporter extends MapImporter
                 break;
         // TODO: materials
             case "CreateObject":
-                addObject(element, map);
+                addObject(element, map.getObjects());
                 break;
             
         }
     }
     
-    private void addObject(Element element, Map map)
+    private void addObject(Element element, Objects objects)
     {
         ColobotObject object = new ColobotObject();
 
@@ -250,7 +274,7 @@ public final class OriginalMapImporter extends MapImporter
 
         object.update();
 
-        map.getObjects().add(object);
+        objects.add(object);
     }
     
     

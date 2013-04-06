@@ -175,6 +175,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
 
@@ -1163,6 +1164,14 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
 
         jMenu2.setText("Edit");
 
+        jMenuItem9.setText("Import objects");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem9);
+
         jMenuItem8.setText("Export objects");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -1887,6 +1896,29 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        if(map == null) return;
+        
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(this);
+        if(result != JFileChooser.APPROVE_OPTION) return;
+            
+        File inputFile = fileChooser.getSelectedFile();
+        
+        try(BufferedReader reader = new BufferedReader(new FileReader(inputFile)))
+        {
+            MapImporter importer = MapImporter.getInstance("original");
+            
+            importer.importObjects(reader, map.getObjects());
+            
+            revalidateTables();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(this, "Error importing objects file");
+        }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
     private void revalidateTables()
     {
         if(map != null)
@@ -2002,6 +2034,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
+    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
