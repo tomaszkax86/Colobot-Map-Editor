@@ -4,6 +4,8 @@
 package colobot.editor.file;
 
 import colobot.editor.map.ColobotObject;
+import colobot.editor.map.GeneralInfo;
+import colobot.editor.map.GeneralInfo.Language;
 import colobot.editor.map.Map;
 import colobot.editor.map.Objects;
 import java.io.IOException;
@@ -24,6 +26,8 @@ public final class OriginalMapExporter extends MapExporter
         
         // TODO: writing other map parameters
         
+        exportGeneralInfo(writer, map.getGeneralInfo());
+        
         // writing objects
         exportObjects(writer, map.getObjects());
         
@@ -43,5 +47,30 @@ public final class OriginalMapExporter extends MapExporter
             writer.write(object.toString());
             writer.write('\n');
         }
+    }
+    
+    private void exportGeneralInfo(Writer writer, GeneralInfo info) throws IOException
+    {
+        // exporting language info
+        for(int i=0; i<4; i++)
+        {
+            Language lang = info.getLanguage(i);
+            
+            char letter = lang.getLetter();
+            if(letter == '\0') continue;
+            
+            writer.write("Title." + letter + " text=\"" + lang.getTitle() + "\"\n");
+            writer.write("Resume." + letter + " text=\"" + lang.getDescription() + "\"\n");
+        }
+        
+        // general info
+        writer.write("Instructions name=\"" + info.getInstructions() + "\"\n");
+        writer.write("Satellite name=\"" + info.getSatellite() + "\"\n");
+        writer.write("Loading name=\"" + info.getLoadingFile() + "\"\n");
+        writer.write("SoluceFile name=\"" + info.getSolutionFile() + "\"\n");
+        writer.write("HelpFile name=\"" + info.getHelpFile() + "\"\n");
+        writer.write("EndingFile win=\"" + info.getEndingFileWin()
+                + " lost=" + info.getEndingFileLost() + "\"\n");
+        writer.write('\n');
     }
 }

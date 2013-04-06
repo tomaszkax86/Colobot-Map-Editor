@@ -3,10 +3,8 @@
  */
 package colobot.editor.map;
 
-import java.util.ArrayList;
-
 /**
- *
+ * This class contains enabled buildings and research on map.
  * @author Tomasz Kapuściński tomaszkax86@gmail.com
  */
 public final class ResearchInfo
@@ -39,15 +37,22 @@ public final class ResearchInfo
     public static final int RESEARCH_I_GUN = 9;
     
     
-    
     private int enabledBuildings = 0;
     private int enabledResearch = 0;
     private int doneResearch = 0;
+    
     
     ResearchInfo()
     {
         enableBuilding(BUILD_FLAT_GROUND);
         enableBuilding(BUILD_FLAG);
+    }
+    
+    public void clear()
+    {
+        enabledBuildings = 0;
+        enabledResearch = 0;
+        doneResearch = 0;
     }
     
     public boolean isBuildingEnabled(int type)

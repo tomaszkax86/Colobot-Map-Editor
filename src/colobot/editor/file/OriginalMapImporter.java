@@ -4,6 +4,7 @@
 package colobot.editor.file;
 
 import colobot.editor.map.ColobotObject;
+import colobot.editor.map.GeneralInfo.Language;
 import colobot.editor.map.GraphicsInfo.Planet;
 import colobot.editor.map.Map;
 import colobot.editor.map.Objects;
@@ -19,6 +20,8 @@ import java.util.HashMap;
  */
 public final class OriginalMapImporter extends MapImporter
 {
+    private int langCount = 0;
+    
     @Override
     public void importMap(Reader r, Map map) throws IOException
     {
@@ -105,20 +108,23 @@ public final class OriginalMapImporter extends MapImporter
             String part1 = parts[i-1].trim();
             String part2 = parts[i].trim();
             
-            // wydzielanie nazwy ...blabla name=
-            //                            ^
+            // extracting name
             index = part1.lastIndexOf(' ');
             name = part1.substring(index + 1);
             
-            // wydzielanie wartosci  = va lu e name=
-            //                       = va lu e
-            //                                ^
-            index = part2.lastIndexOf(' ');
-            if(index != -1)
-                value = part2.substring(0, index);
-            else
+            // extracting value
+            if(i != parts.length - 1)       // not a last element
+            {
+                index = part2.lastIndexOf(' ');
+                if(index != -1)
+                    value = part2.substring(0, index);
+                else
+                    value = part2;
+            }
+            else                            // last value
                 value = part2;
             
+            // removing spaces
             value = removeSpaces(value);
             
             element.put(name, value);
@@ -127,40 +133,27 @@ public final class OriginalMapImporter extends MapImporter
         return element;
     }
     
-    private String removeSpaces(String value)
-    {
-        StringBuilder builder = new StringBuilder(value.length());
-        
-        for(int i=0; i<value.length(); i++)
-        {
-            char c = value.charAt(i);
-            if(!Character.isWhitespace(c))
-                builder.append(c);
-        }
-        
-        return builder.toString();
-    }
-    
     private void addElement(Element element, Map map)
     {
         String[] parts;
+        String type = element.getType();
         
-        switch(element.getType())
+        switch(type)
         {
             case "Instructions":
-                map.getGeneralInfo().setInstructions(element.get("name"));
+                map.getGeneralInfo().setInstructions(removeQuotationMarks(element.get("name")));
                 break;
             case "Satellite":
-                map.getGeneralInfo().setSatellite(element.get("name"));
+                map.getGeneralInfo().setSatellite(removeQuotationMarks(element.get("name")));
                 break;
             case "Loading":
-                map.getGeneralInfo().setLoadingFile(element.get("name"));
+                map.getGeneralInfo().setLoadingFile(removeQuotationMarks(element.get("name")));
                 break;
             case "SoluceFile":
-                map.getGeneralInfo().setSolutionFile(element.get("name"));
+                map.getGeneralInfo().setSolutionFile(removeQuotationMarks(element.get("name")));
                 break;
             case "HelpFile":
-                map.getGeneralInfo().setHelpFile(element.get("name"));
+                map.getGeneralInfo().setHelpFile(removeQuotationMarks(element.get("name")));
                 break;
             case "EndingFile":
                 int win = Integer.parseInt( element.get("win") );
@@ -200,14 +193,14 @@ public final class OriginalMapImporter extends MapImporter
                 map.getGraphicsInfo().setSecondTexture(Integer.parseInt(element.get("rank")));
                 break;
             case "Background":
-                map.getGraphicsInfo().setBackground(element.get("image"));
+                map.getGraphicsInfo().setBackground(removeQuotationMarks(element.get("image")));
                 map.getGraphicsInfo().setBackgroundUp(parseColor(element.get("up")));
                 map.getGraphicsInfo().setBackgroundDown(parseColor(element.get("down")));
                 map.getGraphicsInfo().setBackgroundCloudUp(parseColor(element.get("cloudUp")));
                 map.getGraphicsInfo().setBackgroundCloudDown(parseColor(element.get("cloudDown")));
                 break;
             case "FrontsizeName":
-                map.getGraphicsInfo().setFrontsizeName(element.get("image"));
+                map.getGraphicsInfo().setFrontsizeName(removeQuotationMarks(element.get("image")));
                 break;
             case "Planet":
                 map.getGraphicsInfo().addPlanet(parsePlanet(element));
@@ -229,32 +222,37 @@ public final class OriginalMapImporter extends MapImporter
                     Double.parseDouble(element.get("magnetic")));
                 break;
             case "TerrainRelief":
-                map.getTerrainInfo().setRelief(element.get("image"));
+                map.getTerrainInfo().setRelief(removeQuotationMarks(element.get("image")));
                 map.getTerrainInfo().setHeightFactor(Double.parseDouble(element.get("factor")));
                 break;
             case "TerrainResource":
                 map.getTerrainInfo().setResources(element.get("image"));
                 break;
             case "TerrainWater":
-                map.getTerrainInfo().setWaterTexture(element.get("image"));
+                map.getTerrainInfo().setWaterTexture(removeQuotationMarks(element.get("image")));
                 map.getTerrainInfo().setWaterLevel(Double.parseDouble(element.get("level")));
                 map.getTerrainInfo().setWaterSpeedX(Double.parseDouble(element.get("moveX")));
                 map.getTerrainInfo().setWaterSpeedY(Double.parseDouble(element.get("moveY")));
                 map.getTerrainInfo().setWaterColor(parseColor(element.get("color")));
-                map.getTerrainInfo().setWaterBrightness(Double.parseDouble(element.get("brightness")));
+                if(element.containsKey("brightness"))
+                    map.getTerrainInfo().setWaterBrightness(Double.parseDouble(element.get("brightness")));
                 break;
             case "TerrainLava":
                 map.getTerrainInfo().setLavaMode(element.get("mode").equals("1"));
                 break;
             case "TerrainCloud":
-                map.getTerrainInfo().setCloudImage(element.get("image"));
+                map.getTerrainInfo().setCloudImage(removeQuotationMarks(element.get("image")));
                 map.getTerrainInfo().setCloudLevel(Double.parseDouble(element.get("level")));
                 break;
         // TODO: materials
             case "CreateObject":
                 addObject(element, map.getObjects());
                 break;
-            
+            default:
+                if(type.indexOf("Title.") != -1)
+                    parseLanguage(element, map, true);
+                else if(type.indexOf("Resume.") != -1)
+                    parseLanguage(element, map, false);
         }
     }
     
@@ -277,6 +275,37 @@ public final class OriginalMapImporter extends MapImporter
         objects.add(object);
     }
     
+    private String removeSpaces(String value)
+    {
+        if(value.charAt(0) == '\"') return value;
+        
+        StringBuilder builder = new StringBuilder(value.length());
+        
+        for(int i=0; i<value.length(); i++)
+        {
+            char c = value.charAt(i);
+            if(!Character.isWhitespace(c))
+                builder.append(c);
+        }
+        
+        return builder.toString();
+    }
+    
+    private void parseLanguage(Element element, Map map, boolean first)
+    {
+        if(first)
+        {
+            Language lang = map.getGeneralInfo().getLanguage(langCount);
+            lang.setLetter(element.getType().charAt(6));
+            lang.setTitle(removeQuotationMarks(element.get("text")));
+        }
+        else
+        {
+            Language lang = map.getGeneralInfo().getLanguage(langCount);
+            lang.setDescription(removeQuotationMarks(element.get("text")));
+            langCount++;
+        }
+    }
     
     private Color parseColor(String text)
     {
@@ -320,6 +349,16 @@ public final class OriginalMapImporter extends MapImporter
         planet.setUV(1, 0, Double.parseDouble(uv2[1]));
         
         return planet;  // */
+    }
+    
+    private String removeQuotationMarks(String text)
+    {
+        if(text == null) return text;
+        if(text.isEmpty()) return text;
+        if(text.charAt(0) != '\"') return text;
+        if(text.charAt(text.length() - 1) != '\"') return text;
+        
+        return text.substring(1, text.length() - 1);
     }
     
     // element mapy
