@@ -9,33 +9,41 @@ package colobot.editor.map;
  */
 public final class ResearchInfo
 {
-    public static final int BUILD_RESEARCH_CENTER = 0;
-    public static final int BUILD_BOT_FACTORY = 1;
-    public static final int BUILD_CONVERTER = 2;
-    public static final int BUILD_POWER_STATION = 3;
-    public static final int BUILD_RADAR_STATION = 4;
-    public static final int BUILD_REPAIR_CENTER = 5;
-    public static final int BUILD_DEFENSE_TOWER = 6;
-    public static final int BUILD_POWER_PLANT = 7;
-    public static final int BUILD_DERRICK = 8;
-    public static final int BUILD_NUCLEAR_PLANT = 9;
-    public static final int BUILD_AUTO_LAB = 10;
-    public static final int BUILD_POWER_CAPTOR = 11;
-    public static final int BUILD_EXCHANGE_POST = 12;
-    public static final int BUILD_FLAT_GROUND = 13;
-    public static final int BUILD_FLAG = 14;
+    public enum Building
+    {
+        ResearchCenter,
+        BotFactory,
+        Converter,
+        PowerStation,
+        RadarStation,
+        RepairCenter,
+        DefenseTower,
+        PowerPlant,
+        Derrick,
+        NuclearPlant,
+        AutoLab,
+        PowerCaptor,
+        ExchangePost,
+        FlatGround,
+        Flag;
+    }
     
-    public static final int RESEARCH_TRACKER = 0;
-    public static final int RESEARCH_WINGER = 1;
-    public static final int RESEARCH_THUMPER = 2;
-    public static final int RESEARCH_SHOOTER = 3;
-    public static final int RESEARCH_TOWER = 4;
-    public static final int RESEARCH_PHAZER = 5;
-    public static final int RESEARCH_SHIELDER = 6;
-    public static final int RESEARCH_ATOMIC = 7;
-    public static final int RESEARCH_I_PAW = 8;
-    public static final int RESEARCH_I_GUN = 9;
-    
+    public enum Research
+    {
+        TRACKER,
+        WINGER,
+        THUMPER,
+        SHOOTER,
+        TOWER,
+        PHAZER,
+        SHIELDER,
+        ATOMIC,
+        iPAW,
+        iGUN,
+        RECYCLER,
+        SUBBER,
+        SNIFFER;
+    }
     
     private int enabledBuildings = 0;
     private int enabledResearch = 0;
@@ -44,8 +52,7 @@ public final class ResearchInfo
     
     ResearchInfo()
     {
-        enableBuilding(BUILD_FLAT_GROUND);
-        enableBuilding(BUILD_FLAG);
+        // NOP
     }
     
     public void clear()
@@ -55,55 +62,52 @@ public final class ResearchInfo
         doneResearch = 0;
     }
     
-    public boolean isBuildingEnabled(int type)
+    public boolean isBuildingEnabled(Building b)
     {
-        return (enabledBuildings & (1 << type)) != 0;
+        return (enabledBuildings & (1 << b.ordinal())) != 0;
     }
     
-    public void enableBuilding(int type)
+    public void enableBuilding(Building b)
     {
-        enabledBuildings |= 1 << type;
+        enabledBuildings |= 1 << b.ordinal();
     }
     
-    public void disableBuilding(int type)
+    public void disableBuilding(Building b)
     {
-        enabledBuildings &= ~(1 << type);
+        enabledBuildings &= ~(1 << b.ordinal());
     }
     
-    public void setEnabledBuilding(int type, boolean enabled)
+    public void setEnabledBuilding(Building b, boolean enabled)
     {
-        if(enabled) enableBuilding(type);
-        else disableBuilding(type);
+        if(enabled) enableBuilding(b);
+        else disableBuilding(b);
     }
     
-    public boolean isResearchEnabled(int type)
+    public boolean isResearchEnabled(Research r)
     {
-        return (enabledResearch & (1 << type)) != 0;
+        return (enabledResearch & (1 << r.ordinal())) != 0;
     }
     
-    public boolean isResearchDone(int type)
+    public boolean isResearchDone(Research r)
     {
-        if(!isResearchEnabled(type)) return false;
-        
-        return (doneResearch & (1 << type)) != 0;
+        return (doneResearch & (1 << r.ordinal())) != 0;
     }
     
-    public void enableResearch(int type, boolean done)
+    public void setResearchEnabled(Research r, boolean enabled)
     {
-        enabledResearch |= 1 << type;
-        
-        if(done) doneResearch |= 1 << type;
+        if(enabled) enabledResearch |= 1 << r.ordinal();
+        else enabledResearch &= ~(1 << r.ordinal());
     }
     
-    public void disableResearch(int type)
+    public void setResearchDone(Research r, boolean enabled)
     {
-        enabledResearch &= ~(1 << type);
-        doneResearch &= ~(1 << type);
+        if(enabled) doneResearch |= 1 << r.ordinal();
+        else doneResearch &= ~(1 << r.ordinal());
     }
     
-    public void setResearchEnabled(int type, boolean enabled, boolean done)
+    public void setResearch(Research r, boolean enabled, boolean done)
     {
-        if(enabled) enableResearch(type, done);
-        else disableResearch(type);
+        setResearchEnabled(r, enabled);
+        setResearchDone(r, done);
     }
 }

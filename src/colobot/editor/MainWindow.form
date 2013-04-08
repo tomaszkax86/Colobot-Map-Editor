@@ -1130,6 +1130,9 @@
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="orgaLabel" min="-2" max="-2" attributes="0"/>
                               <Component id="leggerLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="recyclerLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="subberLabel" min="-2" max="-2" attributes="0"/>
+                              <Component id="snifferLabel" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
@@ -1142,6 +1145,14 @@
                                   <Component id="orgaEnabled" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="orgaDone" min="-2" max="-2" attributes="0"/>
+                              </Group>
+                              <Group type="102" attributes="0">
+                                  <EmptySpace min="81" pref="81" max="-2" attributes="0"/>
+                                  <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="recyclerDone" min="-2" max="-2" attributes="0"/>
+                                      <Component id="subberDone" min="-2" max="-2" attributes="0"/>
+                                      <Component id="snifferDone" min="-2" max="-2" attributes="0"/>
+                                  </Group>
                               </Group>
                           </Group>
                           <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
@@ -1210,6 +1221,21 @@
                               <Component id="orgaLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="orgaEnabled" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="orgaDone" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="recyclerLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="recyclerDone" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="subberLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="subberDone" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="snifferLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="snifferDone" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="32767" attributes="0"/>
                       </Group>
@@ -1426,6 +1452,45 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="orgaDoneActionPerformed"/>
                   </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="recyclerLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Recycler:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="recyclerDone">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="done"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="recyclerDoneActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="subberLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Subber:"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="subberDone">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="done"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="subberDoneActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="snifferDone">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="done"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="snifferDoneActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JLabel" name="snifferLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Sniffer:"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

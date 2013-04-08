@@ -12,6 +12,8 @@ import colobot.editor.map.Map;
 import colobot.editor.map.MapSource;
 import colobot.editor.map.Objects;
 import colobot.editor.map.ResearchInfo;
+import colobot.editor.map.ResearchInfo.Building;
+import colobot.editor.map.ResearchInfo.Research;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -20,6 +22,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import javax.imageio.ImageIO;
+import javax.swing.JCheckBox;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
@@ -165,6 +168,12 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         orgaLabel = new javax.swing.JLabel();
         orgaEnabled = new javax.swing.JCheckBox();
         orgaDone = new javax.swing.JCheckBox();
+        recyclerLabel = new javax.swing.JLabel();
+        recyclerDone = new javax.swing.JCheckBox();
+        subberLabel = new javax.swing.JLabel();
+        subberDone = new javax.swing.JCheckBox();
+        snifferDone = new javax.swing.JCheckBox();
+        snifferLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -961,6 +970,33 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
             }
         });
 
+        recyclerLabel.setText("Recycler:");
+
+        recyclerDone.setText("done");
+        recyclerDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                recyclerDoneActionPerformed(evt);
+            }
+        });
+
+        subberLabel.setText("Subber:");
+
+        subberDone.setText("done");
+        subberDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                subberDoneActionPerformed(evt);
+            }
+        });
+
+        snifferDone.setText("done");
+        snifferDone.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                snifferDoneActionPerformed(evt);
+            }
+        });
+
+        snifferLabel.setText("Sniffer:");
+
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
         jPanel14Layout.setHorizontalGroup(
@@ -1019,7 +1055,10 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(orgaLabel)
-                    .addComponent(leggerLabel))
+                    .addComponent(leggerLabel)
+                    .addComponent(recyclerLabel)
+                    .addComponent(subberLabel)
+                    .addComponent(snifferLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel14Layout.createSequentialGroup()
@@ -1029,7 +1068,13 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addComponent(orgaEnabled)
                         .addGap(18, 18, 18)
-                        .addComponent(orgaDone)))
+                        .addComponent(orgaDone))
+                    .addGroup(jPanel14Layout.createSequentialGroup()
+                        .addGap(81, 81, 81)
+                        .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(recyclerDone)
+                            .addComponent(subberDone)
+                            .addComponent(snifferDone))))
                 .addGap(10, 10, 10))
         );
         jPanel14Layout.setVerticalGroup(
@@ -1085,6 +1130,18 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
                     .addComponent(orgaLabel)
                     .addComponent(orgaEnabled)
                     .addComponent(orgaDone))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(recyclerLabel)
+                    .addComponent(recyclerDone))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(subberLabel)
+                    .addComponent(subberDone))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(snifferLabel)
+                    .addComponent(snifferDone))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -1284,44 +1341,48 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         ResearchInfo info = map.getResearchInfo();
         
         // enabled buildings
-        buildingResearchCenter.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_RESEARCH_CENTER));
-        buildingBotFactory.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_BOT_FACTORY));
-        buildingConverter.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_CONVERTER));
-        buildingPowerStation.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_POWER_STATION));
-        buildingRepairCenter.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_REPAIR_CENTER));
-        buildingDefenseTower.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_DEFENSE_TOWER));
-        buildingPowerPlant.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_POWER_PLANT));
-        buildingDerrick.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_DERRICK));
-        buildingNuclearPlant.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_NUCLEAR_PLANT));
-        buildingAutoLab.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_AUTO_LAB));
-        buildingPowerCaptor.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_POWER_CAPTOR));
-        buildingExchangePost.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_EXCHANGE_POST));
-        buildingFlatGround.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_FLAT_GROUND));
-        buildingFlag.setSelected(info.isBuildingEnabled(ResearchInfo.BUILD_FLAG));
+        buildingResearchCenter.setSelected(info.isBuildingEnabled(Building.ResearchCenter));
+        buildingBotFactory.setSelected(info.isBuildingEnabled(Building.BotFactory));
+        buildingConverter.setSelected(info.isBuildingEnabled(Building.Converter));
+        buildingPowerStation.setSelected(info.isBuildingEnabled(Building.PowerStation));
+        buildingRadarStation.setSelected(info.isBuildingEnabled(Building.RadarStation));
+        buildingRepairCenter.setSelected(info.isBuildingEnabled(Building.RepairCenter));
+        buildingDefenseTower.setSelected(info.isBuildingEnabled(Building.DefenseTower));
+        buildingPowerPlant.setSelected(info.isBuildingEnabled(Building.PowerPlant));
+        buildingDerrick.setSelected(info.isBuildingEnabled(Building.Derrick));
+        buildingNuclearPlant.setSelected(info.isBuildingEnabled(Building.NuclearPlant));
+        buildingAutoLab.setSelected(info.isBuildingEnabled(Building.AutoLab));
+        buildingPowerCaptor.setSelected(info.isBuildingEnabled(Building.PowerCaptor));
+        buildingExchangePost.setSelected(info.isBuildingEnabled(Building.ExchangePost));
+        buildingFlatGround.setSelected(info.isBuildingEnabled(Building.FlatGround));
+        buildingFlag.setSelected(info.isBuildingEnabled(Building.Flag));
         
         // enabled research
-        trackerEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_TRACKER));
-        wingerEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_WINGER));
-        thumperEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_THUMPER));
-        shooterEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_SHOOTER));
-        towerEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_TOWER));
-        phazerEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_PHAZER));
-        shielderEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_SHIELDER));
-        nuclearEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_ATOMIC));
-        leggerEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_I_PAW));
-        orgaEnabled.setSelected(info.isResearchEnabled(ResearchInfo.RESEARCH_I_GUN));
+        trackerEnabled.setSelected(info.isResearchEnabled(Research.TRACKER));
+        wingerEnabled.setSelected(info.isResearchEnabled(Research.WINGER));
+        thumperEnabled.setSelected(info.isResearchEnabled(Research.THUMPER));
+        shooterEnabled.setSelected(info.isResearchEnabled(Research.SHOOTER));
+        towerEnabled.setSelected(info.isResearchEnabled(Research.TOWER));
+        phazerEnabled.setSelected(info.isResearchEnabled(Research.PHAZER));
+        shielderEnabled.setSelected(info.isResearchEnabled(Research.SHIELDER));
+        nuclearEnabled.setSelected(info.isResearchEnabled(Research.ATOMIC));
+        leggerEnabled.setSelected(info.isResearchEnabled(Research.iPAW));
+        orgaEnabled.setSelected(info.isResearchEnabled(Research.iGUN));
         
         // done research
-        trackerDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_TRACKER));
-        wingerDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_WINGER));
-        thumperDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_THUMPER));
-        shooterDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_SHOOTER));
-        towerDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_TOWER));
-        phazerDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_PHAZER));
-        shielderDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_SHIELDER));
-        nuclearDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_ATOMIC));
-        leggerDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_I_PAW));
-        orgaDone.setSelected(info.isResearchDone(ResearchInfo.RESEARCH_I_GUN));
+        trackerDone.setSelected(info.isResearchDone(Research.TRACKER));
+        wingerDone.setSelected(info.isResearchDone(Research.WINGER));
+        thumperDone.setSelected(info.isResearchDone(Research.THUMPER));
+        shooterDone.setSelected(info.isResearchDone(Research.SHOOTER));
+        towerDone.setSelected(info.isResearchDone(Research.TOWER));
+        phazerDone.setSelected(info.isResearchDone(Research.PHAZER));
+        shielderDone.setSelected(info.isResearchDone(Research.SHIELDER));
+        nuclearDone.setSelected(info.isResearchDone(Research.ATOMIC));
+        leggerDone.setSelected(info.isResearchDone(Research.iPAW));
+        orgaDone.setSelected(info.isResearchDone(Research.iGUN));
+        recyclerDone.setSelected(info.isResearchDone(Research.RECYCLER));
+        subberDone.setSelected(info.isResearchDone(Research.SUBBER));
+        snifferDone.setSelected(info.isResearchDone(Research.SNIFFER));
     }
     
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -1700,179 +1761,156 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         templateObject = selectedObject.clone();
     }//GEN-LAST:event_jButton8ActionPerformed
 
+    private void setBuildingFlag(Building b, JCheckBox c)
+    {
+        map.getResearchInfo().setEnabledBuilding(b, c.isSelected());
+    }
+    
+    private void setResearchFlag(Research r, JCheckBox e, JCheckBox d)
+    {
+        boolean enabled = e != null ? e.isSelected() : false;
+        boolean done = d != null ? d.isSelected() : false;
+        map.getResearchInfo().setResearch(r, enabled, done);
+    }
+    
     private void buildingFlatGroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingFlatGroundActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_FLAT_GROUND,
-            buildingFlatGround.isSelected());
+        setBuildingFlag(Building.FlatGround, buildingFlatGround);
     }//GEN-LAST:event_buildingFlatGroundActionPerformed
 
     private void buildingFlagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingFlagActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_FLAG,
-            buildingFlag.isSelected());
+        setBuildingFlag(Building.Flag, buildingFlag);
     }//GEN-LAST:event_buildingFlagActionPerformed
 
     private void buildingResearchCenterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingResearchCenterActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_RESEARCH_CENTER,
-            buildingResearchCenter.isSelected());
+        setBuildingFlag(Building.ResearchCenter, buildingResearchCenter);
     }//GEN-LAST:event_buildingResearchCenterActionPerformed
 
     private void buildingBotFactoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingBotFactoryActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_BOT_FACTORY,
-            buildingBotFactory.isSelected());
+        setBuildingFlag(Building.BotFactory, buildingBotFactory);
     }//GEN-LAST:event_buildingBotFactoryActionPerformed
 
     private void buildingConverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingConverterActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_CONVERTER,
-            buildingConverter.isSelected());
+        setBuildingFlag(Building.Converter, buildingConverter);
     }//GEN-LAST:event_buildingConverterActionPerformed
 
     private void buildingPowerStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingPowerStationActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_POWER_STATION,
-            buildingPowerStation.isSelected());
+        setBuildingFlag(Building.PowerStation, buildingPowerStation);
     }//GEN-LAST:event_buildingPowerStationActionPerformed
 
     private void buildingRadarStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingRadarStationActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_RADAR_STATION,
-            buildingRadarStation.isSelected());
+        setBuildingFlag(Building.RadarStation, buildingRadarStation);
     }//GEN-LAST:event_buildingRadarStationActionPerformed
 
     private void buildingRepairCenterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingRepairCenterActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_REPAIR_CENTER,
-            buildingRepairCenter.isSelected());
+        setBuildingFlag(Building.RepairCenter, buildingRepairCenter);
     }//GEN-LAST:event_buildingRepairCenterActionPerformed
 
     private void buildingDefenseTowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingDefenseTowerActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_DEFENSE_TOWER,
-            buildingDefenseTower.isSelected());
+        setBuildingFlag(Building.DefenseTower, buildingDefenseTower);
     }//GEN-LAST:event_buildingDefenseTowerActionPerformed
 
     private void buildingDerrickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingDerrickActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_DERRICK,
-            buildingDerrick.isSelected());
+        setBuildingFlag(Building.Derrick, buildingDerrick);
     }//GEN-LAST:event_buildingDerrickActionPerformed
 
     private void buildingPowerPlantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingPowerPlantActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_POWER_PLANT,
-            buildingPowerPlant.isSelected());
+        setBuildingFlag(Building.PowerPlant, buildingPowerPlant);
     }//GEN-LAST:event_buildingPowerPlantActionPerformed
 
     private void buildingNuclearPlantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingNuclearPlantActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_NUCLEAR_PLANT,
-            buildingNuclearPlant.isSelected());
+        setBuildingFlag(Building.NuclearPlant, buildingNuclearPlant);
     }//GEN-LAST:event_buildingNuclearPlantActionPerformed
 
     private void buildingAutoLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingAutoLabActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_AUTO_LAB,
-            buildingAutoLab.isSelected());
+        setBuildingFlag(Building.AutoLab, buildingAutoLab);
     }//GEN-LAST:event_buildingAutoLabActionPerformed
 
     private void buildingPowerCaptorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingPowerCaptorActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_POWER_CAPTOR,
-            buildingPowerCaptor.isSelected());
+        setBuildingFlag(Building.PowerCaptor, buildingPowerCaptor);
     }//GEN-LAST:event_buildingPowerCaptorActionPerformed
 
     private void buildingExchangePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingExchangePostActionPerformed
-        map.getResearchInfo().setEnabledBuilding(ResearchInfo.BUILD_EXCHANGE_POST,
-            buildingExchangePost.isSelected());
+        setBuildingFlag(Building.ExchangePost, buildingExchangePost);
     }//GEN-LAST:event_buildingExchangePostActionPerformed
 
     private void orgaDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orgaDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_GUN,
-            orgaEnabled.isSelected(), orgaDone.isSelected());
+        setResearchFlag(Research.iGUN, orgaEnabled, orgaDone);
     }//GEN-LAST:event_orgaDoneActionPerformed
 
     private void orgaEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orgaEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_GUN,
-            orgaEnabled.isSelected(), orgaDone.isSelected());
+        setResearchFlag(Research.iGUN, orgaEnabled, orgaDone);
     }//GEN-LAST:event_orgaEnabledActionPerformed
 
     private void leggerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leggerDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_PAW,
-            leggerEnabled.isSelected(), leggerDone.isSelected());
+        setResearchFlag(Research.iPAW, leggerEnabled, leggerDone);
     }//GEN-LAST:event_leggerDoneActionPerformed
 
     private void leggerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_leggerEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_I_PAW,
-            leggerEnabled.isSelected(), leggerDone.isSelected());
+        setResearchFlag(Research.iPAW, leggerEnabled, leggerDone);
     }//GEN-LAST:event_leggerEnabledActionPerformed
 
     private void nuclearDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuclearDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_ATOMIC,
-            nuclearEnabled.isSelected(), nuclearDone.isSelected());
+        setResearchFlag(Research.ATOMIC, nuclearEnabled, nuclearDone);
     }//GEN-LAST:event_nuclearDoneActionPerformed
 
     private void nuclearEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nuclearEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_ATOMIC,
-            nuclearEnabled.isSelected(), nuclearDone.isSelected());
+        setResearchFlag(Research.ATOMIC, nuclearEnabled, nuclearDone);
     }//GEN-LAST:event_nuclearEnabledActionPerformed
 
     private void shielderDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shielderDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHIELDER,
-            shielderEnabled.isSelected(), shielderDone.isSelected());
+        setResearchFlag(Research.SHIELDER, shielderEnabled, shielderDone);
     }//GEN-LAST:event_shielderDoneActionPerformed
 
     private void phazerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phazerDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_PHAZER,
-            phazerEnabled.isSelected(), phazerDone.isSelected());
+        setResearchFlag(Research.PHAZER, phazerEnabled, phazerDone);
     }//GEN-LAST:event_phazerDoneActionPerformed
 
     private void towerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_towerDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TOWER,
-            towerEnabled.isSelected(), towerDone.isSelected());
+        setResearchFlag(Research.SHIELDER, shielderEnabled, shielderDone);
     }//GEN-LAST:event_towerDoneActionPerformed
 
     private void shooterDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shooterDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHOOTER,
-            shooterEnabled.isSelected(), shooterDone.isSelected());
+        setResearchFlag(Research.SHOOTER, shooterEnabled, shooterDone);
     }//GEN-LAST:event_shooterDoneActionPerformed
 
     private void thumperDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thumperDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_THUMPER,
-            thumperEnabled.isSelected(), thumperDone.isSelected());
+        setResearchFlag(Research.THUMPER, thumperEnabled, thumperDone);
     }//GEN-LAST:event_thumperDoneActionPerformed
 
     private void shielderEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shielderEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHIELDER,
-            shielderEnabled.isSelected(), shielderDone.isSelected());
+        setResearchFlag(Research.SHIELDER, shielderEnabled, shielderDone);
     }//GEN-LAST:event_shielderEnabledActionPerformed
 
     private void phazerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_phazerEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_PHAZER,
-            phazerEnabled.isSelected(), phazerDone.isSelected());
+        setResearchFlag(Research.PHAZER, phazerEnabled, phazerDone);
     }//GEN-LAST:event_phazerEnabledActionPerformed
 
     private void towerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_towerEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TOWER,
-            towerEnabled.isSelected(), towerDone.isSelected());
+        setResearchFlag(Research.SHIELDER, shielderEnabled, shielderDone);
     }//GEN-LAST:event_towerEnabledActionPerformed
 
     private void shooterEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shooterEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_SHOOTER,
-            shooterEnabled.isSelected(), shooterDone.isSelected());
+        setResearchFlag(Research.SHOOTER, shooterEnabled, shooterDone);
     }//GEN-LAST:event_shooterEnabledActionPerformed
 
     private void thumperEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_thumperEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_THUMPER,
-            thumperEnabled.isSelected(), thumperDone.isSelected());
+        setResearchFlag(Research.THUMPER, thumperEnabled, thumperDone);
     }//GEN-LAST:event_thumperEnabledActionPerformed
 
     private void wingerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wingerDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_WINGER,
-            wingerEnabled.isSelected(), wingerDone.isSelected());
+        setResearchFlag(Research.WINGER, wingerEnabled, wingerDone);
     }//GEN-LAST:event_wingerDoneActionPerformed
 
     private void wingerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wingerEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_WINGER,
-            wingerEnabled.isSelected(), wingerDone.isSelected());
+        setResearchFlag(Research.WINGER, wingerEnabled, wingerDone);
     }//GEN-LAST:event_wingerEnabledActionPerformed
 
     private void trackerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackerDoneActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TRACKER,
-            trackerEnabled.isSelected(), trackerDone.isSelected());
+        setResearchFlag(Research.TRACKER, trackerEnabled, trackerDone);
     }//GEN-LAST:event_trackerDoneActionPerformed
 
     private void trackerEnabledActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackerEnabledActionPerformed
-        map.getResearchInfo().setResearchEnabled(ResearchInfo.RESEARCH_TRACKER,
-            trackerEnabled.isSelected(), trackerDone.isSelected());
+        setResearchFlag(Research.TRACKER, trackerEnabled, trackerDone);
     }//GEN-LAST:event_trackerEnabledActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
@@ -1918,6 +1956,18 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
             JOptionPane.showMessageDialog(this, "Error importing objects file");
         }
     }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void recyclerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recyclerDoneActionPerformed
+        setResearchFlag(Research.RECYCLER, null, recyclerDone);
+    }//GEN-LAST:event_recyclerDoneActionPerformed
+
+    private void subberDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subberDoneActionPerformed
+        setResearchFlag(Research.SUBBER, null, subberDone);
+    }//GEN-LAST:event_subberDoneActionPerformed
+
+    private void snifferDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_snifferDoneActionPerformed
+        setResearchFlag(Research.SNIFFER, null, snifferDone);
+    }//GEN-LAST:event_snifferDoneActionPerformed
 
     private void revalidateTables()
     {
@@ -2077,6 +2127,8 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JCheckBox phazerDone;
     private javax.swing.JCheckBox phazerEnabled;
     private javax.swing.JLabel phazerLabel;
+    private javax.swing.JCheckBox recyclerDone;
+    private javax.swing.JLabel recyclerLabel;
     private javax.swing.JTextField satelliteField;
     private javax.swing.JLabel satelliteLabel;
     private javax.swing.JCheckBox shielderDone;
@@ -2085,8 +2137,12 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JCheckBox shooterDone;
     private javax.swing.JCheckBox shooterEnabled;
     private javax.swing.JLabel shooterLabel;
+    private javax.swing.JCheckBox snifferDone;
+    private javax.swing.JLabel snifferLabel;
     private javax.swing.JTextField solutionField;
     private javax.swing.JLabel solutionLabel;
+    private javax.swing.JCheckBox subberDone;
+    private javax.swing.JLabel subberLabel;
     private javax.swing.JCheckBox thumperDone;
     private javax.swing.JCheckBox thumperEnabled;
     private javax.swing.JLabel thumperLabel;

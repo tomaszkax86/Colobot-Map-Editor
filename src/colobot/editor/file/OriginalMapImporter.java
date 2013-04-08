@@ -8,6 +8,9 @@ import colobot.editor.map.GeneralInfo.Language;
 import colobot.editor.map.GraphicsInfo.Planet;
 import colobot.editor.map.Map;
 import colobot.editor.map.Objects;
+import colobot.editor.map.ResearchInfo;
+import colobot.editor.map.ResearchInfo.Building;
+import colobot.editor.map.ResearchInfo.Research;
 import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -247,6 +250,18 @@ public final class OriginalMapImporter extends MapImporter
         // TODO: materials
             case "CreateObject":
                 addObject(element, map.getObjects());
+                break;
+            case "EnableBuild":
+                Building b = Building.valueOf(element.get("type"));
+                map.getResearchInfo().enableBuilding(b);
+                break;
+            case "EnableResearch":
+                Research re = Research.valueOf(element.get("type"));
+                map.getResearchInfo().setResearchEnabled(re, true);
+                break;
+            case "DoneResearch":
+                Research rd = Research.valueOf(element.get("type"));
+                map.getResearchInfo().setResearchDone(rd, true);
                 break;
             default:
                 if(type.indexOf("Title.") != -1)

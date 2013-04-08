@@ -8,6 +8,9 @@ import colobot.editor.map.GeneralInfo;
 import colobot.editor.map.GeneralInfo.Language;
 import colobot.editor.map.Map;
 import colobot.editor.map.Objects;
+import colobot.editor.map.ResearchInfo;
+import colobot.editor.map.ResearchInfo.Building;
+import colobot.editor.map.ResearchInfo.Research;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Date;
@@ -33,6 +36,9 @@ public final class OriginalMapExporter extends MapExporter
         
         // end of export
         writer.write("// end of file\n");
+        
+        // buildings and research
+        exportResearchInfo(writer, map.getResearchInfo());
     }
     
     @Override
@@ -69,8 +75,47 @@ public final class OriginalMapExporter extends MapExporter
         writer.write("Loading name=\"" + info.getLoadingFile() + "\"\n");
         writer.write("SoluceFile name=\"" + info.getSolutionFile() + "\"\n");
         writer.write("HelpFile name=\"" + info.getHelpFile() + "\"\n");
-        writer.write("EndingFile win=\"" + info.getEndingFileWin()
-                + " lost=" + info.getEndingFileLost() + "\"\n");
+        writer.write("EndingFile win=" + info.getEndingFileWin()
+                + " lost=" + info.getEndingFileLost() + "\n");
         writer.write('\n');
+    }
+    
+    private void exportResearchInfo(Writer writer, ResearchInfo info) throws IOException
+    {
+        // export available buildings
+        for(Building b : Building.values())
+        {
+            if(!info.isBuildingEnabled(b)) continue;
+            
+            writer.write("EnableBuild type=");
+            writer.write(b.toString());
+            writer.write('\n');
+        }
+        
+        writer.write('\n');
+        
+        Research[] research = Research.values();
+        
+        // export enabled research
+        for(int i=0; i<research.length-3; i++)
+        {
+            if(!info.isResearchEnabled(research[i])) continue;
+            
+            writer.write("EnableResearch type=");
+            writer.write(research[i].toString());
+            writer.write('\n');
+        }
+        
+        writer.write('\n');
+        
+        // export done research
+        for(int i=0; i<research.length; i++)
+        {
+            if(!info.isResearchEnabled(research[i])) continue;
+            
+            writer.write("DoneResearch type=");
+            writer.write(research[i].toString());
+            writer.write('\n');
+        }
     }
 }
