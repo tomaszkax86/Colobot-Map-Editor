@@ -82,6 +82,8 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jMenuItem8ActionPerformed"/>
               </Events>
             </MenuItem>
+            <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator3">
+            </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Load relief"/>
@@ -828,7 +830,7 @@
                           <Component id="jPanel14" max="32767" attributes="0"/>
                           <Component id="jPanel13" max="32767" attributes="0"/>
                       </Group>
-                      <EmptySpace min="0" pref="29" max="32767" attributes="0"/>
+                      <EmptySpace min="0" pref="28" max="32767" attributes="0"/>
                   </Group>
               </Group>
             </DimensionLayout>
@@ -917,7 +919,7 @@
                           <Component id="buildingFlatGround" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="buildingFlag" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="74" max="32767" attributes="0"/>
+                          <EmptySpace pref="75" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -1007,7 +1009,6 @@
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="buildingFlatGround">
                   <Properties>
-                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Flat ground"/>
                   </Properties>
                   <Events>
@@ -1016,7 +1017,6 @@
                 </Component>
                 <Component class="javax.swing.JCheckBox" name="buildingFlag">
                   <Properties>
-                    <Property name="selected" type="boolean" value="true"/>
                     <Property name="text" type="java.lang.String" value="Flag"/>
                   </Properties>
                   <Events>
@@ -1141,17 +1141,14 @@
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="leggerDone" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Group type="102" attributes="0">
+                              <Group type="102" alignment="0" attributes="0">
                                   <Component id="orgaEnabled" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                                  <Component id="orgaDone" min="-2" max="-2" attributes="0"/>
-                              </Group>
-                              <Group type="102" attributes="0">
-                                  <EmptySpace min="81" pref="81" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Component id="recyclerDone" min="-2" max="-2" attributes="0"/>
-                                      <Component id="subberDone" min="-2" max="-2" attributes="0"/>
-                                      <Component id="snifferDone" min="-2" max="-2" attributes="0"/>
+                                      <Component id="orgaDone" min="-2" max="-2" attributes="0"/>
+                                      <Component id="subberDone" alignment="0" min="-2" max="-2" attributes="0"/>
+                                      <Component id="snifferDone" alignment="0" min="-2" max="-2" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -1471,6 +1468,11 @@
                     <Property name="text" type="java.lang.String" value="Subber:"/>
                   </Properties>
                 </Component>
+                <Component class="javax.swing.JLabel" name="snifferLabel">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Sniffer:"/>
+                  </Properties>
+                </Component>
                 <Component class="javax.swing.JCheckBox" name="subberDone">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="done"/>
@@ -1486,11 +1488,6 @@
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="snifferDoneActionPerformed"/>
                   </Events>
-                </Component>
-                <Component class="javax.swing.JLabel" name="snifferLabel">
-                  <Properties>
-                    <Property name="text" type="java.lang.String" value="Sniffer:"/>
-                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

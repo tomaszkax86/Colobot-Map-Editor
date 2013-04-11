@@ -8,7 +8,6 @@ import colobot.editor.map.GeneralInfo.Language;
 import colobot.editor.map.GraphicsInfo.Planet;
 import colobot.editor.map.Map;
 import colobot.editor.map.Objects;
-import colobot.editor.map.ResearchInfo;
 import colobot.editor.map.ResearchInfo.Building;
 import colobot.editor.map.ResearchInfo.Research;
 import java.awt.Color;
@@ -340,10 +339,8 @@ public final class OriginalMapImporter extends MapImporter
     {
         Planet planet = new Planet();
         
-        return planet;
-        
-        /*
-        planet.setTravelMode(element.get("mode").equals("0"));
+        if(element.containsKey("mode"))
+            planet.setTravelMode(element.get("mode").equals("0"));
         
         String[] pos = element.get("pos").split(";");
         planet.setX(Double.parseDouble(pos[0]));

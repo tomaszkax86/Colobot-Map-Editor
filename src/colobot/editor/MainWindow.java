@@ -171,9 +171,9 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         recyclerLabel = new javax.swing.JLabel();
         recyclerDone = new javax.swing.JCheckBox();
         subberLabel = new javax.swing.JLabel();
+        snifferLabel = new javax.swing.JLabel();
         subberDone = new javax.swing.JCheckBox();
         snifferDone = new javax.swing.JCheckBox();
-        snifferLabel = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -186,6 +186,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         jMenu2 = new javax.swing.JMenu();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jSeparator3 = new javax.swing.JPopupMenu.Separator();
         jMenuItem6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -701,7 +702,6 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
             }
         });
 
-        buildingFlatGround.setSelected(true);
         buildingFlatGround.setText("Flat ground");
         buildingFlatGround.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -709,7 +709,6 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
             }
         });
 
-        buildingFlag.setSelected(true);
         buildingFlag.setText("Flag");
         buildingFlag.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -805,7 +804,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
                 .addComponent(buildingFlatGround)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(buildingFlag)
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(75, Short.MAX_VALUE))
         );
 
         jPanel14.setBorder(javax.swing.BorderFactory.createTitledBorder("Research"));
@@ -981,6 +980,8 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
 
         subberLabel.setText("Subber:");
 
+        snifferLabel.setText("Sniffer:");
+
         subberDone.setText("done");
         subberDone.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -994,8 +995,6 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
                 snifferDoneActionPerformed(evt);
             }
         });
-
-        snifferLabel.setText("Sniffer:");
 
         javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
         jPanel14.setLayout(jPanel14Layout);
@@ -1068,11 +1067,9 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
                     .addGroup(jPanel14Layout.createSequentialGroup()
                         .addComponent(orgaEnabled)
                         .addGap(18, 18, 18)
-                        .addComponent(orgaDone))
-                    .addGroup(jPanel14Layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
                         .addGroup(jPanel14Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(recyclerDone)
+                            .addComponent(orgaDone)
                             .addComponent(subberDone)
                             .addComponent(snifferDone))))
                 .addGap(10, 10, 10))
@@ -1161,7 +1158,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
                 .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 29, Short.MAX_VALUE))
+                .addGap(0, 28, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Buildings and Research", jPanel12);
@@ -1236,6 +1233,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
             }
         });
         jMenu2.add(jMenuItem8);
+        jMenu2.add(jSeparator3);
 
         jMenuItem6.setText("Load relief");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -1763,11 +1761,13 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
 
     private void setBuildingFlag(Building b, JCheckBox c)
     {
+        if(map == null) return;
         map.getResearchInfo().setEnabledBuilding(b, c.isSelected());
     }
     
     private void setResearchFlag(Research r, JCheckBox e, JCheckBox d)
     {
+        if(map == null) return;
         boolean enabled = e != null ? e.isSelected() : false;
         boolean done = d != null ? d.isSelected() : false;
         map.getResearchInfo().setResearch(r, enabled, done);
@@ -1935,8 +1935,6 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        if(map == null) return;
-        
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showSaveDialog(this);
         if(result != JFileChooser.APPROVE_OPTION) return;
@@ -1946,6 +1944,12 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         try(BufferedReader reader = new BufferedReader(new FileReader(inputFile)))
         {
             MapImporter importer = MapImporter.getInstance("original");
+            
+            if(map == null)
+            {
+                map = new Map();
+                loadInfo();
+            }
             
             importer.importObjects(reader, map.getObjects());
             
@@ -2104,6 +2108,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextArea languageDescription;
