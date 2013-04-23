@@ -139,7 +139,7 @@ public final class MapDisplay extends JComponent
         {
             Ellipse2D ellipse = new Ellipse2D.Double(selectedX-0.25, -selectedY-0.25, 0.5, 0.5);
 
-            g.setColor(Color.BLUE);
+            g.setColor(Color.RED);
             g.draw(ellipse);
         }
     }

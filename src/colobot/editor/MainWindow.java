@@ -50,18 +50,18 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     {
         initComponents();
         
-        mapDisplay.setMapSource(this);
+        objectEditorPanel.setMapSource(this);
+        
+        String path = "D:\\gry\\Colobot Gold\\data\\icons";
+        Images.loadImages(new File(path));
+        
+        objectEditorPanel.loadImages();
     }
     
     @Override
     public Map getMap()
     {
         return map;
-    }
-    
-    public void repaintMap()
-    {
-        mapDisplay.repaint();
     }
 
     /**
@@ -74,6 +74,8 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private void initComponents() {
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
+        objectEditorContainer = new javax.swing.JPanel();
+        objectEditorPanel = new colobot.editor.ObjectEditorPanel();
         jPanel2 = new javax.swing.JPanel();
         filenameLabel = new javax.swing.JLabel();
         filenameField = new javax.swing.JTextField();
@@ -97,28 +99,6 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         audioTrackLabel = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jTabbedPane2 = new javax.swing.JTabbedPane();
-        jPanel6 = new javax.swing.JPanel();
-        jButton6 = new javax.swing.JButton();
-        jButton7 = new javax.swing.JButton();
-        jButton8 = new javax.swing.JButton();
-        jPanel7 = new javax.swing.JPanel();
-        jPanel8 = new javax.swing.JPanel();
-        jPanel9 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
-        jPanel11 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        objectAttributesTable = new javax.swing.JTable();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        objectListTable = new javax.swing.JTable();
-        jButton5 = new javax.swing.JButton();
-        mapDisplay = new colobot.editor.MapDisplay();
         jPanel12 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
         buildingResearchCenter = new javax.swing.JCheckBox();
@@ -190,6 +170,19 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         jMenuItem6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        javax.swing.GroupLayout objectEditorContainerLayout = new javax.swing.GroupLayout(objectEditorContainer);
+        objectEditorContainer.setLayout(objectEditorContainerLayout);
+        objectEditorContainerLayout.setHorizontalGroup(
+            objectEditorContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(objectEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 978, Short.MAX_VALUE)
+        );
+        objectEditorContainerLayout.setVerticalGroup(
+            objectEditorContainerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(objectEditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
+        );
+
+        jTabbedPane1.addTab("Object editor", objectEditorContainer);
 
         filenameLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
         filenameLabel.setText("Filename:");
@@ -379,256 +372,6 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         );
 
         jTabbedPane1.addTab("Terrain", jPanel4);
-
-        jTabbedPane2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jTabbedPane2.setTabLayoutPolicy(javax.swing.JTabbedPane.SCROLL_TAB_LAYOUT);
-        jTabbedPane2.setTabPlacement(javax.swing.JTabbedPane.LEFT);
-
-        jPanel6.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        jButton6.setText("Null");
-        jButton6.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton6ActionPerformed(evt);
-            }
-        });
-
-        jButton7.setText("Template");
-        jButton7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton7ActionPerformed(evt);
-            }
-        });
-
-        jButton8.setText("Clone");
-        jButton8.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton8ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
-                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel6Layout.createSequentialGroup()
-                .addComponent(jButton6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton8)
-                .addGap(0, 390, Short.MAX_VALUE))
-        );
-
-        jTabbedPane2.addTab("Tools", jPanel6);
-
-        jPanel7.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
-        jPanel7.setLayout(jPanel7Layout);
-        jPanel7Layout.setHorizontalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 98, Short.MAX_VALUE)
-        );
-        jPanel7Layout.setVerticalGroup(
-            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 471, Short.MAX_VALUE)
-        );
-
-        jTabbedPane2.addTab("Bots", jPanel7);
-
-        jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
-        jPanel8.setLayout(jPanel8Layout);
-        jPanel8Layout.setHorizontalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 98, Short.MAX_VALUE)
-        );
-        jPanel8Layout.setVerticalGroup(
-            jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 471, Short.MAX_VALUE)
-        );
-
-        jTabbedPane2.addTab("Buildings", jPanel8);
-
-        jPanel9.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
-        jPanel9.setLayout(jPanel9Layout);
-        jPanel9Layout.setHorizontalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 98, Short.MAX_VALUE)
-        );
-        jPanel9Layout.setVerticalGroup(
-            jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 471, Short.MAX_VALUE)
-        );
-
-        jTabbedPane2.addTab("Insects", jPanel9);
-
-        jPanel10.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
-        jPanel10.setLayout(jPanel10Layout);
-        jPanel10Layout.setHorizontalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 98, Short.MAX_VALUE)
-        );
-        jPanel10Layout.setVerticalGroup(
-            jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 471, Short.MAX_VALUE)
-        );
-
-        jTabbedPane2.addTab("Wrecks", jPanel10);
-
-        jPanel11.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
-        jPanel11.setLayout(jPanel11Layout);
-        jPanel11Layout.setHorizontalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 98, Short.MAX_VALUE)
-        );
-        jPanel11Layout.setVerticalGroup(
-            jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 471, Short.MAX_VALUE)
-        );
-
-        jTabbedPane2.addTab("Other", jPanel11);
-
-        jPanel1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        objectAttributesTable.setModel(ColobotObject.getEmptyTableModel());
-        jScrollPane2.setViewportView(objectAttributesTable);
-
-        jButton1.setText("Delete object");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jButton2.setText("Update object");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jButton3.setText("Add attribute");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        jButton4.setText("Remove attribute");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
-            }
-        });
-
-        objectListTable.setModel(Objects.getEmptyTableModel());
-        objectListTable.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                objectListTableMouseClicked(evt);
-            }
-        });
-        jScrollPane3.setViewportView(objectListTable);
-
-        jButton5.setText("Center object");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jButton3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 283, Short.MAX_VALUE)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 175, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton5)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addComponent(jScrollPane3)
-        );
-
-        mapDisplay.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                mapDisplayMouseWheelMoved(evt);
-            }
-        });
-        mapDisplay.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                mapDisplayMouseReleased(evt);
-            }
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mapDisplayMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                mapDisplayMousePressed(evt);
-            }
-        });
-        mapDisplay.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                mapDisplayMouseDragged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addComponent(jTabbedPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mapDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane2)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(mapDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Object editor", jPanel5);
 
         jPanel13.setBorder(javax.swing.BorderFactory.createTitledBorder("Buildings"));
 
@@ -1261,11 +1004,12 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loadInfo()
+    private void update()
     {
         loadGeneralInfo();
-        loadObjects();
         loadResearchInfo();
+        
+        objectEditorPanel.update();
     }
     
     private void loadGeneralInfo()
@@ -1297,21 +1041,6 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         
         // load CBot manual file
         helpfileField.setText(gi.getHelpFile());
-    }
-    
-    private void loadObjects()
-    {
-        if(map == null)
-        {
-            objectListTable.setModel(Objects.getEmptyTableModel());
-        }
-        else
-        {
-            Objects objects = map.getObjects();
-            objectListTable.setModel(objects.getTableModel());
-        }
-        
-        selectObject(null);
     }
     
     private void loadLanguageInfo()
@@ -1405,105 +1134,19 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         }
         
         map = newMap;
-        
-        objectListTable.setModel(map.getObjects().getTableModel());
+        file = newFile;
         
         languageSelection.setSelectedIndex(0);
-        loadInfo();
-        revalidateTables();
-        repaintMap();
+        update();
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // File->New
         map = new Map();
         
-        objectListTable.setModel(map.getObjects().getTableModel());
-        
         languageSelection.setSelectedIndex(0);
-        loadInfo();
-        revalidateTables();
-        repaintMap();
+        update();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void helpfileFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_helpfileFieldFocusLost
-        if(map == null) return;
-
-        map.getGeneralInfo().setHelpFile(helpfileField.getText());
-    }//GEN-LAST:event_helpfileFieldFocusLost
-
-    private void solutionFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_solutionFieldFocusLost
-        if(map == null) return;
-
-        map.getGeneralInfo().setSolutionFile(solutionField.getText());
-    }//GEN-LAST:event_solutionFieldFocusLost
-
-    private void loadingFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_loadingFieldFocusLost
-        if(map == null) return;
-
-        map.getGeneralInfo().setLoadingFile(loadingField.getText());
-    }//GEN-LAST:event_loadingFieldFocusLost
-
-    private void satelliteFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_satelliteFieldFocusLost
-        if(map == null) return;
-
-        map.getGeneralInfo().setSatellite(satelliteField.getText());
-    }//GEN-LAST:event_satelliteFieldFocusLost
-
-    private void instructionsFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_instructionsFieldFocusLost
-        if(map == null) return;
-
-        map.getGeneralInfo().setInstructions(instructionsField.getText());
-    }//GEN-LAST:event_instructionsFieldFocusLost
-
-    private void languageDescriptionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_languageDescriptionFocusLost
-        if(map == null) return;
-
-        int index = languageSelection.getSelectedIndex();
-        String title = languageDescription.getText();
-
-        map.getGeneralInfo().getLanguage(index).setDescription(title);
-    }//GEN-LAST:event_languageDescriptionFocusLost
-
-    private void languageTitleFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_languageTitleFocusLost
-        if(map == null) return;
-
-        int index = languageSelection.getSelectedIndex();
-        String title = languageTitle.getText();
-
-        map.getGeneralInfo().getLanguage(index).setTitle(title);
-    }//GEN-LAST:event_languageTitleFocusLost
-
-    private void languageSelectionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_languageSelectionItemStateChanged
-        if(map == null) return;
-
-        loadLanguageInfo();
-    }//GEN-LAST:event_languageSelectionItemStateChanged
-
-    private void languageLetterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_languageLetterFocusLost
-        if(map == null) return;
-
-        int index = languageSelection.getSelectedIndex();
-        String text = languageLetter.getText();
-        char letter = text.length() > 0 ? text.charAt(0) : '\0';
-
-        map.getGeneralInfo().getLanguage(index).setLetter(letter);
-    }//GEN-LAST:event_languageLetterFocusLost
-
-    private void audioTrackFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_audioTrackFieldFocusLost
-        if(map == null) return;
-        
-        try
-        {
-            int track = Integer.parseInt(audioTrackField.getText());
-            
-            map.getGeneralInfo().setAudioTrack(track);
-        }
-        catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(this, "Invalid number");
-        }
-    }//GEN-LAST:event_audioTrackFieldFocusLost
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // File->Save
@@ -1546,113 +1189,6 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         System.exit(0);
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(selectedObject == null) return;
-        
-        map.getObjects().remove(selectedObject);
-        selectObject(null);
-        repaintMap();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        if(selectedObject == null) return;
-        
-        try
-        {
-            selectedObject.update();
-            selectObject(selectedObject);
-            repaintMap();
-        }
-        catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(this, "Invalid attributes");
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        if(selectedObject == null) return;
-        
-        try
-        {
-            selectedObject.addAttribute("name", "value");
-        
-            revalidateTables();
-        }
-        catch(Exception e)
-        {
-            // NOP
-        }
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        if(selectedObject == null) return;
-        
-        int row = objectAttributesTable.getSelectedRow();
-        
-        try
-        {
-            selectedObject.removeAttribute(row);
-            revalidateTables();
-        }
-        catch(Exception e)
-        {
-            // NOP
-        }
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void objectListTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_objectListTableMouseClicked
-        if(map == null) return;
-        
-        int index = objectListTable.getSelectedRow();
-        if(index == -1) return;
-        
-        ColobotObject object = map.getObjects().get(index);
-        selectObject(object);
-        repaintMap();
-    }//GEN-LAST:event_objectListTableMouseClicked
-
-    private void mapDisplayMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapDisplayMousePressed
-        if(evt.getButton() == MouseEvent.BUTTON1)
-        {
-            dragging = true;
-            startX = evt.getX();
-            startY = evt.getY();
-            startCenterX = mapDisplay.getCenterX();
-            startCenterY = mapDisplay.getCenterY();
-        }
-    }//GEN-LAST:event_mapDisplayMousePressed
-
-    private void mapDisplayMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapDisplayMouseReleased
-        if(evt.getButton() == MouseEvent.BUTTON1)
-        {
-            dragging = false;
-        }
-    }//GEN-LAST:event_mapDisplayMouseReleased
-
-    private void mapDisplayMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapDisplayMouseDragged
-        if(dragging)
-        {
-            double scale = mapDisplay.getScale();
-            double dx = (evt.getX() - startX) / scale;
-            double dy = (evt.getY() - startY) / scale;
-            
-            double x = startCenterX - dx;
-            double y = startCenterY + dy;
-            
-            mapDisplay.setCenter(x, y);
-            mapDisplay.repaint();
-        }
-    }//GEN-LAST:event_mapDisplayMouseDragged
-
-    private void mapDisplayMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_mapDisplayMouseWheelMoved
-        double scale = mapDisplay.getScale();
-        
-        double steps = evt.getPreciseWheelRotation() * 0.5;
-        
-        mapDisplay.setScale(scale + steps);
-        repaintMap();
-    }//GEN-LAST:event_mapDisplayMouseWheelMoved
-
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(this);
@@ -1663,8 +1199,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
             File newFile = fileChooser.getSelectedFile();
             BufferedImage image = ImageIO.read(newFile);
             file = newFile;
-            mapDisplay.setHeightMap(image);
-            repaintMap();
+            objectEditorPanel.setHeightMap(image);
         }
         catch(Exception e)
         {
@@ -1677,87 +1212,8 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         
         file = null;
         map = null;
-        selectObject(null);
-        objectAttributesTable.setModel(ColobotObject.getEmptyTableModel());
-        objectListTable.setModel(Objects.getEmptyTableModel());
-        revalidateTables();
-        repaint();
+        objectEditorPanel.update();
     }//GEN-LAST:event_jMenuItem7ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        if(selectedObject == null) return;
-        
-        double x = selectedObject.getX();
-        double y = selectedObject.getY();
-        
-        mapDisplay.setCenter(x, y);
-        repaintMap();
-    }//GEN-LAST:event_jButton5ActionPerformed
-
-    private void mapDisplayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapDisplayMouseClicked
-        if(map == null) return;
-        
-        if(evt.getButton() == MouseEvent.BUTTON1)
-        {
-            if(map == null) return;
-            if(templateObject == null) return;
-
-            double x = mapDisplay.getMapX(evt.getX());
-            double y = mapDisplay.getMapY(evt.getY());
-
-            x = 1e-2 * Math.ceil(x * 1e+2);
-            y = 1e-2 * Math.ceil(y * 1e+2);
-            
-            String pos = Double.toString(x) + ';' + Double.toString(y);
-
-            ColobotObject object = templateObject.clone();
-
-            object.setAttribute("pos", pos);
-            object.update();
-
-            map.getObjects().add(object);
-            selectObject(object);
-            revalidateTables();
-            repaintMap();
-        }
-        else if(evt.getButton() == MouseEvent.BUTTON3)
-        {
-            ColobotObject object = null;
-            
-            double x = mapDisplay.getMapX(evt.getX());
-            double y = mapDisplay.getMapY(evt.getY());
-
-            for(ColobotObject o : map.getObjects())
-            {
-                double dx = Math.abs(x - o.getX());
-                double dy = Math.abs(y - o.getY());
-                double dist = Math.sqrt(dx*dx+dy*dy);
-
-                if(dist < 0.5)
-                {
-                    if(object == null)
-                        object = o;
-                }
-            }
-
-            selectObject(object);
-            repaintMap();
-        }
-    }//GEN-LAST:event_mapDisplayMouseClicked
-
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        templateObject = null;
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
-        templateObject = new ColobotObject("template", 0.0, 0.0, 0.0);
-    }//GEN-LAST:event_jButton7ActionPerformed
-
-    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
-        if(selectedObject == null) return;
-        
-        templateObject = selectedObject.clone();
-    }//GEN-LAST:event_jButton8ActionPerformed
 
     private void setBuildingFlag(Building b, JCheckBox c)
     {
@@ -1773,65 +1229,64 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         map.getResearchInfo().setResearch(r, enabled, done);
     }
     
-    private void buildingFlatGroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingFlatGroundActionPerformed
-        setBuildingFlag(Building.FlatGround, buildingFlatGround);
-    }//GEN-LAST:event_buildingFlatGroundActionPerformed
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        if(map == null) return;
+        
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(this);
+        if(result != JFileChooser.APPROVE_OPTION) return;
+            
+        File outputFile = fileChooser.getSelectedFile();
+        
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile)))
+        {
+            MapExporter exporter = MapExporter.getInstance("original");
+            
+            exporter.exportObjects(writer, map.getObjects());
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(this, "Error saving file");
+        }
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
 
-    private void buildingFlagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingFlagActionPerformed
-        setBuildingFlag(Building.Flag, buildingFlag);
-    }//GEN-LAST:event_buildingFlagActionPerformed
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showSaveDialog(this);
+        if(result != JFileChooser.APPROVE_OPTION) return;
+            
+        File inputFile = fileChooser.getSelectedFile();
+        
+        try(BufferedReader reader = new BufferedReader(new FileReader(inputFile)))
+        {
+            MapImporter importer = MapImporter.getInstance("original");
+            
+            if(map == null)
+            {
+                map = new Map();
+                update();
+            }
+            
+            importer.importObjects(reader, map.getObjects());
+            objectEditorPanel.update();
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(this, "Error importing objects file");
+        }
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
 
-    private void buildingResearchCenterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingResearchCenterActionPerformed
-        setBuildingFlag(Building.ResearchCenter, buildingResearchCenter);
-    }//GEN-LAST:event_buildingResearchCenterActionPerformed
+    private void snifferDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_snifferDoneActionPerformed
+        setResearchFlag(Research.SNIFFER, null, snifferDone);
+    }//GEN-LAST:event_snifferDoneActionPerformed
 
-    private void buildingBotFactoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingBotFactoryActionPerformed
-        setBuildingFlag(Building.BotFactory, buildingBotFactory);
-    }//GEN-LAST:event_buildingBotFactoryActionPerformed
+    private void subberDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subberDoneActionPerformed
+        setResearchFlag(Research.SUBBER, null, subberDone);
+    }//GEN-LAST:event_subberDoneActionPerformed
 
-    private void buildingConverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingConverterActionPerformed
-        setBuildingFlag(Building.Converter, buildingConverter);
-    }//GEN-LAST:event_buildingConverterActionPerformed
-
-    private void buildingPowerStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingPowerStationActionPerformed
-        setBuildingFlag(Building.PowerStation, buildingPowerStation);
-    }//GEN-LAST:event_buildingPowerStationActionPerformed
-
-    private void buildingRadarStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingRadarStationActionPerformed
-        setBuildingFlag(Building.RadarStation, buildingRadarStation);
-    }//GEN-LAST:event_buildingRadarStationActionPerformed
-
-    private void buildingRepairCenterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingRepairCenterActionPerformed
-        setBuildingFlag(Building.RepairCenter, buildingRepairCenter);
-    }//GEN-LAST:event_buildingRepairCenterActionPerformed
-
-    private void buildingDefenseTowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingDefenseTowerActionPerformed
-        setBuildingFlag(Building.DefenseTower, buildingDefenseTower);
-    }//GEN-LAST:event_buildingDefenseTowerActionPerformed
-
-    private void buildingDerrickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingDerrickActionPerformed
-        setBuildingFlag(Building.Derrick, buildingDerrick);
-    }//GEN-LAST:event_buildingDerrickActionPerformed
-
-    private void buildingPowerPlantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingPowerPlantActionPerformed
-        setBuildingFlag(Building.PowerPlant, buildingPowerPlant);
-    }//GEN-LAST:event_buildingPowerPlantActionPerformed
-
-    private void buildingNuclearPlantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingNuclearPlantActionPerformed
-        setBuildingFlag(Building.NuclearPlant, buildingNuclearPlant);
-    }//GEN-LAST:event_buildingNuclearPlantActionPerformed
-
-    private void buildingAutoLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingAutoLabActionPerformed
-        setBuildingFlag(Building.AutoLab, buildingAutoLab);
-    }//GEN-LAST:event_buildingAutoLabActionPerformed
-
-    private void buildingPowerCaptorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingPowerCaptorActionPerformed
-        setBuildingFlag(Building.PowerCaptor, buildingPowerCaptor);
-    }//GEN-LAST:event_buildingPowerCaptorActionPerformed
-
-    private void buildingExchangePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingExchangePostActionPerformed
-        setBuildingFlag(Building.ExchangePost, buildingExchangePost);
-    }//GEN-LAST:event_buildingExchangePostActionPerformed
+    private void recyclerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recyclerDoneActionPerformed
+        setResearchFlag(Research.RECYCLER, null, recyclerDone);
+    }//GEN-LAST:event_recyclerDoneActionPerformed
 
     private void orgaDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_orgaDoneActionPerformed
         setResearchFlag(Research.iGUN, orgaEnabled, orgaDone);
@@ -1913,92 +1368,144 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         setResearchFlag(Research.TRACKER, trackerEnabled, trackerDone);
     }//GEN-LAST:event_trackerEnabledActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    private void buildingRadarStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingRadarStationActionPerformed
+        setBuildingFlag(Building.RadarStation, buildingRadarStation);
+    }//GEN-LAST:event_buildingRadarStationActionPerformed
+
+    private void buildingPowerStationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingPowerStationActionPerformed
+        setBuildingFlag(Building.PowerStation, buildingPowerStation);
+    }//GEN-LAST:event_buildingPowerStationActionPerformed
+
+    private void buildingPowerPlantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingPowerPlantActionPerformed
+        setBuildingFlag(Building.PowerPlant, buildingPowerPlant);
+    }//GEN-LAST:event_buildingPowerPlantActionPerformed
+
+    private void buildingFlagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingFlagActionPerformed
+        setBuildingFlag(Building.Flag, buildingFlag);
+    }//GEN-LAST:event_buildingFlagActionPerformed
+
+    private void buildingFlatGroundActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingFlatGroundActionPerformed
+        setBuildingFlag(Building.FlatGround, buildingFlatGround);
+    }//GEN-LAST:event_buildingFlatGroundActionPerformed
+
+    private void buildingExchangePostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingExchangePostActionPerformed
+        setBuildingFlag(Building.ExchangePost, buildingExchangePost);
+    }//GEN-LAST:event_buildingExchangePostActionPerformed
+
+    private void buildingPowerCaptorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingPowerCaptorActionPerformed
+        setBuildingFlag(Building.PowerCaptor, buildingPowerCaptor);
+    }//GEN-LAST:event_buildingPowerCaptorActionPerformed
+
+    private void buildingAutoLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingAutoLabActionPerformed
+        setBuildingFlag(Building.AutoLab, buildingAutoLab);
+    }//GEN-LAST:event_buildingAutoLabActionPerformed
+
+    private void buildingNuclearPlantActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingNuclearPlantActionPerformed
+        setBuildingFlag(Building.NuclearPlant, buildingNuclearPlant);
+    }//GEN-LAST:event_buildingNuclearPlantActionPerformed
+
+    private void buildingDerrickActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingDerrickActionPerformed
+        setBuildingFlag(Building.Derrick, buildingDerrick);
+    }//GEN-LAST:event_buildingDerrickActionPerformed
+
+    private void buildingDefenseTowerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingDefenseTowerActionPerformed
+        setBuildingFlag(Building.DefenseTower, buildingDefenseTower);
+    }//GEN-LAST:event_buildingDefenseTowerActionPerformed
+
+    private void buildingRepairCenterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingRepairCenterActionPerformed
+        setBuildingFlag(Building.RepairCenter, buildingRepairCenter);
+    }//GEN-LAST:event_buildingRepairCenterActionPerformed
+
+    private void buildingConverterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingConverterActionPerformed
+        setBuildingFlag(Building.Converter, buildingConverter);
+    }//GEN-LAST:event_buildingConverterActionPerformed
+
+    private void buildingBotFactoryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingBotFactoryActionPerformed
+        setBuildingFlag(Building.BotFactory, buildingBotFactory);
+    }//GEN-LAST:event_buildingBotFactoryActionPerformed
+
+    private void buildingResearchCenterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buildingResearchCenterActionPerformed
+        setBuildingFlag(Building.ResearchCenter, buildingResearchCenter);
+    }//GEN-LAST:event_buildingResearchCenterActionPerformed
+
+    private void audioTrackFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_audioTrackFieldFocusLost
         if(map == null) return;
-        
-        JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showSaveDialog(this);
-        if(result != JFileChooser.APPROVE_OPTION) return;
-            
-        File outputFile = fileChooser.getSelectedFile();
-        
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile)))
+
+        try
         {
-            MapExporter exporter = MapExporter.getInstance("original");
-            
-            exporter.exportObjects(writer, map.getObjects());
+            int track = Integer.parseInt(audioTrackField.getText());
+
+            map.getGeneralInfo().setAudioTrack(track);
         }
         catch(Exception e)
         {
-            JOptionPane.showMessageDialog(this, "Error saving file");
+            JOptionPane.showMessageDialog(this, "Invalid number");
         }
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_audioTrackFieldFocusLost
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showSaveDialog(this);
-        if(result != JFileChooser.APPROVE_OPTION) return;
-            
-        File inputFile = fileChooser.getSelectedFile();
-        
-        try(BufferedReader reader = new BufferedReader(new FileReader(inputFile)))
-        {
-            MapImporter importer = MapImporter.getInstance("original");
-            
-            if(map == null)
-            {
-                map = new Map();
-                loadInfo();
-            }
-            
-            importer.importObjects(reader, map.getObjects());
-            
-            revalidateTables();
-        }
-        catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(this, "Error importing objects file");
-        }
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
+    private void helpfileFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_helpfileFieldFocusLost
+        if(map == null) return;
 
-    private void recyclerDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_recyclerDoneActionPerformed
-        setResearchFlag(Research.RECYCLER, null, recyclerDone);
-    }//GEN-LAST:event_recyclerDoneActionPerformed
+        map.getGeneralInfo().setHelpFile(helpfileField.getText());
+    }//GEN-LAST:event_helpfileFieldFocusLost
 
-    private void subberDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_subberDoneActionPerformed
-        setResearchFlag(Research.SUBBER, null, subberDone);
-    }//GEN-LAST:event_subberDoneActionPerformed
+    private void solutionFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_solutionFieldFocusLost
+        if(map == null) return;
 
-    private void snifferDoneActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_snifferDoneActionPerformed
-        setResearchFlag(Research.SNIFFER, null, snifferDone);
-    }//GEN-LAST:event_snifferDoneActionPerformed
+        map.getGeneralInfo().setSolutionFile(solutionField.getText());
+    }//GEN-LAST:event_solutionFieldFocusLost
 
-    private void revalidateTables()
-    {
-        if(map != null)
-            ((AbstractTableModel) map.getObjects().getTableModel()).fireTableDataChanged();
-        
-        if(selectedObject != null)
-            ((AbstractTableModel) selectedObject.getTableModel()).fireTableDataChanged();
-    }
-    
-    private void selectObject(ColobotObject object)
-    {
-        selectedObject = object;
-        
-        if(object == null)
-        {
-            objectAttributesTable.setModel(ColobotObject.getEmptyTableModel());
-            mapDisplay.clearSelection();
-        }
-        else
-        {
-            objectAttributesTable.setModel(object.getTableModel());
-            mapDisplay.setSelected(object.getX(), object.getY());
-        }
-        
-        revalidateTables();
-    }
+    private void loadingFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_loadingFieldFocusLost
+        if(map == null) return;
+
+        map.getGeneralInfo().setLoadingFile(loadingField.getText());
+    }//GEN-LAST:event_loadingFieldFocusLost
+
+    private void satelliteFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_satelliteFieldFocusLost
+        if(map == null) return;
+
+        map.getGeneralInfo().setSatellite(satelliteField.getText());
+    }//GEN-LAST:event_satelliteFieldFocusLost
+
+    private void instructionsFieldFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_instructionsFieldFocusLost
+        if(map == null) return;
+
+        map.getGeneralInfo().setInstructions(instructionsField.getText());
+    }//GEN-LAST:event_instructionsFieldFocusLost
+
+    private void languageDescriptionFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_languageDescriptionFocusLost
+        if(map == null) return;
+
+        int index = languageSelection.getSelectedIndex();
+        String title = languageDescription.getText();
+
+        map.getGeneralInfo().getLanguage(index).setDescription(title);
+    }//GEN-LAST:event_languageDescriptionFocusLost
+
+    private void languageTitleFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_languageTitleFocusLost
+        if(map == null) return;
+
+        int index = languageSelection.getSelectedIndex();
+        String title = languageTitle.getText();
+
+        map.getGeneralInfo().getLanguage(index).setTitle(title);
+    }//GEN-LAST:event_languageTitleFocusLost
+
+    private void languageSelectionItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_languageSelectionItemStateChanged
+        if(map == null) return;
+
+        loadLanguageInfo();
+    }//GEN-LAST:event_languageSelectionItemStateChanged
+
+    private void languageLetterFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_languageLetterFocusLost
+        if(map == null) return;
+
+        int index = languageSelection.getSelectedIndex();
+        String text = languageLetter.getText();
+        char letter = text.length() > 0 ? text.charAt(0) : '\0';
+
+        map.getGeneralInfo().getLanguage(index).setLetter(letter);
+    }//GEN-LAST:event_languageLetterFocusLost
     
     /**
      * Entry point of Colobot Map Editor
@@ -2069,14 +1576,6 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JLabel houstonLabel;
     private javax.swing.JTextField instructionsField;
     private javax.swing.JLabel instructionsLabel;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JButton jButton7;
-    private javax.swing.JButton jButton8;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -2089,28 +1588,17 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
-    private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel13;
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
-    private javax.swing.JPanel jPanel8;
-    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTabbedPane jTabbedPane2;
     private javax.swing.JTextArea languageDescription;
     private javax.swing.JLabel languageLabel;
     private javax.swing.JTextField languageLetter;
@@ -2120,12 +1608,11 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JCheckBox leggerEnabled;
     private javax.swing.JLabel leggerLabel;
     private javax.swing.JTextField loadingField;
-    private colobot.editor.MapDisplay mapDisplay;
     private javax.swing.JCheckBox nuclearDone;
     private javax.swing.JCheckBox nuclearEnabled;
     private javax.swing.JLabel nuclearLabel;
-    private javax.swing.JTable objectAttributesTable;
-    private javax.swing.JTable objectListTable;
+    private javax.swing.JPanel objectEditorContainer;
+    private colobot.editor.ObjectEditorPanel objectEditorPanel;
     private javax.swing.JCheckBox orgaDone;
     private javax.swing.JCheckBox orgaEnabled;
     private javax.swing.JLabel orgaLabel;
