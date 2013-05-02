@@ -94,19 +94,15 @@ public final class MapDisplay extends JComponent
     @Override
     public void paintComponent(Graphics gr)
     {
-        // brak źródła mapy - rysujemy jak zwykły komponent
-        if(mapSource == null)
-        {
-            super.paintComponent(gr);
-            return;
-        }
-        
         gr.setColor(Color.BLACK);
         gr.fillRect(0, 0, getWidth(), getHeight());
         
+        // no map source - quit
+        if(mapSource == null) return;
+        
         Map map = mapSource.getMap();
         
-        // brak mapy - koniec
+        // no map - quit
         if(map == null) return;
         
         Graphics2D g = (Graphics2D) gr;

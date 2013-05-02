@@ -4,117 +4,205 @@
  */
 package colobot.editor;
 
+import colobot.editor.file.MapExporter;
+import colobot.editor.file.MapImporter;
 import colobot.editor.map.ColobotObject;
 import colobot.editor.map.Map;
 import colobot.editor.map.MapSource;
 import colobot.editor.map.Objects;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import javax.imageio.ImageIO;
+import javax.swing.JDesktopPane;
+import javax.swing.JFileChooser;
+import javax.swing.JInternalFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.table.AbstractTableModel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 /**
  *
  * @author Tomek
  */
-public final class ObjectEditorPanel extends javax.swing.JPanel implements MapSource
+public class ObjectEditorPanel extends JDesktopPane implements MapSource
 {
-    private MapSource mapSource = null;
-    private Map currentMap = null;
+    private final MyListener listener = new MyListener();
     
+    private final MapDisplay mapDisplay = new MapDisplay();
+    private final ToolBoxPanel toolbox = new ToolBoxPanel();
+    private final JTable objectListTable = new JTable();
+    private final JTable objectAttributesTable = new JTable();
+    
+    // menu bar
+    private final JMenuBar menubar = new JMenuBar();
+    private final JMenuItem newMenuItem = new JMenuItem();
+    private final JMenuItem openMenuItem = new JMenuItem();
+    private final JMenuItem saveMenuItem = new JMenuItem();
+    private final JMenuItem saveAsMenuItem = new JMenuItem();
+    private final JMenuItem exitMenuItem = new JMenuItem();
+    
+    private final JMenuItem reliefMenuItem = new JMenuItem();
+    private final JMenuItem configMenuItem = new JMenuItem();
+    
+    private Map map = null;
+    private File currentFile = null;
     private ColobotObject selectedObject = null;
-    private ColobotObject templateObject = null;
     
-    // map dragging support
-    private boolean dragging = false;
-    private double startX = 0.0;
-    private double startY = 0.0;
-    private double startCenterX = 0.0;
-    private double startCenterY = 0.0;
     
-    /**
-     * Creates new form ObjectEditorPanel
-     */
-    @SuppressWarnings("LeakingThisInConstructor")
     public ObjectEditorPanel()
     {
-        initComponents();
+        int width = Settings.getInteger("window.width");
+        int height = Settings.getInteger("window.height");
+        this.setPreferredSize(new Dimension(width, height));
+        this.setBackground(Color.BLACK);
         
-        mapDisplay.setMapSource(this);
+        initLanguage();
+        initListeners();
+        initComponents();
     }
-    
-    // ******* public **********
     
     @Override
     public Map getMap()
     {
-        if(mapSource != null)
-            return mapSource.getMap();
-        else
-            return null;
+        return map;
     }
     
-    public void setMapSource(MapSource source)
+    public void setMap(Map map)
     {
-        this.mapSource = source;
-        mapDisplay.repaint();
+        this.map = map;
     }
     
-    public void loadImages()
+    public JMenuBar getMenubar()
     {
-        // bots
-        meTemplateButton.setImage(Images.getImage("me"));
-        
-        wheeledGrabberTemplateButton.setImage(Images.getImage("wheeled-grabber"));
-        wheeledSnifferTemplateButton.setImage(Images.getImage("wheeled-sniffer"));
-        wheeledShooterTemplateButton.setImage(Images.getImage("wheeled-shooter"));
-        wheeledOrgaTemplateButton.setImage(Images.getImage("wheeled-orga"));
-        
-        trackedGrabberTemplateButton.setImage(Images.getImage("tracked-grabber"));
-        
-        // insects
-        antTemplateButton.setImage(Images.getImage("ant"));
-        spiderTemplateButton.setImage(Images.getImage("spider"));
-        wormTemplateButton.setImage(Images.getImage("worm"));
-        waspTemplateButton.setImage(Images.getImage("wasp"));
-        queenTemplateButton.setImage(Images.getImage("queen"));
+        return menubar;
     }
     
-    public void update()
+    // private elements
+    
+    private void initLanguage()
     {
-        if(mapSource == null) return;
+        newMenuItem.setText(Language.getText("menu.file.new"));
+        openMenuItem.setText(Language.getText("menu.file.open"));
+        saveMenuItem.setText(Language.getText("menu.file.save"));
+        saveAsMenuItem.setText(Language.getText("menu.file.saveas"));
+        exitMenuItem.setText(Language.getText("menu.file.exit"));
         
-        currentMap = mapSource.getMap();
-        
-        if(currentMap == null)
-        {
-            objectListTable.setModel(Objects.getEmptyTableModel());
-        }
-        else
-        {
-            Objects objects = currentMap.getObjects();
-            objectListTable.setModel(objects.getTableModel());
-        }
-        
-        selectObject(null);
-        mapDisplay.repaint();
+        reliefMenuItem.setText(Language.getText("menu.edit.relief"));
+        configMenuItem.setText(Language.getText("menu.edit.config"));
     }
     
-    public void setHeightMap(BufferedImage image)
+    private void initListeners()
     {
-        mapDisplay.setHeightMap(image);
-        mapDisplay.repaint();
+        mapDisplay.addMouseListener(listener);
+        mapDisplay.addMouseMotionListener(listener);
+        mapDisplay.addMouseWheelListener(listener);
+        
+        newMenuItem.addActionListener(listener);
+        openMenuItem.addActionListener(listener);
+        saveMenuItem.addActionListener(listener);
+        saveAsMenuItem.addActionListener(listener);
+        exitMenuItem.addActionListener(listener);
+        
+        reliefMenuItem.addActionListener(listener);
+        configMenuItem.addActionListener(listener);
     }
     
-    // ******* private **********
-    
-    private void revalidateTables()
+    private void initComponents()
     {
-        if(currentMap != null)
-            ((AbstractTableModel) currentMap.getObjects().getTableModel()).fireTableDataChanged();
+        objectAttributesTable.setModel(ColobotObject.getEmptyTableModel());
+        objectListTable.setModel(Objects.getEmptyTableModel());
         
-        if(selectedObject != null)
-            ((AbstractTableModel) selectedObject.getTableModel()).fireTableDataChanged();
+        createMenubar();
+        
+        JInternalFrame frame;
+        
+        String text = Language.getText("editor.toolbox");
+        frame = new JInternalFrame(text);
+        frame.add(toolbox);
+        frame.setLocation(Settings.getInteger("toolbox.x"), Settings.getInteger("toolbox.y"));
+        frame.setSize(Settings.getInteger("toolbox.width"), Settings.getInteger("toolbox.height"));
+        frame.setResizable(true);
+        frame.setIconifiable(true);
+        frame.show();
+        this.add(frame);
+        
+        text = Language.getText("editor.mapdisplay");
+        frame = new JInternalFrame(text);
+        mapDisplay.setMapSource(this);
+        frame.add(mapDisplay);
+        frame.setLocation(Settings.getInteger("mapdisplay.x"), Settings.getInteger("mapdisplay.y"));
+        frame.setSize(Settings.getInteger("mapdisplay.width"), Settings.getInteger("mapdisplay.height"));
+        frame.setResizable(true);
+        frame.setIconifiable(true);
+        frame.show();
+        this.add(frame);
+        
+        text = Language.getText("editor.objectlist");
+        frame = new JInternalFrame(text);
+        frame.add(new JScrollPane(objectListTable));
+        frame.setLocation(Settings.getInteger("objectlist.x"), Settings.getInteger("objectlist.y"));
+        frame.setSize(Settings.getInteger("objectlist.width"), Settings.getInteger("objectlist.height"));
+        frame.setResizable(true);
+        frame.setIconifiable(true);
+        frame.show();
+        this.add(frame);
+        
+        text = Language.getText("editor.objectattributes");
+        frame = new JInternalFrame(text);
+        frame.add(new JScrollPane(objectAttributesTable));
+        frame.setLocation(Settings.getInteger("objectattributes.x"), Settings.getInteger("objectattributes.y"));
+        frame.setSize(Settings.getInteger("objectattributes.width"), Settings.getInteger("objectattributes.height"));
+        frame.setResizable(true);
+        frame.setIconifiable(true);
+        frame.show();
+        this.add(frame);
+    }
+    
+    private void createMenubar()
+    {
+        JMenu menu;
+        
+        menu = new JMenu(Language.getText("menu.file"));
+        menu.add(newMenuItem);
+        menu.add(openMenuItem);
+        menu.add(saveMenuItem);
+        menu.add(saveAsMenuItem);
+        menu.addSeparator();
+        menu.add(exitMenuItem);
+        menubar.add(menu);
+        
+        menu = new JMenu(Language.getText("menu.edit"));
+        menu.add(reliefMenuItem);
+        menu.add(configMenuItem);
+        menubar.add(menu);
+    }
+    
+    private void update()
+    {
+        objectAttributesTable.setModel(ColobotObject.getEmptyTableModel());
+        objectListTable.setModel(Objects.getEmptyTableModel());
+        
+        if(map == null) return;
+        objectListTable.setModel(map.getObjects().getTableModel());
+
+        if(selectedObject == null) return;
+        objectAttributesTable.setModel(selectedObject.getTableModel());
     }
     
     private void selectObject(ColobotObject object)
@@ -123,673 +211,260 @@ public final class ObjectEditorPanel extends javax.swing.JPanel implements MapSo
         
         if(object == null)
         {
-            objectAttributeTable.setModel(ColobotObject.getEmptyTableModel());
+            objectAttributesTable.setModel(ColobotObject.getEmptyTableModel());
             mapDisplay.clearSelection();
         }
         else
         {
-            objectAttributeTable.setModel(object.getTableModel());
+            objectAttributesTable.setModel(object.getTableModel());
             mapDisplay.setSelected(object.getX(), object.getY());
         }
         
-        revalidateTables();
+        update();
     }
     
-    private ColobotObject createInsect(String type)
+    private void newFile()
     {
-        ColobotObject object = new ColobotObject(type, 0, 0, 0);
-        object.addAttribute("script1", "");
-        object.addAttribute("cmdline", "");
-        object.addAttribute("run", "1");
-        return object;
-    }
-    
-    private ColobotObject createBot(String type)
-    {
-        ColobotObject object = new ColobotObject(type, 0, 0, 0);
-        object.addAttribute("power", "1");
-        return object;
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
-        jPanel2 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        objectListTable = new javax.swing.JTable();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        objectAttributeTable = new javax.swing.JTable();
-        centerObjectButton = new javax.swing.JButton();
-        removeAttributeButton = new javax.swing.JButton();
-        addAttributeButton = new javax.swing.JButton();
-        deleteObjectButton = new javax.swing.JButton();
-        updateObjectButton = new javax.swing.JButton();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel3 = new javax.swing.JPanel();
-        nullTemplateButton = new colobot.editor.TemplateButton();
-        cloneTemplateButton = new colobot.editor.TemplateButton();
-        templateButton = new colobot.editor.TemplateButton();
-        insectsPanel = new javax.swing.JPanel();
-        antTemplateButton = new colobot.editor.TemplateButton();
-        spiderTemplateButton = new colobot.editor.TemplateButton();
-        wormTemplateButton = new colobot.editor.TemplateButton();
-        waspTemplateButton = new colobot.editor.TemplateButton();
-        queenTemplateButton = new colobot.editor.TemplateButton();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jPanel5 = new javax.swing.JPanel();
-        meTemplateButton = new colobot.editor.TemplateButton();
-        jScrollPane8 = new javax.swing.JScrollPane();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jPanel1 = new javax.swing.JPanel();
-        wheeledGrabberTemplateButton = new colobot.editor.TemplateButton();
-        wheeledSnifferTemplateButton = new colobot.editor.TemplateButton();
-        wheeledShooterTemplateButton = new colobot.editor.TemplateButton();
-        wheeledOrgaTemplateButton = new colobot.editor.TemplateButton();
-        trackedGrabberTemplateButton = new colobot.editor.TemplateButton();
-        templateButton1 = new colobot.editor.TemplateButton();
-        templateButton2 = new colobot.editor.TemplateButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        mapDisplay = new colobot.editor.MapDisplay();
-
-        jPanel2.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-
-        objectListTable.setModel(Objects.getEmptyTableModel());
-        jScrollPane1.setViewportView(objectListTable);
-
-        objectAttributeTable.setModel(ColobotObject.getEmptyTableModel());
-        jScrollPane2.setViewportView(objectAttributeTable);
-
-        centerObjectButton.setText("Center object");
-        centerObjectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                centerObjectButtonActionPerformed(evt);
-            }
-        });
-
-        removeAttributeButton.setText("Remote attribute");
-        removeAttributeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeAttributeButtonActionPerformed(evt);
-            }
-        });
-
-        addAttributeButton.setText("Add attribute");
-        addAttributeButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addAttributeButtonActionPerformed(evt);
-            }
-        });
-
-        deleteObjectButton.setText("Delete object");
-        deleteObjectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteObjectButtonActionPerformed(evt);
-            }
-        });
-
-        updateObjectButton.setText("Update object");
-        updateObjectButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                updateObjectButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(centerObjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(removeAttributeButton, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                            .addComponent(addAttributeButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(deleteObjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(updateObjectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 184, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(updateObjectButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(deleteObjectButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(addAttributeButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(removeAttributeButton)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(centerObjectButton)
-                .addContainerGap())
-        );
-
-        jTabbedPane1.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jTabbedPane1.setTabPlacement(javax.swing.JTabbedPane.LEFT);
-
-        jPanel3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        nullTemplateButton.setText("Null");
-        nullTemplateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                nullTemplateButtonActionPerformed(evt);
-            }
-        });
-
-        cloneTemplateButton.setText("Clone");
-        cloneTemplateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cloneTemplateButtonActionPerformed(evt);
-            }
-        });
-
-        templateButton.setText("<html>\nTemplate\n</html>");
-        templateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                templateButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(nullTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cloneTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(templateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel3Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(nullTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cloneTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(templateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(382, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Tools", jPanel3);
-
-        insectsPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-
-        antTemplateButton.setText("Ant");
-        antTemplateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                antTemplateButtonActionPerformed(evt);
-            }
-        });
-
-        spiderTemplateButton.setText("Spider");
-        spiderTemplateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                spiderTemplateButtonActionPerformed(evt);
-            }
-        });
-
-        wormTemplateButton.setText("Worm");
-        wormTemplateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                wormTemplateButtonActionPerformed(evt);
-            }
-        });
-
-        waspTemplateButton.setText("Wasp");
-        waspTemplateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                waspTemplateButtonActionPerformed(evt);
-            }
-        });
-
-        queenTemplateButton.setText("Queen");
-        queenTemplateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                queenTemplateButtonActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout insectsPanelLayout = new javax.swing.GroupLayout(insectsPanel);
-        insectsPanel.setLayout(insectsPanelLayout);
-        insectsPanelLayout.setHorizontalGroup(
-            insectsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(insectsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(insectsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(antTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(spiderTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(wormTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(waspTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(queenTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(40, Short.MAX_VALUE))
-        );
-        insectsPanelLayout.setVerticalGroup(
-            insectsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(insectsPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(antTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(spiderTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(wormTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(waspTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(queenTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 226, Short.MAX_VALUE))
-        );
-
-        jTabbedPane1.addTab("Insects", insectsPanel);
-        insectsPanel.getAccessibleContext().setAccessibleName("");
-
-        meTemplateButton.setText("Me");
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(meTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(42, Short.MAX_VALUE))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(meTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(540, Short.MAX_VALUE))
-        );
-
-        jScrollPane7.setViewportView(jPanel5);
-
-        jTabbedPane1.addTab("General", jScrollPane7);
-        jTabbedPane1.addTab("Items", jScrollPane8);
-
-        jScrollPane3.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-
-        wheeledGrabberTemplateButton.setText("<html>\nWheeled<br>\nGrabber\n</html>");
-        wheeledGrabberTemplateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                wheeledGrabberTemplateButtonActionPerformed(evt);
-            }
-        });
-
-        wheeledSnifferTemplateButton.setText("<html>\nWheeled<br>\nSniffer\n</html>");
-        wheeledSnifferTemplateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                wheeledSnifferTemplateButtonActionPerformed(evt);
-            }
-        });
-
-        wheeledShooterTemplateButton.setText("<html>\nWheeled<br>\nShooter\n</html>");
-        wheeledShooterTemplateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                wheeledShooterTemplateButtonActionPerformed(evt);
-            }
-        });
-
-        wheeledOrgaTemplateButton.setText("<html>\nWheeled<br>\nOrga\n</html>");
-
-        trackedGrabberTemplateButton.setText("<html>\nTracked<br>\nGrabber\n</html>");
-        trackedGrabberTemplateButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                trackedGrabberTemplateButtonActionPerformed(evt);
-            }
-        });
-
-        templateButton1.setText("<html>\nWinged<br>\nGrabber\n</html>");
-
-        templateButton2.setText("<html>\nLegged<br>\nGrabber\n</html>");
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(wheeledGrabberTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(wheeledSnifferTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(trackedGrabberTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(templateButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(templateButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(wheeledShooterTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(wheeledOrgaTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(42, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(wheeledGrabberTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(trackedGrabberTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(templateButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(templateButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(wheeledSnifferTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(wheeledShooterTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(wheeledOrgaTemplateButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(72, Short.MAX_VALUE))
-        );
-
-        jScrollPane3.setViewportView(jPanel1);
-
-        jTabbedPane1.addTab("Bots", jScrollPane3);
-        jTabbedPane1.addTab("Buildings", jScrollPane4);
-        jTabbedPane1.addTab("Ruins", jScrollPane5);
-        jTabbedPane1.addTab("Plants", jScrollPane6);
-
-        mapDisplay.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                mapDisplayMouseWheelMoved(evt);
-            }
-        });
-        mapDisplay.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                mapDisplayMouseReleased(evt);
-            }
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                mapDisplayMouseClicked(evt);
-            }
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                mapDisplayMousePressed(evt);
-            }
-        });
-        mapDisplay.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                mapDisplayMouseDragged(evt);
-            }
-        });
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(mapDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addComponent(mapDisplay, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-    }// </editor-fold>//GEN-END:initComponents
-
-    private void updateObjectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateObjectButtonActionPerformed
-        if(currentMap == null) return;
-        if(selectedObject == null) return;
+        map = new Map();
         
-        try
-        {
-            selectedObject.update();
-            selectObject(selectedObject);
-            mapDisplay.repaint();
-        }
-        catch(Exception e)
-        {
-            JOptionPane.showMessageDialog(this, "Invalid attributes");
-        }
-    }//GEN-LAST:event_updateObjectButtonActionPerformed
-
-    private void deleteObjectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteObjectButtonActionPerformed
-        if(currentMap == null) return;
-        if(selectedObject == null) return;
-        
-        currentMap.getObjects().remove(selectedObject);
         selectObject(null);
-        mapDisplay.repaint();
-    }//GEN-LAST:event_deleteObjectButtonActionPerformed
-
-    private void addAttributeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAttributeButtonActionPerformed
-        if(selectedObject == null) return;
+        update();
+        repaint();
+    }
+    
+    private void openFile()
+    {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(this);
+        if(result != JFileChooser.APPROVE_OPTION) return;
         
-        try
+        Map newMap = new Map();
+        
+        MapImporter importer = MapImporter.getInstance("original");
+        File newFile = fileChooser.getSelectedFile();
+        
+        try(BufferedReader reader = new BufferedReader(new FileReader(newFile)))
         {
-            selectedObject.addAttribute("name", "value");
-        
-            revalidateTables();
+            importer.importMap(reader, newMap);
         }
         catch(Exception e)
         {
-            // NOP
+            JOptionPane.showMessageDialog(this, Language.getText("error.loading"));
+            return;
         }
-    }//GEN-LAST:event_addAttributeButtonActionPerformed
-
-    private void removeAttributeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeAttributeButtonActionPerformed
-        if(selectedObject == null) return;
         
-        int row = objectAttributeTable.getSelectedRow();
+        map = newMap;
+        selectObject(null);
+        currentFile = newFile;
         
-        try
+        update();
+        repaint();
+    }
+    
+    private void saveFile(File file)
+    {
+        if(map == null) return;
+        
+        if(file == null)
         {
-            selectedObject.removeAttribute(row);
-            revalidateTables();
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(this);
+            if(result != JFileChooser.APPROVE_OPTION) return;
+            
+            file = fileChooser.getSelectedFile();
+        }
+        
+        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file)))
+        {
+            MapExporter exporter = MapExporter.getInstance("original");
+            
+            exporter.exportMap(writer, map);
         }
         catch(Exception e)
         {
-            // NOP
+            JOptionPane.showMessageDialog(this, Language.getText("error.saving"));
         }
-    }//GEN-LAST:event_removeAttributeButtonActionPerformed
-
-    private void centerObjectButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_centerObjectButtonActionPerformed
-        if(selectedObject == null) return;
         
-        double x = selectedObject.getX();
-        double y = selectedObject.getY();
+        currentFile = file;
+    }
+    
+    private void exit()
+    {
         
-        mapDisplay.setCenter(x, y);
+    }
+    
+    private void loadRelief()
+    {
+        JFileChooser fileChooser = new JFileChooser();
+        int result = fileChooser.showOpenDialog(this);
+        if(result != JFileChooser.APPROVE_OPTION) return;
+        
+        try
+        {
+            File file = fileChooser.getSelectedFile();
+            BufferedImage image = ImageIO.read(file);
+            mapDisplay.setHeightMap(image);
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(this, Language.getText("error.relief"));
+        }
+        
         mapDisplay.repaint();
-    }//GEN-LAST:event_centerObjectButtonActionPerformed
-
-    private void mapDisplayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapDisplayMouseClicked
-        if(currentMap == null) return;
+    }
+    
+    private void config()
+    {
         
-        if(evt.getButton() == MouseEvent.BUTTON1)
+    }
+    
+    private final class MyListener implements ActionListener, MouseListener,
+            MouseMotionListener, MouseWheelListener
+    {
+        private int startX, startY;
+        private double startCenterX, startCenterY;
+        private boolean dragging = false;
+        
+        @Override
+        public void actionPerformed(ActionEvent e)
         {
-            if(templateObject == null) return;
-
-            double x = mapDisplay.getMapX(evt.getX());
-            double y = mapDisplay.getMapY(evt.getY());
-
-            x = 1e-2 * Math.ceil(x * 1e+2);
-            y = 1e-2 * Math.ceil(y * 1e+2);
+            Object source = e.getSource();
             
-            String pos = Double.toString(x) + ';' + Double.toString(y);
-
-            ColobotObject object = templateObject.clone();
-
-            object.setAttribute("pos", pos);
-            object.update();
-
-            currentMap.getObjects().add(object);
-            selectObject(object);
-            revalidateTables();
-            mapDisplay.repaint();
+            if(source == newMenuItem)
+                newFile();
+            else if(source == openMenuItem)
+                openFile();
+            else if(source == saveMenuItem)
+                saveFile(currentFile);
+            else if(source == saveAsMenuItem)
+                saveFile(null);
+            else if(source == exitMenuItem)
+                exit();
+            else if(source == reliefMenuItem)
+                loadRelief();
+            else if(source == configMenuItem)
+                config();
         }
-        else if(evt.getButton() == MouseEvent.BUTTON3)
+        
+        @Override
+        public void mouseClicked(MouseEvent e)
         {
-            ColobotObject object = null;
-            
-            double x = mapDisplay.getMapX(evt.getX());
-            double y = mapDisplay.getMapY(evt.getY());
+            if(map == null) return;
 
-            for(ColobotObject o : currentMap.getObjects())
+            if(e.getButton() == MouseEvent.BUTTON1)
             {
-                double dx = Math.abs(x - o.getX());
-                double dy = Math.abs(y - o.getY());
-                double dist = Math.sqrt(dx*dx+dy*dy);
+                if(toolbox.getTemplate() == null) return;
 
-                if(dist < 0.5)
-                {
-                    if(object == null)
-                        object = o;
-                }
+                double x = mapDisplay.getMapX(e.getX());
+                double y = mapDisplay.getMapY(e.getY());
+
+                x = 1e-2 * Math.ceil(x * 1e+2);
+                y = 1e-2 * Math.ceil(y * 1e+2);
+
+                String pos = Double.toString(x) + ';' + Double.toString(y);
+
+                ColobotObject object = toolbox.getTemplate().clone();
+
+                object.setAttribute("pos", pos);
+                object.update();
+
+                map.getObjects().add(object);
+                selectObject(object);
+                update();
+                mapDisplay.repaint();
             }
+            else if(e.getButton() == MouseEvent.BUTTON3)
+            {
+                ColobotObject object = null;
 
-            selectObject(object);
-            mapDisplay.repaint();
+                double x = mapDisplay.getMapX(e.getX());
+                double y = mapDisplay.getMapY(e.getY());
+
+                for(ColobotObject o : map.getObjects())
+                {
+                    double dx = Math.abs(x - o.getX());
+                    double dy = Math.abs(y - o.getY());
+                    double dist = Math.sqrt(dx*dx+dy*dy);
+
+                    if(dist < 0.5)
+                    {
+                        if(object == null)
+                            object = o;
+                    }
+                }
+
+                selectObject(object);
+                update();
+                mapDisplay.repaint();
+            }
         }
-    }//GEN-LAST:event_mapDisplayMouseClicked
 
-    private void mapDisplayMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapDisplayMouseDragged
-        if(dragging)
+        @Override
+        public void mousePressed(MouseEvent e)
+        {
+            if(e.getButton() == MouseEvent.BUTTON1)
+            {
+                dragging = true;
+                startX = e.getX();
+                startY = e.getY();
+                startCenterX = mapDisplay.getCenterX();
+                startCenterY = mapDisplay.getCenterY();
+            }
+        }
+
+        @Override
+        public void mouseReleased(MouseEvent e)
+        {
+            if(e.getButton() == MouseEvent.BUTTON1)
+            {
+                dragging = false;
+            }
+        }
+
+        @Override
+        public void mouseEntered(MouseEvent e)
+        {
+            
+        }
+
+        @Override
+        public void mouseExited(MouseEvent e)
+        {
+            
+        }
+
+        @Override
+        public void mouseDragged(MouseEvent e)
+        {
+            if(dragging)
+            {
+                double scale = mapDisplay.getScale();
+                double dx = (e.getX() - startX) / scale;
+                double dy = (e.getY() - startY) / scale;
+                
+                double x = startCenterX - dx;
+                double y = startCenterY + dy;
+                
+                mapDisplay.setCenter(x, y);
+                mapDisplay.repaint();
+            }
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e)
+        {
+            
+        }
+
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e)
         {
             double scale = mapDisplay.getScale();
-            double dx = (evt.getX() - startX) / scale;
-            double dy = (evt.getY() - startY) / scale;
             
-            double x = startCenterX - dx;
-            double y = startCenterY + dy;
+            double steps = e.getPreciseWheelRotation() * 0.5;
             
-            mapDisplay.setCenter(x, y);
+            mapDisplay.setScale(scale + steps);
             mapDisplay.repaint();
         }
-    }//GEN-LAST:event_mapDisplayMouseDragged
-
-    private void mapDisplayMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapDisplayMousePressed
-        if(evt.getButton() == MouseEvent.BUTTON1)
-        {
-            dragging = true;
-            startX = evt.getX();
-            startY = evt.getY();
-            startCenterX = mapDisplay.getCenterX();
-            startCenterY = mapDisplay.getCenterY();
-        }
-    }//GEN-LAST:event_mapDisplayMousePressed
-
-    private void mapDisplayMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mapDisplayMouseReleased
-        if(evt.getButton() == MouseEvent.BUTTON1)
-        {
-            dragging = false;
-        }
-    }//GEN-LAST:event_mapDisplayMouseReleased
-
-    private void mapDisplayMouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_mapDisplayMouseWheelMoved
-        double scale = mapDisplay.getScale();
-        
-        double steps = evt.getPreciseWheelRotation() * 0.5;
-        
-        mapDisplay.setScale(scale + steps);
-        mapDisplay.repaint();
-    }//GEN-LAST:event_mapDisplayMouseWheelMoved
-
-    private void nullTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nullTemplateButtonActionPerformed
-        templateObject = null;
-    }//GEN-LAST:event_nullTemplateButtonActionPerformed
-
-    private void cloneTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cloneTemplateButtonActionPerformed
-        if(selectedObject == null) return;
-        
-        templateObject = selectedObject.clone();
-    }//GEN-LAST:event_cloneTemplateButtonActionPerformed
-
-    private void antTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_antTemplateButtonActionPerformed
-        templateObject = createInsect("AlientAnt");
-    }//GEN-LAST:event_antTemplateButtonActionPerformed
-
-    private void spiderTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_spiderTemplateButtonActionPerformed
-        templateObject = createInsect("AlientSpider");
-    }//GEN-LAST:event_spiderTemplateButtonActionPerformed
-
-    private void wormTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wormTemplateButtonActionPerformed
-        templateObject = createInsect("AlientWorm");
-    }//GEN-LAST:event_wormTemplateButtonActionPerformed
-
-    private void waspTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_waspTemplateButtonActionPerformed
-        templateObject = createInsect("AlientWasp");
-    }//GEN-LAST:event_waspTemplateButtonActionPerformed
-
-    private void queenTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_queenTemplateButtonActionPerformed
-        templateObject = createInsect("AlienQueen");
-    }//GEN-LAST:event_queenTemplateButtonActionPerformed
-
-    private void wheeledGrabberTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wheeledGrabberTemplateButtonActionPerformed
-        templateObject = createBot("WheeledGrabber");
-    }//GEN-LAST:event_wheeledGrabberTemplateButtonActionPerformed
-
-    private void wheeledSnifferTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wheeledSnifferTemplateButtonActionPerformed
-        templateObject = createBot("WheeledSniffer");
-    }//GEN-LAST:event_wheeledSnifferTemplateButtonActionPerformed
-
-    private void wheeledShooterTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_wheeledShooterTemplateButtonActionPerformed
-        templateObject = createBot("WheeledShooter");
-    }//GEN-LAST:event_wheeledShooterTemplateButtonActionPerformed
-
-    private void trackedGrabberTemplateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_trackedGrabberTemplateButtonActionPerformed
-        templateObject = createBot("TrackedShooter");
-    }//GEN-LAST:event_trackedGrabberTemplateButtonActionPerformed
-
-    private void templateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_templateButtonActionPerformed
-        templateObject = new ColobotObject("Template", 0, 0, 0);
-    }//GEN-LAST:event_templateButtonActionPerformed
-
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addAttributeButton;
-    private colobot.editor.TemplateButton antTemplateButton;
-    private javax.swing.JButton centerObjectButton;
-    private colobot.editor.TemplateButton cloneTemplateButton;
-    private javax.swing.JButton deleteObjectButton;
-    private javax.swing.JPanel insectsPanel;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
-    private javax.swing.JScrollPane jScrollPane8;
-    private javax.swing.JTabbedPane jTabbedPane1;
-    private colobot.editor.MapDisplay mapDisplay;
-    private colobot.editor.TemplateButton meTemplateButton;
-    private colobot.editor.TemplateButton nullTemplateButton;
-    private javax.swing.JTable objectAttributeTable;
-    private javax.swing.JTable objectListTable;
-    private colobot.editor.TemplateButton queenTemplateButton;
-    private javax.swing.JButton removeAttributeButton;
-    private colobot.editor.TemplateButton spiderTemplateButton;
-    private colobot.editor.TemplateButton templateButton;
-    private colobot.editor.TemplateButton templateButton1;
-    private colobot.editor.TemplateButton templateButton2;
-    private colobot.editor.TemplateButton trackedGrabberTemplateButton;
-    private javax.swing.JButton updateObjectButton;
-    private colobot.editor.TemplateButton waspTemplateButton;
-    private colobot.editor.TemplateButton wheeledGrabberTemplateButton;
-    private colobot.editor.TemplateButton wheeledOrgaTemplateButton;
-    private colobot.editor.TemplateButton wheeledShooterTemplateButton;
-    private colobot.editor.TemplateButton wheeledSnifferTemplateButton;
-    private colobot.editor.TemplateButton wormTemplateButton;
-    // End of variables declaration//GEN-END:variables
+    }
 }

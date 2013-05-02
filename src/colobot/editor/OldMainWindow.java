@@ -31,7 +31,7 @@ import javax.swing.table.AbstractTableModel;
  * This class represents main window of Colobot Map Editor.
  * @author Tomasz Kapuściński tomaszkax86@gmail.com
  */
-public class MainWindow extends javax.swing.JFrame implements MapSource
+public class OldMainWindow extends javax.swing.JFrame implements MapSource
 {
     private File file = null;
     private Map map = null;
@@ -46,7 +46,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     /**
      * Creates new window.
      */
-    public MainWindow()
+    public OldMainWindow()
     {
         initComponents();
         
@@ -55,7 +55,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         String path = "D:\\gry\\Colobot Gold\\data\\icons";
         Images.loadImages(new File(path));
         
-        objectEditorPanel.loadImages();
+        // objectEditorPanel.loadImages();
     }
     
     @Override
@@ -75,7 +75,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
 
         jTabbedPane1 = new javax.swing.JTabbedPane();
         objectEditorContainer = new javax.swing.JPanel();
-        objectEditorPanel = new colobot.editor.ObjectEditorPanel();
+        objectEditorPanel = new colobot.editor.OldObjectEditorPanel();
         jPanel2 = new javax.swing.JPanel();
         filenameLabel = new javax.swing.JLabel();
         filenameField = new javax.swing.JTextField();
@@ -1507,50 +1507,6 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
         map.getGeneralInfo().getLanguage(index).setLetter(letter);
     }//GEN-LAST:event_languageLetterFocusLost
     
-    /**
-     * Entry point of Colobot Map Editor
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        
-        /* // tries to set system L&F
-        try
-        {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }
-        catch(Exception e)
-        {
-            // NOP
-        } // */
-        
-        // deactivated
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainWindow.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } // */
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable()
-        {
-            @Override
-            public void run()
-            {
-                new MainWindow().setVisible(true);
-            }
-        });
-    }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField audioTrackField;
     private javax.swing.JLabel audioTrackLabel;
@@ -1612,7 +1568,7 @@ public class MainWindow extends javax.swing.JFrame implements MapSource
     private javax.swing.JCheckBox nuclearEnabled;
     private javax.swing.JLabel nuclearLabel;
     private javax.swing.JPanel objectEditorContainer;
-    private colobot.editor.ObjectEditorPanel objectEditorPanel;
+    private colobot.editor.OldObjectEditorPanel objectEditorPanel;
     private javax.swing.JCheckBox orgaDone;
     private javax.swing.JCheckBox orgaEnabled;
     private javax.swing.JLabel orgaLabel;

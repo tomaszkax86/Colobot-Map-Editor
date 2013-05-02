@@ -156,7 +156,7 @@
             </DimensionLayout>
           </Layout>
           <SubComponents>
-            <Component class="colobot.editor.ObjectEditorPanel" name="objectEditorPanel">
+            <Component class="colobot.editor.OldObjectEditorPanel" name="objectEditorPanel">
             </Component>
           </SubComponents>
         </Container>

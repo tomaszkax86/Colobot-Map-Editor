@@ -6,7 +6,6 @@ package colobot.editor;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import javax.imageio.ImageIO;
 
@@ -14,7 +13,7 @@ import javax.imageio.ImageIO;
  *
  * @author Tomek
  */
-public final class Images
+final class Images
 {
     private static final HashMap<String, BufferedImage> images = new HashMap<>();
     private static BufferedImage noImage = null;
