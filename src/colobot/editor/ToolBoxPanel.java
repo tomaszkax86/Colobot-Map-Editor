@@ -150,7 +150,7 @@ public class ToolBoxPanel extends JTabbedPane
             else if(cmd == cloneButton)
                 template = null;        // TODO: cloning
             else if(cmd == templateButton)
-                template = null;        // TODO: template
+                template = new ColobotObject("template", 0, 0, 0);        // TODO: template
             
             // debug
             // JOptionPane.showMessageDialog(null, ((JButton) cmd).getText());

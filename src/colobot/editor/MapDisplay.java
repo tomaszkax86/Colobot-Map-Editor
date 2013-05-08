@@ -126,7 +126,7 @@ public final class MapDisplay extends JComponent
         g.draw(mapBorder);
         
         // rysowanie obiektów na mapie
-        for(ColobotObject object : map.getObjects())
+        for(ColobotObject object : map)
         {
             drawObject(g, object);
         }

@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
  *
  * @author Tomek
  */
-final class Language
+public final class Language
 {
     private static ResourceBundle resources = null;
     
@@ -27,7 +27,7 @@ final class Language
         resources = ResourceBundle.getBundle("colobot.editor.lang.Language", locale);
     }
     
-    static String getText(String key)
+    public static String getText(String key)
     {
         return resources.getString(key);
     }

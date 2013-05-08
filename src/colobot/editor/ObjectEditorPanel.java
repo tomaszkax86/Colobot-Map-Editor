@@ -4,28 +4,29 @@
  */
 package colobot.editor;
 
-import colobot.editor.file.MapExporter;
-import colobot.editor.file.MapImporter;
+import colobot.editor.file.MapFormat;
 import colobot.editor.map.ColobotObject;
 import colobot.editor.map.Map;
 import colobot.editor.map.MapSource;
-import colobot.editor.map.Objects;
+import colobot.editor.map.ParsedMap;
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.awt.image.BufferedImage;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.util.Iterator;
 import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
 import javax.swing.JInternalFrame;
@@ -33,8 +34,10 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 /**
  *
@@ -48,6 +51,14 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
     private final ToolBoxPanel toolbox = new ToolBoxPanel();
     private final JTable objectListTable = new JTable();
     private final JTable objectAttributesTable = new JTable();
+    
+    // object editing
+    private final JButton updateObjectButton = new JButton();
+    private final JButton centerObjectButton = new JButton();
+    private final JButton deleteObjectButton = new JButton();
+    private final JButton addAttributeButton = new JButton();
+    private final JButton removeAttributeButton = new JButton();
+    private final JTextField attributeNameField = new JTextField();
     
     // menu bar
     private final JMenuBar menubar = new JMenuBar();
@@ -105,6 +116,12 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
         
         reliefMenuItem.setText(Language.getText("menu.edit.relief"));
         configMenuItem.setText(Language.getText("menu.edit.config"));
+        
+        updateObjectButton.setText(Language.getText("editing.updateobject"));
+        centerObjectButton.setText(Language.getText("editing.centerobject"));
+        deleteObjectButton.setText(Language.getText("editing.deleteobject"));
+        addAttributeButton.setText(Language.getText("editing.addattribute"));
+        removeAttributeButton.setText(Language.getText("editing.removeattribute"));
     }
     
     private void initListeners()
@@ -121,24 +138,51 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
         
         reliefMenuItem.addActionListener(listener);
         configMenuItem.addActionListener(listener);
+        
+        updateObjectButton.addActionListener(listener);
+        centerObjectButton.addActionListener(listener);
+        deleteObjectButton.addActionListener(listener);
+        addAttributeButton.addActionListener(listener);
+        removeAttributeButton.addActionListener(listener);
+        
+        objectListTable.addMouseListener(new MouseAdapter()
+        {
+            @Override
+            public void mouseClicked(MouseEvent event)
+            {
+                selectObjectFromTable();
+            }
+        });
     }
     
     private void initComponents()
     {
         objectAttributesTable.setModel(ColobotObject.getEmptyTableModel());
-        objectListTable.setModel(Objects.getEmptyTableModel());
+        objectListTable.setModel(Map.getEmptyTableModel());
         
         createMenubar();
+        
+        // object editing panel
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(0, 1));
+        //panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        panel.add(updateObjectButton);
+        panel.add(centerObjectButton);
+        panel.add(deleteObjectButton);
+        panel.add(addAttributeButton);
+        panel.add(removeAttributeButton);
+        panel.add(attributeNameField);
         
         JInternalFrame frame;
         
         String text = Language.getText("editor.toolbox");
         frame = new JInternalFrame(text);
-        frame.add(toolbox);
+        frame.add(toolbox, BorderLayout.CENTER);
+        frame.add(panel, BorderLayout.SOUTH);
         frame.setLocation(Settings.getInteger("toolbox.x"), Settings.getInteger("toolbox.y"));
         frame.setSize(Settings.getInteger("toolbox.width"), Settings.getInteger("toolbox.height"));
         frame.setResizable(true);
-        frame.setIconifiable(true);
+        //frame.setIconifiable(true);
         frame.show();
         this.add(frame);
         
@@ -149,7 +193,7 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
         frame.setLocation(Settings.getInteger("mapdisplay.x"), Settings.getInteger("mapdisplay.y"));
         frame.setSize(Settings.getInteger("mapdisplay.width"), Settings.getInteger("mapdisplay.height"));
         frame.setResizable(true);
-        frame.setIconifiable(true);
+        //frame.setIconifiable(true);
         frame.show();
         this.add(frame);
         
@@ -159,7 +203,7 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
         frame.setLocation(Settings.getInteger("objectlist.x"), Settings.getInteger("objectlist.y"));
         frame.setSize(Settings.getInteger("objectlist.width"), Settings.getInteger("objectlist.height"));
         frame.setResizable(true);
-        frame.setIconifiable(true);
+        //frame.setIconifiable(true);
         frame.show();
         this.add(frame);
         
@@ -169,7 +213,7 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
         frame.setLocation(Settings.getInteger("objectattributes.x"), Settings.getInteger("objectattributes.y"));
         frame.setSize(Settings.getInteger("objectattributes.width"), Settings.getInteger("objectattributes.height"));
         frame.setResizable(true);
-        frame.setIconifiable(true);
+        //frame.setIconifiable(true);
         frame.show();
         this.add(frame);
     }
@@ -196,10 +240,10 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
     private void update()
     {
         objectAttributesTable.setModel(ColobotObject.getEmptyTableModel());
-        objectListTable.setModel(Objects.getEmptyTableModel());
+        objectListTable.setModel(Map.getEmptyTableModel());
         
         if(map == null) return;
-        objectListTable.setModel(map.getObjects().getTableModel());
+        objectListTable.setModel(map.getTableModel());
 
         if(selectedObject == null) return;
         objectAttributesTable.setModel(selectedObject.getTableModel());
@@ -234,18 +278,22 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
     
     private void openFile()
     {
+        
         JFileChooser fileChooser = new JFileChooser();
         int result = fileChooser.showOpenDialog(this);
         if(result != JFileChooser.APPROVE_OPTION) return;
         
         Map newMap = new Map();
+        ParsedMap parsedMap = new ParsedMap();
         
-        MapImporter importer = MapImporter.getInstance("original");
         File newFile = fileChooser.getSelectedFile();
         
-        try(BufferedReader reader = new BufferedReader(new FileReader(newFile)))
+        try
         {
-            importer.importMap(reader, newMap);
+            MapFormat format = MapFormat.getInstance("original");
+            
+            format.load(parsedMap, newFile);
+            newMap.load(parsedMap);
         }
         catch(Exception e)
         {
@@ -274,15 +322,19 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
             file = fileChooser.getSelectedFile();
         }
         
-        try(BufferedWriter writer = new BufferedWriter(new FileWriter(file)))
+        ParsedMap parsedMap = new ParsedMap();
+        
+        try
         {
-            MapExporter exporter = MapExporter.getInstance("original");
+            MapFormat format = MapFormat.getInstance("original");
             
-            exporter.exportMap(writer, map);
+            map.store(parsedMap);
+            format.store(parsedMap, file);
         }
         catch(Exception e)
         {
             JOptionPane.showMessageDialog(this, Language.getText("error.saving"));
+            return;
         }
         
         currentFile = file;
@@ -290,7 +342,7 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
     
     private void exit()
     {
-        
+        System.exit(0);
     }
     
     private void loadRelief()
@@ -315,7 +367,89 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
     
     private void config()
     {
+        // TODO: complete configuration
+    }
+    
+    private void selectObjectFromTable()
+    {
+        if(map == null) return;
         
+        int index = objectListTable.getSelectedRow();
+        if(index == -1) return;
+        
+        selectObject(map.get(index));
+        update();
+        mapDisplay.repaint();
+    }
+    
+    private void updateObject()
+    {
+        if(selectedObject == null) return;
+        
+        selectedObject.update();
+        mapDisplay.repaint();
+    }
+    
+    private void centerObject()
+    {
+        if(map == null) return;
+        if(selectedObject == null) return;
+        
+        double x = selectedObject.getX();
+        double y = selectedObject.getY();
+        
+        mapDisplay.setCenter(x, y);
+        mapDisplay.repaint();
+    }
+    
+    private void deleteObject()
+    {
+        if(selectedObject == null) return;
+        
+        map.remove(selectedObject);
+        selectObject(null);
+        update();
+        mapDisplay.repaint();
+    }
+    
+    private void addAttribute()
+    {
+        if(selectedObject == null) return;
+        
+        String name = attributeNameField.getText();
+        
+        if(name.isEmpty()) return;
+        
+        selectedObject.put(name, "???");
+        update();
+    }
+    
+    private void removeAttribute()
+    {
+        if(selectedObject == null) return;
+        
+        int index = objectAttributesTable.getSelectedRow();
+        if(index == -1) return;
+        
+        Iterator<String> iterator = selectedObject.keySet().iterator();
+        
+        String name = null;
+        
+        for(int i=0; i<=index; i++)
+            name = iterator.next();
+        
+        // compulsory object attributes - must not remove
+        switch(name)
+        {
+            case "type":
+            case "pos":
+            case "dir":
+                return;
+        }
+        
+        selectedObject.remove(name);
+        
+        update();
     }
     
     private final class MyListener implements ActionListener, MouseListener,
@@ -344,6 +478,16 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
                 loadRelief();
             else if(source == configMenuItem)
                 config();
+            else if(source == updateObjectButton)
+                updateObject();
+            else if(source == centerObjectButton)
+                centerObject();
+            else if(source == deleteObjectButton)
+                deleteObject();
+            else if(source == addAttributeButton)
+                addAttribute();
+            else if(source == removeAttributeButton)
+                removeAttribute();
         }
         
         @Override
@@ -363,12 +507,12 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
 
                 String pos = Double.toString(x) + ';' + Double.toString(y);
 
-                ColobotObject object = toolbox.getTemplate().clone();
-
-                object.setAttribute("pos", pos);
+                ColobotObject object = (ColobotObject) toolbox.getTemplate().clone();
+                
+                object.put("pos", pos);
                 object.update();
 
-                map.getObjects().add(object);
+                map.add(object);
                 selectObject(object);
                 update();
                 mapDisplay.repaint();
@@ -380,7 +524,7 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
                 double x = mapDisplay.getMapX(e.getX());
                 double y = mapDisplay.getMapY(e.getY());
 
-                for(ColobotObject o : map.getObjects())
+                for(ColobotObject o : map)
                 {
                     double dx = Math.abs(x - o.getX());
                     double dy = Math.abs(y - o.getY());

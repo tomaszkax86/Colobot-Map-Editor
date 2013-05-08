@@ -3,89 +3,128 @@
  */
 package colobot.editor.map;
 
+import colobot.editor.Language;
+import java.util.ArrayList;
+import java.util.Properties;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableModel;
+
 /**
  * Objects of this class represent Colobot map.
  * @author Tomasz Kapuściński tomaszkax86@gmail.com
  */
-public final class Map
+public final class Map extends ArrayList<ColobotObject>
 {
-    private final GeneralInfo generalInfo = new GeneralInfo();
-    private final GraphicsInfo graphicsInfo = new GraphicsInfo();
-    private final TerrainInfo terrainInfo = new TerrainInfo();
-    private final Objects objects = new Objects();
-    private final TexturingInfo texturingInfo = new TexturingInfo();
-    private final Lights lights = new Lights();
-    private final ResearchInfo researchInfo = new ResearchInfo();
+    private static final EmptyTableModel emptyTableModel = new EmptyTableModel();
+    
+    private final MyTableModel myTableModel = new MyTableModel();
+    
+    private final ArrayList<Element> preCreate = new ArrayList<>();
+    private final ArrayList<Element> postCreate = new ArrayList<>();
     
     
-    /**
-     * Creates new empty map with default values.
-     */
-    public Map()
+    public TableModel getTableModel()
     {
-        // NOP
+        return myTableModel;
     }
     
-    /**
-     * Returns general info associated with this map.
-     * @return general info of this map
-     */
-    public GeneralInfo getGeneralInfo()
+    public void load(ParsedMap map)
     {
-        return generalInfo;
+        boolean pre = true;
+        
+        for(Element element : map)
+        {
+            if(element.getName().equals("BeginObject"))
+                pre = false;
+            else if(element.getName().equals("CreateObject"))
+                add(ColobotObject.valueOf(element));
+            else
+            {
+                if(pre)
+                    preCreate.add(element);
+                else
+                    postCreate.add(element);
+            }
+        }
     }
     
-    /**
-     * Returns graphics info associated with this map.
-     * @return graphics info of this map
-     */
-    public GraphicsInfo getGraphicsInfo()
+    public void store(ParsedMap map)
     {
-        return graphicsInfo;
+        map.clear();
+        
+        for(Element element : preCreate)
+            map.add(element);
+        
+        map.add(new Element("BeginObject"));
+        
+        for(ColobotObject object : this)
+            map.add(object);
+        
+        for(Element element : postCreate)
+            map.add(element);
     }
     
-    /**
-     * Returns terrain info associated with this map.
-     * @return terrain info of this map
-     */
-    public TerrainInfo getTerrainInfo()
+    
+    
+    public static TableModel getEmptyTableModel()
     {
-        return terrainInfo;
+        return emptyTableModel;
     }
     
-    /**
-     * Returns objects on this map.
-     * @return objects on this map
-     */
-    public Objects getObjects()
+    private final class MyTableModel extends AbstractTableModel
     {
-        return objects;
+        @Override
+        public String getColumnName(int columnIndex)
+        {
+            return columnIndex == 0 ? Language.getText("map.id") : Language.getText("map.object");
+        }
+        
+        @Override
+        public int getRowCount()
+        {
+            return Map.this.size();
+        }
+        
+        @Override
+        public int getColumnCount()
+        {
+            return 2;
+        }
+        
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex)
+        {
+            if(columnIndex == 0)
+                return rowIndex + 1;
+            else
+                return Map.this.get(rowIndex).getType();
+        }
     }
     
-    /**
-     * Returns terrain texturing info of this map.
-     * @return terrain texturing info of this map
-     */
-    public TexturingInfo getTexturingInfo()
+    private static final class EmptyTableModel extends AbstractTableModel
     {
-        return texturingInfo;
-    }
-    
-    /**
-     * Returns lights on this map.
-     * @return lights on this map
-     */
-    public Lights getLights()
-    {
-        return lights;
-    }
-    
-    /**
-     * Returns research info on this map.
-     * @return research info on this map
-     */
-    public ResearchInfo getResearchInfo()
-    {
-        return researchInfo;
+        @Override
+        public int getRowCount()
+        {
+            return 0;
+        }
+
+        @Override
+        public int getColumnCount()
+        {
+            return 2;
+        }
+
+        @Override
+        public Object getValueAt(int rowIndex, int columnIndex)
+        {
+            return null;
+        }
+        
+        @Override
+        public String getColumnName(int columnIndex)
+        {
+            return columnIndex == 0 ? Language.getText("map.id") : Language.getText("map.object");
+        }
     }
 }

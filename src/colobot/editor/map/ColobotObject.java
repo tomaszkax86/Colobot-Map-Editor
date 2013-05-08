@@ -3,7 +3,8 @@
  */
 package colobot.editor.map;
 
-import java.util.ArrayList;
+import colobot.editor.Language;
+import java.util.Iterator;
 import java.util.Objects;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
@@ -12,12 +13,11 @@ import javax.swing.table.TableModel;
  * Objects of this class represent Colobot objects on the map
  * @author Tomasz Kapuściński tomaszkax86@gmail.com
  */
-public final class ColobotObject implements Cloneable
+public final class ColobotObject extends Element
 {
     private static final EmptyTableModel emptyTableModel = new EmptyTableModel();
     
     private final MyTableModel myTableModel = new MyTableModel();
-    private final ArrayList<Attribute> attribs = new ArrayList<>();
     private String type;
     private double x, y;
     private double dir;
@@ -40,14 +40,13 @@ public final class ColobotObject implements Cloneable
      */
     public ColobotObject(String type, double x, double y, double dir)
     {
-        this.type = type;
-        this.x = x;
-        this.y = y;
-        this.dir = dir;
+        super("CreateObject");
         
-        addAttribute("type", type);
-        addAttribute("pos", Double.toString(x) + ';' + Double.toString(y));
-        addAttribute("dir", Double.toString(dir));
+        this.put("type", type);
+        this.put("pos", "0;0");
+        this.put("dir", Double.toString(dir));
+        
+        update();
     }
     
     /**
@@ -91,13 +90,12 @@ public final class ColobotObject implements Cloneable
      */
     public void update()
     {
-        // testing parameters
-        String localType = attribs.get(0).getValue();
-        String pos = attribs.get(1).getValue();
-        int index = pos.indexOf(';');
-        double localX = Double.parseDouble( pos.substring(0, index) );
-        double localY = Double.parseDouble( pos.substring(index + 1) );
-        double localDir = Double.parseDouble( attribs.get(2).getValue() );
+        // parsing parameters
+        String localType = get("type");
+        String[] pos = get("pos").split(";");
+        double localX = Double.parseDouble(pos[0]);
+        double localY = Double.parseDouble(pos[1]);
+        double localDir = Double.parseDouble(get("dir"));
         
         // copying parameters
         this.type = localType;
@@ -106,29 +104,22 @@ public final class ColobotObject implements Cloneable
         this.dir = localDir;
     }
     
-    @Override
-    public ColobotObject clone()
+    public TableModel getTableModel()
     {
+        return myTableModel;
+    }
+    
+    public static ColobotObject valueOf(Element element)
+    {
+        if(!element.getName().equals("CreateObject")) throw new IllegalArgumentException();
+        
         ColobotObject object = new ColobotObject();
         
-        for(int i=0; i<3; i++)
+        for(String key : element.keySet())
         {
-            Attribute a = attribs.get(i);
+            String value = element.get(key);
             
-            String name = a.getName();
-            String value = a.getValue();
-            
-            object.setAttribute(name, value);
-        }
-        
-        for(int i=3; i<attribs.size(); i++)
-        {
-            Attribute a = attribs.get(i);
-            
-            String name = a.getName();
-            String value = a.getValue();
-            
-            object.addAttribute(name, value);
+            object.put(key, value);
         }
         
         object.update();
@@ -136,86 +127,9 @@ public final class ColobotObject implements Cloneable
         return object;
     }
     
-    public boolean hasAttribute(String name)
-    {
-        for(Attribute a : attribs)
-        {
-            if(a.getName().equals(name))
-                return true;
-        }
-        
-        return false;
-    }
-    
-    public void addAttribute(String name, String value)
-    {
-        for(Attribute a : attribs)
-        {
-            if(a.getName().equals(name))
-                throw new IllegalArgumentException("Attribute already exists");
-        }
-        
-        attribs.add(new Attribute(name, value));
-    }
-    
-    public void setAttribute(String name, String value)
-    {
-        for(Attribute a : attribs)
-        {
-            if(a.getName().equals(name))
-            {
-                a.setValue(value);
-                return;
-            }
-        }
-        
-        throw new IllegalArgumentException("No such attribute");
-    }
-    
-    public String getAttribute(String name)
-    {
-        for(Attribute a : attribs)
-        {
-            if(a.getName().equals(name))
-                return a.getValue();
-        }
-        
-        throw new IllegalArgumentException("No such attribute");
-    }
-    
-    public void removeAttribute(int index)
-    {
-        if(index < 3) throw new IllegalArgumentException("Cannot remove compulsory attribute");
-        
-        attribs.remove(index);
-    }
-    
-    public TableModel getTableModel()
-    {
-        return myTableModel;
-    }
-    
     public static TableModel getEmptyTableModel()
     {
         return emptyTableModel;
-    }
-    
-    @Override
-    public String toString()
-    {
-        StringBuilder builder = new StringBuilder();
-        
-        builder.append("CreateObject");
-        
-        for(Attribute key : attribs)
-        {
-            builder.append(' ');
-            builder.append(key.getName());
-            builder.append('=');
-            builder.append(key.getValue());
-        }
-        
-        return builder.toString();
     }
     
     private static final class Attribute
@@ -306,7 +220,7 @@ public final class ColobotObject implements Cloneable
         @Override
         public String getColumnName(int columnIndex)
         {
-            return columnIndex == 0 ? "Name" : "Value";
+            return columnIndex == 0 ? Language.getText("object.name") : Language.getText("object.value");
         }
     }
 
@@ -321,7 +235,7 @@ public final class ColobotObject implements Cloneable
         @Override
         public int getRowCount()
         {
-            return attribs.size();
+            return size();
         }
 
         @Override
@@ -333,44 +247,46 @@ public final class ColobotObject implements Cloneable
         @Override
         public Object getValueAt(int rowIndex, int columnIndex)
         {
-            Attribute a = attribs.get(rowIndex);
+            Iterator<String> keys = keySet().iterator();
+            
+            String key = null;
+            
+            for(int i=0; i<=rowIndex; i++)
+                key = keys.next();
+            
+            String value = get(key);
             
             if(columnIndex == 0)
-                return a.getName();
+                return key;
             else
-                return a.getValue();
+                return value;
         }
         
         @Override
         public void setValueAt(Object v, int rowIndex, int columnIndex)
         {
             String value = (String) v;
-            Attribute a = attribs.get(rowIndex);
             
-            if(columnIndex == 0)
-            {
-                if(rowIndex > 2)
-                    a.setName(value);
-            }
-            else
-            {
-                a.setValue(value);
-            }
+            Iterator<String> keys = keySet().iterator();
+            
+            String key = null;
+            
+            for(int i=0; i<=rowIndex; i++)
+                key = keys.next();
+            
+            put(key, value);
         }
         
         @Override
         public boolean isCellEditable(int rowIndex, int columnIndex)
         {
-            if(columnIndex == 0)
-                return rowIndex > 2;
-            else
-                return true;
+            return (columnIndex > 0);
         }
         
         @Override
         public String getColumnName(int columnIndex)
         {
-            return columnIndex == 0 ? "Name" : "Value";
+            return columnIndex == 0 ? Language.getText("object.name") : Language.getText("object.value");
         }
     }
 }
