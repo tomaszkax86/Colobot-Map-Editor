@@ -19,12 +19,12 @@ public final class Language
     
     static void init()
     {
-        resources = ResourceBundle.getBundle("colobot.editor.lang.Language");
+        resources = ResourceBundle.getBundle("lang.Language");
     }
     
     static void init(Locale locale)
     {
-        resources = ResourceBundle.getBundle("colobot.editor.lang.Language", locale);
+        resources = ResourceBundle.getBundle("lang.Language", locale);
     }
     
     public static String getText(String key)

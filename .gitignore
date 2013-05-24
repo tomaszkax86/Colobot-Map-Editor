@@ -4,5 +4,4 @@
 *.jar
 *.war
 *.ear
-build/
-dist/
+native/

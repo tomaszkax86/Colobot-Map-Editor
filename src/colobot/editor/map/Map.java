@@ -4,8 +4,8 @@
 package colobot.editor.map;
 
 import colobot.editor.Language;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.Properties;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableModel;
 
@@ -21,6 +21,8 @@ public final class Map extends ArrayList<ColobotObject>
     
     private final ArrayList<Element> preCreate = new ArrayList<>();
     private final ArrayList<Element> postCreate = new ArrayList<>();
+    
+    private Terrain terrain = null;
     
     
     public TableModel getTableModel()
@@ -64,6 +66,15 @@ public final class Map extends ArrayList<ColobotObject>
             map.add(element);
     }
     
+    public Terrain getTerrain()
+    {
+        return terrain;
+    }
+    
+    public void setRelief(BufferedImage relief, float water, float factor)
+    {
+        this.terrain = Terrain.create(relief, water, factor);
+    }
     
     
     public static TableModel getEmptyTableModel()

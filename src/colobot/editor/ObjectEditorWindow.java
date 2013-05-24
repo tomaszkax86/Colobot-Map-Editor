@@ -9,8 +9,7 @@ import java.awt.event.WindowListener;
 import java.io.File;
 import java.io.IOException;
 import javax.swing.JFrame;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
+import org.lwjgl.LWJGLUtil;
 
 /**
  *
@@ -45,6 +44,16 @@ public class ObjectEditorWindow extends JFrame implements WindowListener
             Settings.loadDefault();
         }
         
+        try
+        {
+            System.setProperty("org.lwjgl.librarypath", System.getProperty("user.dir")
+                + File.separator + "native" + File.separator + LWJGLUtil.getPlatformName());
+        }
+        catch(Error e)
+        {
+            System.err.println("3D view support disabled - no LWJGL libraries found");
+        }
+        
         Settings.initLookAndFeel();
         
         Language.init();
@@ -52,7 +61,7 @@ public class ObjectEditorWindow extends JFrame implements WindowListener
         ObjectEditorWindow window = new ObjectEditorWindow();
         window.setVisible(true);
     }
-
+    
     @Override
     public void windowClosing(WindowEvent e)
     {

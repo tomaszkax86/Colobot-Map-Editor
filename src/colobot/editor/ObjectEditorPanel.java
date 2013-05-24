@@ -8,6 +8,7 @@ import colobot.editor.file.MapFormat;
 import colobot.editor.map.ColobotObject;
 import colobot.editor.map.Map;
 import colobot.editor.map.MapSource;
+import colobot.editor.map.MapViewer;
 import colobot.editor.map.ParsedMap;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,7 +26,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Iterator;
 import javax.imageio.ImageIO;
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFileChooser;
@@ -69,6 +69,7 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
     private final JMenuItem exitMenuItem = new JMenuItem();
     
     private final JMenuItem reliefMenuItem = new JMenuItem();
+    private final JMenuItem viewMenuItem = new JMenuItem();
     private final JMenuItem configMenuItem = new JMenuItem();
     
     private Map map = null;
@@ -115,6 +116,7 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
         exitMenuItem.setText(Language.getText("menu.file.exit"));
         
         reliefMenuItem.setText(Language.getText("menu.edit.relief"));
+        viewMenuItem.setText(Language.getText("menu.edit.view"));
         configMenuItem.setText(Language.getText("menu.edit.config"));
         
         updateObjectButton.setText(Language.getText("editing.updateobject"));
@@ -137,6 +139,7 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
         exitMenuItem.addActionListener(listener);
         
         reliefMenuItem.addActionListener(listener);
+        viewMenuItem.addActionListener(listener);
         configMenuItem.addActionListener(listener);
         
         updateObjectButton.addActionListener(listener);
@@ -233,6 +236,7 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
         
         menu = new JMenu(Language.getText("menu.edit"));
         menu.add(reliefMenuItem);
+        menu.add(viewMenuItem);
         menu.add(configMenuItem);
         menubar.add(menu);
     }
@@ -355,6 +359,12 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
         {
             File file = fileChooser.getSelectedFile();
             BufferedImage image = ImageIO.read(file);
+            
+            String text = JOptionPane.showInputDialog(null, "Input water level");
+            
+            float water = Float.parseFloat(text);
+            
+            map.setRelief(image, water, 1.0f);
             mapDisplay.setHeightMap(image);
         }
         catch(Exception e)
@@ -363,6 +373,15 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
         }
         
         mapDisplay.repaint();
+    }
+    
+    private void view3D()
+    {
+        if(map == null) return;
+        
+        MapViewer viewer = new MapViewer();
+        
+        viewer.view(map);
     }
     
     private void config()
@@ -476,6 +495,8 @@ public class ObjectEditorPanel extends JDesktopPane implements MapSource
                 exit();
             else if(source == reliefMenuItem)
                 loadRelief();
+            else if(source == viewMenuItem)
+                view3D();
             else if(source == configMenuItem)
                 config();
             else if(source == updateObjectButton)
