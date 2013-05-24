@@ -8,7 +8,9 @@
 	<property name="src" location="src" />
 	<property name="build" location="bin" />
     <property name="data" location="data" />
+    <property name="dist" location="dist" />
     <property name="jarfile" location="Colobot-Map-Editor.jar" />
+    <property name="jarname" value="Colobot-Map-Editor.jar" />
     <property name="classpath" value="lib/lwjgl.jar;lib/lwjgl_util.jar" />
 	
     <!-- Initializes build directory -->
@@ -38,6 +40,19 @@
     
     <!-- Creates clean JAR file with release version -->
     <target name="build" depends="clean,release,jar" />
+    
+    <!-- Creates distribution -->
+    <target name="dist" depends="build">
+        <delete dir="${dist}" />
+        <mkdir dir="${dist}" />
+        <copy file="${jarfile}" tofile="${dist}/${jarname}" />
+        <copy todir="${dist}/lib">
+            <fileset dir="lib"/>
+        </copy>
+        <copy todir="${dist}/native">
+            <fileset dir="native"/>
+        </copy>
+    </target>
 	
     <!-- Cleans build directory and removes JAR files -->
 	<target name="clean">
