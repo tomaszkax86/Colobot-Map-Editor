@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2013 Tomasz Kapuściński
+ * All rights reserved.
  */
 package colobot.editor;
 
@@ -17,7 +18,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JComponent;
 
 /**
- *
+ * Class for displaying Colobot map in 2D
  * @author Tomasz Kapuściński tomaszkax86@gmail.com
  */
 public final class MapDisplay extends JComponent

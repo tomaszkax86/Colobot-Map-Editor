@@ -1,3 +1,7 @@
+/*
+ * Copyright (c) 2013 Tomasz Kapuściński
+ * All rights reserved.
+ */
 package colobot.editor.map;
 
 import java.awt.Graphics;
@@ -12,6 +16,10 @@ import org.lwjgl.opengl.*;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.util.glu.GLU;
 
+/**
+ * 3D map viewer.
+ * @author Tomasz Kapuściński tomaszkax86@gmail.com
+ */
 public final class MapViewer implements Runnable
 {
     private Map map = null;

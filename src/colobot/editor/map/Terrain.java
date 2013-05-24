@@ -1,21 +1,27 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) 2013 Tomasz Kapuściński
+ * All rights reserved.
  */
 package colobot.editor.map;
 
 import java.awt.image.BufferedImage;
 
 /**
- *
- * @author Tomek
+ * This class represents 3D terrain.
+ * @author Tomasz Kapuściński tomaszkax86@gmail.com
  */
-public class Terrain
+public final class Terrain
 {
     private final float[][] heightmap;
     private final int width, height;
     
     
+    /**
+     * Creates new terrain.
+     * 
+     * @param width width
+     * @param height height
+     */
     public Terrain(int width, int height)
     {
         this.heightmap = new float[width][height];

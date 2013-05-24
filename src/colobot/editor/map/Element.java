@@ -1,14 +1,14 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) 2013 Tomasz Kapuściński
+ * All rights reserved.
  */
 package colobot.editor.map;
 
 import java.util.LinkedHashMap;
 
 /**
- *
- * @author Tomek
+ * Named element with named attributes
+ * @author Tomasz Kapuściński tomaszkax86@gmail.com
  */
 public class Element extends LinkedHashMap<String, String>
 {
@@ -30,7 +30,7 @@ public class Element extends LinkedHashMap<String, String>
     {
         StringBuilder builder = new StringBuilder();
         
-        builder.append("CreateObject");
+        builder.append(name);
         
         for(String key : this.keySet())
         {

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2013 Tomasz Kapuściński
+ * All rights reserved.
  */
 package colobot.editor.map;
 

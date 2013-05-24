@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) 2013 Tomasz Kapuściński
+ * All rights reserved.
  */
 package colobot.editor;
 
@@ -12,10 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 /**
- *
- * @author Tomek
+ * Panel that displays and maintaines toolbox content.
+ * 
+ * @author Tomasz Kapuściński tomaszkax86@gmail.com
  */
-public class ToolBoxPanel extends JTabbedPane
+public final class ToolBoxPanel extends JTabbedPane
 {
     private final MyListener listener = new MyListener();
     

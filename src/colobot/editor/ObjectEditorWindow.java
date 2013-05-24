@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) 2013 Tomasz Kapuściński
+ * All rights reserved.
  */
 package colobot.editor;
 
@@ -12,8 +12,11 @@ import javax.swing.JFrame;
 import org.lwjgl.LWJGLUtil;
 
 /**
+ * Window version of Colobot map editor.
  *
- * @author Tomek
+ * This class contains entry point for starting standalone editor.
+ *
+ * @author Tomasz Kapuściński tomaszkax86@gmail.com
  */
 public class ObjectEditorWindow extends JFrame implements WindowListener
 {
@@ -33,6 +36,11 @@ public class ObjectEditorWindow extends JFrame implements WindowListener
         pack();
     }
     
+    /**
+     * Entry point for starting standalone window-based editor.
+     *
+     * @param args program arguments
+     */
     public static void main(String[] args)
     {
         try

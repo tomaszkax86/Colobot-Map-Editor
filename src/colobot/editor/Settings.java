@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) 2013 Tomasz Kapuściński
+ * All rights reserved.
  */
 package colobot.editor;
 
@@ -15,13 +15,17 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 /**
- *
- * @author Tomek
+ * This class contains and manages settings.
+ * 
+ * @author Tomasz Kapuściński tomaszkax86@gmail.com
  */
 final class Settings
 {
     private static final Properties settings = new Properties();
     
+    private Settings() {}       // no instantiation
+    
+    // loads default settings
     static void loadDefault()
     {
         settings.clear();
@@ -52,6 +56,7 @@ final class Settings
         settings.setProperty("objectattributes.height", "300");
     }
     
+    // loads setting from a file
     static void load(File file) throws IOException
     {
         try(BufferedReader reader = new BufferedReader(new FileReader(file)))
@@ -61,6 +66,7 @@ final class Settings
         }
     }
     
+    // stores settings in a file
     static void save(File file) throws IOException
     {
         try(BufferedWriter writer = new BufferedWriter(new FileWriter(file)))
@@ -69,16 +75,19 @@ final class Settings
         }
     }
     
+    // returns string
     static String getString(String key)
     {
         return settings.getProperty(key);
     }
     
+    // changes string
     static void setString(String key, String value)
     {
         settings.setProperty(key, value);
     }
     
+    // returns integer
     static int getInteger(String key)
     {
         try
@@ -91,11 +100,13 @@ final class Settings
         }
     }
     
+    // changes integer
     static void setInteger(String key, int value)
     {
         settings.setProperty(key, Integer.toString(value));
     }
     
+    // return double
     static double getDouble(String key)
     {
         try
@@ -108,11 +119,13 @@ final class Settings
         }
     }
     
+    // changes double
     static void setDouble(String key, double value)
     {
         settings.setProperty(key, Double.toString(value));
     }
     
+    // initializes Swing Look and Feel
     static void initLookAndFeel()
     {
         try
@@ -144,6 +157,4 @@ final class Settings
             
         }
     }
-    
-    private Settings() {}
 }

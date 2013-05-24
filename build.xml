@@ -56,7 +56,7 @@
 	
     <!-- Cleans build directory and removes JAR files -->
 	<target name="clean">
-		<delete dir="${build}" />
         <delete file="${jarfile}" />
+		<delete dir="${build}" />
 	</target>
 </project>

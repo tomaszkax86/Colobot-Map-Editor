@@ -1,6 +1,6 @@
 /*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ * Copyright (c) 2013 Tomasz Kapuściński
+ * All rights reserved.
  */
 package colobot.editor.file;
 
@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 /**
  *
- * @author Tomek
+ * @author Tomasz Kapuściński tomaszkax86@gmail.com
  */
 public abstract class MapFormat
 {
