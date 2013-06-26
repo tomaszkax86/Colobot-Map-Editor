@@ -46,11 +46,15 @@
         <delete dir="${dist}" />
         <mkdir dir="${dist}" />
         <copy file="${jarfile}" tofile="${dist}/${jarname}" />
+        <copy file="LICENSE.TXT" tofile="${dist}/LICENSE.TXT" />
         <copy todir="${dist}/lib">
             <fileset dir="lib"/>
         </copy>
         <copy todir="${dist}/native">
             <fileset dir="native"/>
+        </copy>
+        <copy todir="${dist}/licenses">
+            <fileset dir="licenses"/>
         </copy>
     </target>
 	
